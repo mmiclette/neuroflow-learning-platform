@@ -4,8 +4,14 @@
 # Other sandbox lessons use a standard single-input sandbox.
 
 import streamlit as st
+from html import escape
 from utils.session import complete_lesson, is_lesson_complete
 from utils.grading import call_sandbox
+
+
+def _fmt(text: str) -> str:
+    """Escape HTML and convert newlines for safe injection into a div."""
+    return escape(text).replace("\n", "<br>")
 
 
 def render_comparison_sandbox(
@@ -42,14 +48,14 @@ def render_comparison_sandbox(
             st.markdown("**Weak prompt output:**")
             st.markdown(
                 f'<div style="background:#FFF3F3;border:1px solid #F16061;border-radius:6px;'
-                f'padding:12px;font-size:13px;line-height:1.6;">{ss["weak_output"]}</div>',
+                f'padding:12px;font-size:13px;line-height:1.6;">{_fmt(ss["weak_output"])}</div>',
                 unsafe_allow_html=True,
             )
         with col2:
             st.markdown("**Your improved prompt output:**")
             st.markdown(
                 f'<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
-                f'padding:12px;font-size:13px;line-height:1.6;">{ss["improved_output"]}</div>',
+                f'padding:12px;font-size:13px;line-height:1.6;">{_fmt(ss["improved_output"])}</div>',
                 unsafe_allow_html=True,
             )
         return True
@@ -120,7 +126,7 @@ def render_sandbox(
         st.markdown("**Output:**")
         st.markdown(
             f'<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
-            f'padding:14px;font-size:13px;line-height:1.7;">{ss["output"]}</div>',
+            f'padding:14px;font-size:13px;line-height:1.7;">{_fmt(ss["output"])}</div>',
             unsafe_allow_html=True,
         )
         return True

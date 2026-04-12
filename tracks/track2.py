@@ -366,19 +366,21 @@ how it was produced.
             "rubric": (
                 "Score the learner's follow-up prompt on whether it requests traceable source "
                 "detail sufficient for independent external verification.\n\n"
-                "Pass (score ≥ 70): The prompt asks for the study name, a direct link, a DOI, "
-                "author names, journal volume/issue number, or any combination that would allow "
-                "the learner to look it up outside of Claude.\n\n"
+                "Full marks (score 100): The prompt asks for a full citation, a DOI, a direct "
+                "link, or enough specific identifiers that the study can be located and verified "
+                "independently. Asking for 'the full citation' earns full marks — a complete "
+                "citation contains all required identifying elements by convention.\n\n"
+                "Pass (score 70–99): The prompt asks for some but not all traceable details — "
+                "for example, author names but no DOI, or a link but no other identifiers.\n\n"
                 "Fail (score < 70): The prompt only asks Claude to 'verify', 'confirm', "
                 "'double-check', or 'make sure it is accurate' without requesting traceable "
                 "details that exist outside the Claude conversation.\n\n"
                 "Award partial credit if the prompt asks for some but not all needed verification details."
             ),
             "model_answer": (
-                "Can you provide the full citation for the JAMA Psychiatry study — "
-                "including the author names, publication year, volume and issue numbers, "
-                "and a DOI or direct link — so I can verify it independently before "
-                "including it in the brief?"
+                "Can you provide the full citation for the JAMA Psychiatry study, "
+                "including a DOI or direct link, so I can verify it independently "
+                "before including it in the brief?"
             ),
             "hints": [
                 "Do you know the name of the study referenced in that paragraph?",
@@ -513,6 +515,7 @@ def render_lesson(lesson_id: int) -> bool:
             lesson_id=lesson_id,
             questions=lesson["quiz"],
             label="Knowledge check",
+            mark_complete=False,
         )
 
         if not quiz_passed:

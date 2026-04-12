@@ -574,6 +574,17 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
             st.caption("Content not available.")
             return
 
+        # Render diagram if this lesson has one
+        lesson_meta = get_lesson(track_id, lesson_id)
+        if lesson_meta.get("has_diagram"):
+            diagram_id = lesson_meta.get("diagram_id")
+            if diagram_id:
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    st.components.v1.html(html, height=height, scrolling=False)
+                    st.markdown("<br>", unsafe_allow_html=True)
+
         lesson = LESSONS.get(lesson_id)
         if not lesson or not lesson.get("concept"):
             st.caption("Content coming soon.")
@@ -584,7 +595,6 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
         # Handle inline HTML (images, iframes) — split and render with unsafe_allow_html
         if "<img " in concept or "<iframe " in concept:
             import re
-            # Split on any HTML tag that needs unsafe rendering
             parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', concept, flags=re.DOTALL)
             for part in parts:
                 if part.startswith("<img ") or part.startswith("<iframe "):

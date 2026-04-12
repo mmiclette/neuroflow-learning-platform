@@ -503,6 +503,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "plugins_by_role": 300,
         "decision_tree": 360,
         "meta_prompting": 290,
-        "nlp_clinical": 420,
+        "nlp_clinical": 560,
     }
     return heights.get(diagram_id, 300)

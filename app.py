@@ -575,10 +575,25 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
             return
 
         lesson = LESSONS.get(lesson_id)
-        if lesson and lesson.get("concept"):
-            st.markdown(lesson["concept"])
-        else:
+        if not lesson or not lesson.get("concept"):
             st.caption("Content coming soon.")
+            return
+
+        concept = lesson["concept"]
+
+        # Handle inline HTML (images, iframes) — split and render with unsafe_allow_html
+        if "<img " in concept or "<iframe " in concept:
+            import re
+            # Split on any HTML tag that needs unsafe rendering
+            parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', concept, flags=re.DOTALL)
+            for part in parts:
+                if part.startswith("<img ") or part.startswith("<iframe "):
+                    st.markdown(part, unsafe_allow_html=True)
+                elif part.strip():
+                    st.markdown(part)
+        else:
+            st.markdown(concept)
+
     except (ImportError, AttributeError):
         st.caption("Content coming soon.")
 

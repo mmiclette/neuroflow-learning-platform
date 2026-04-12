@@ -72,8 +72,7 @@ of new conversations, that background belongs in a Project.
                     "Claude needs the team member to upload the relevant product positioning document",
                     "Claude generates a generic value proposition since it cannot access company documents",
                 ],
-                "correct_index": 2,
-                "hint": "Everything a Project admin set up — instructions and knowledge files — is already applied before the conversation starts.",
+                "correct_index": 1,
             },
             {
                 "question": (

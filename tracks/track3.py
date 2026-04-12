@@ -553,7 +553,22 @@ def render_lesson(lesson_id: int) -> bool:
         return False
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
-    st.markdown(lesson["concept"])
+
+    # Lesson 2 contains an inline base64 image — split and render with unsafe_allow_html
+    concept = lesson["concept"]
+    if "<img " in concept:
+        parts = concept.split("<img ", 1)
+        before = parts[0]
+        rest = parts[1]
+        # Find end of img tag
+        tag_end = rest.find("/>") + 2
+        img_tag = "<img " + rest[:tag_end]
+        after = rest[tag_end:]
+        st.markdown(before)
+        st.markdown(img_tag, unsafe_allow_html=True)
+        st.markdown(after)
+    else:
+        st.markdown(concept)
     st.markdown("---")
 
     if already_done:

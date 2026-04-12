@@ -1,0 +1,527 @@
+# app.py
+# NeuroFlow AI Learning Platform — main entry point.
+# Single-file Streamlit app with session-state routing.
+
+import streamlit as st
+from data.curriculum import TRACKS, get_track, get_lesson, get_lesson_count, is_last_lesson
+from utils.session import (
+    init_session_state, navigate,
+    is_lesson_complete, is_track_complete,
+    get_track_completion_count, get_first_incomplete_lesson,
+    go_home, go_track, go_lesson, go_certificate, go_reference,
+    complete_lesson,
+)
+from utils.certificate import render_certificate_page
+from components.diagrams import get_diagram, get_diagram_height
+
+# ---------------------------------------------------------------------------
+# Page config
+# ---------------------------------------------------------------------------
+st.set_page_config(
+    page_title="NeuroFlow AI Learning Platform",
+    page_icon="🧠",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
+# ---------------------------------------------------------------------------
+# Global CSS
+# ---------------------------------------------------------------------------
+st.markdown("""
+<style>
+  /* Hide default Streamlit chrome */
+  #MainMenu { visibility: hidden; }
+  footer { visibility: hidden; }
+  header { visibility: hidden; }
+  [data-testid="collapsedControl"] { display: none; }
+  section[data-testid="stSidebar"] { display: none; }
+
+  /* App background */
+  .stApp { background-color: #FFFFFF; }
+  .block-container { padding-top: 16px !important; max-width: 860px; }
+
+  /* Primary button (active CTA) — navy with white text */
+  .stButton button[kind="primary"] {
+    background-color: #161BAA !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    padding: 10px 24px !important;
+  }
+  .stButton button[kind="primary"]:hover {
+    background-color: #1219CC !important;
+  }
+
+  /* Secondary button */
+  .stButton button[kind="secondary"] {
+    border-color: #161BAA !important;
+    color: #161BAA !important;
+    border-radius: 6px !important;
+  }
+
+  /* Disabled button — grey */
+  .stButton button:disabled {
+    background-color: #BDBDBD !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    cursor: not-allowed !important;
+    border-radius: 6px !important;
+  }
+
+  /* Radio buttons — cleaner spacing */
+  .stRadio > div { gap: 4px; }
+
+  /* Horizontal rule */
+  hr { border-color: #BDBDBD; margin: 24px 0; }
+
+  /* Markdown prose */
+  .stMarkdown p { font-size: 15px; line-height: 1.7; color: #212121; }
+  .stMarkdown h3 { color: #161BAA; margin-top: 24px; }
+
+  /* Track card */
+  .track-card {
+    border: 1px solid #BDBDBD;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .track-card:hover { box-shadow: 0 2px 12px rgba(22,27,170,0.10); }
+
+  /* Level badges */
+  .badge-foundation { background:#E4F5F3; color:#1A6860; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  .badge-intermediate { background:#EBF3FA; color:#2A5C8A; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  .badge-advanced { background:#E7F6F5; color:#2A6E68; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+</style>
+""", unsafe_allow_html=True)
+
+
+# ---------------------------------------------------------------------------
+# Session init
+# ---------------------------------------------------------------------------
+init_session_state()
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _badge(level: str) -> str:
+    cls = {
+        "Foundation": "badge-foundation",
+        "Intermediate": "badge-intermediate",
+        "Advanced": "badge-advanced",
+    }.get(level, "badge-foundation")
+    return f'<span class="{cls}">{level}</span>'
+
+
+def _progress_bar(done: int, total: int) -> str:
+    pct = int((done / total) * 100) if total else 0
+    return (
+        f'<div style="background:#BDBDBD;border-radius:4px;height:6px;margin:6px 0;">'
+        f'<div style="background:#161BAA;border-radius:4px;height:6px;width:{pct}%;"></div>'
+        f'</div>'
+        f'<span style="font-size:11px;color:#757575;">{done}/{total} lessons</span>'
+    )
+
+
+def _nav_header(track_id: int = None, lesson_id: int = None):
+    """Top navigation bar shown on all non-home pages."""
+    col1, col2, col3 = st.columns([1, 4, 1])
+    with col1:
+        if st.button("← Home", key="nav_home"):
+            go_home()
+    with col2:
+        if track_id:
+            track = get_track(track_id)
+            label = f"Track {track_id} — {track.get('title', '')}"
+            if lesson_id:
+                total = get_lesson_count(track_id)
+                label += f" &nbsp;·&nbsp; Lesson {lesson_id} of {total}"
+            st.markdown(
+                f'<p style="text-align:center;color:#161BAA;font-weight:500;'
+                f'font-size:14px;margin:6px 0;">{label}</p>',
+                unsafe_allow_html=True,
+            )
+    with col3:
+        if track_id and not lesson_id:
+            pass  # track overview — no extra nav
+        elif track_id and lesson_id:
+            done, total = get_track_completion_count(track_id)
+            st.markdown(
+                f'<p style="text-align:right;color:#757575;font-size:12px;margin:6px 0;">'
+                f'{done}/{total} done</p>',
+                unsafe_allow_html=True,
+            )
+    st.markdown("<hr style='margin:8px 0 20px 0;border-color:#BDBDBD;'>", unsafe_allow_html=True)
+
+
+# ---------------------------------------------------------------------------
+# Views
+# ---------------------------------------------------------------------------
+
+def view_home():
+    """Home page — 8 track cards + Course Reference."""
+    st.markdown(
+        """
+        <div style="padding: 24px 0 8px 0;">
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;
+                      color:#2EA799;margin-bottom:6px;">NeuroFlow</div>
+          <div style="font-size:30px;font-weight:600;color:#161BAA;margin-bottom:4px;">
+            AI Learning Platform
+          </div>
+          <div style="font-size:15px;color:#757575;">
+            Eight self-paced tracks. Start anywhere. Complete at your own pace.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # 2-column grid of track cards
+    track_ids = list(TRACKS.keys())
+    for row_start in range(0, len(track_ids), 2):
+        col1, col2 = st.columns(2, gap="medium")
+        for col, t_id in zip([col1, col2], track_ids[row_start: row_start + 2]):
+            track = TRACKS[t_id]
+            done, total = get_track_completion_count(t_id)
+            complete = is_track_complete(t_id)
+            with col:
+                st.markdown(
+                    f"""
+                    <div style="border:1px solid {'#2EA799' if complete else '#BDBDBD'};
+                                border-radius:10px;padding:20px 22px;margin-bottom:4px;
+                                background:{'#F0FBF9' if complete else '#FFFFFF'};">
+                      <div style="display:flex;justify-content:space-between;
+                                  align-items:flex-start;margin-bottom:10px;">
+                        <span style="font-size:12px;color:#757575;font-weight:500;">
+                          Track {t_id}
+                        </span>
+                        {_badge(track['level'])}
+                      </div>
+                      <div style="font-size:17px;font-weight:600;color:#212121;
+                                  margin-bottom:6px;">{track['title']}</div>
+                      <div style="font-size:12px;color:#757575;margin-bottom:10px;">
+                        {total} lessons &nbsp;·&nbsp; ~{track['time_estimate']} min
+                      </div>
+                      {_progress_bar(done, total)}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                btn_label = "✓ View certificate" if complete else (
+                    "Continue →" if done > 0 else "Start track →"
+                )
+                if st.button(btn_label, key=f"track_btn_{t_id}", use_container_width=True):
+                    if complete:
+                        go_certificate(t_id)
+                    else:
+                        go_track(t_id)
+
+    # Course Reference card
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="border:1px solid #BDBDBD;border-radius:10px;padding:18px 22px;
+                    background:#FAFAFA;display:flex;align-items:center;
+                    justify-content:space-between;">
+          <div>
+            <div style="font-size:16px;font-weight:600;color:#212121;">Course Reference</div>
+            <div style="font-size:13px;color:#757575;margin-top:3px;">
+              All lesson content across every track — no quizzes. Use any time.
+            </div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    if st.button("Open Course Reference →", key="ref_btn"):
+        go_reference()
+
+
+def view_track_overview(track_id: int):
+    """Track overview — lesson list + Start/Continue button."""
+    _nav_header(track_id=track_id)
+
+    track = get_track(track_id)
+    lessons = track.get("lessons", {})
+    done, total = get_track_completion_count(track_id)
+
+    st.markdown(
+        f"""
+        <div style="margin-bottom:20px;">
+          <div style="margin-bottom:6px;">{_badge(track['level'])}</div>
+          <div style="font-size:26px;font-weight:600;color:#161BAA;margin-bottom:6px;">
+            Track {track_id} — {track['title']}
+          </div>
+          <div style="font-size:13px;color:#757575;">
+            {total} lessons &nbsp;·&nbsp; ~{track['time_estimate']} min
+            &nbsp;·&nbsp; Certificate: {track['certificate_title']}
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Lesson list
+    for l_id, lesson_meta in sorted(lessons.items()):
+        complete = is_lesson_complete(track_id, l_id)
+        icon = "✓" if complete else f"{l_id}"
+        icon_color = "#2EA799" if complete else "#161BAA"
+        col1, col2 = st.columns([6, 1])
+        with col1:
+            st.markdown(
+                f"""
+                <div style="display:flex;align-items:center;padding:12px 0;
+                            border-bottom:1px solid #F0F0F0;">
+                  <span style="width:28px;height:28px;border-radius:50%;
+                               background:{'#E4F5F3' if complete else '#E8E9F7'};
+                               color:{icon_color};font-size:13px;font-weight:600;
+                               display:flex;align-items:center;justify-content:center;
+                               margin-right:14px;flex-shrink:0;">{icon}</span>
+                  <div>
+                    <span style="font-size:14px;color:#212121;font-weight:{'600' if not complete else '400'};">
+                      {l_id}.&nbsp;&nbsp;{lesson_meta['title']}
+                    </span>
+                    <br>
+                    <span style="font-size:11px;color:#757575;">
+                      ~{lesson_meta['time_estimate']} min
+                    </span>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with col2:
+            if st.button(
+                "Review" if complete else "Start",
+                key=f"lesson_btn_{track_id}_{l_id}",
+            ):
+                go_lesson(track_id, l_id)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Start / Continue CTA
+    if is_track_complete(track_id):
+        if st.button("View certificate →", type="primary", key=f"track_cert_{track_id}"):
+            go_certificate(track_id)
+    else:
+        next_lesson = get_first_incomplete_lesson(track_id)
+        lbl = f"Continue — Lesson {next_lesson}" if done > 0 else f"Start — Lesson 1"
+        if st.button(lbl, type="primary", key=f"track_start_{track_id}"):
+            go_lesson(track_id, next_lesson)
+
+
+def view_lesson(track_id: int, lesson_id: int):
+    """Lesson page — warning banner, content, next/complete button."""
+    _nav_header(track_id=track_id, lesson_id=lesson_id)
+
+    # Session-only warning
+    st.warning(
+        "Progress is session-only — refreshing this page will reset your work.",
+        icon="⚠️",
+    )
+
+    track = get_track(track_id)
+    lesson_meta = get_lesson(track_id, lesson_id)
+
+    st.markdown(
+        f"""
+        <div style="margin-bottom:18px;">
+          <div style="font-size:12px;color:#757575;margin-bottom:4px;">
+            Track {track_id} · Lesson {lesson_id}
+          </div>
+          <div style="font-size:22px;font-weight:600;color:#161BAA;">
+            {lesson_meta.get('title', '')}
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # ---------- Diagram (before content, where applicable) ----------
+    if lesson_meta.get("has_diagram") and not lesson_meta.get("has_video"):
+        diagram_id = lesson_meta.get("diagram_id")
+        if diagram_id:
+            html = get_diagram(diagram_id)
+            height = get_diagram_height(diagram_id)
+            if html:
+                st.components.v1.html(html, height=height, scrolling=False)
+                st.markdown("<br>", unsafe_allow_html=True)
+
+    # ---------- Video ----------
+    if lesson_meta.get("has_video"):
+        video_url = lesson_meta.get("video_url", "")
+        st.components.v1.html(
+            f'<iframe width="100%" height="400" src="{video_url}" '
+            f'frameborder="0" allowfullscreen></iframe>',
+            height=420,
+        )
+        st.markdown("<br>", unsafe_allow_html=True)
+
+    # ---------- Diagram after video (Track 5.3 etc.) ----------
+    if lesson_meta.get("has_diagram") and lesson_meta.get("has_video"):
+        diagram_id = lesson_meta.get("diagram_id")
+        if diagram_id:
+            html = get_diagram(diagram_id)
+            height = get_diagram_height(diagram_id)
+            if html:
+                st.components.v1.html(html, height=height, scrolling=False)
+                st.markdown("<br>", unsafe_allow_html=True)
+
+    # ---------- Track lesson content ----------
+    lesson_passed = _render_track_lesson(track_id, lesson_id)
+
+    # ---------- Next / Complete Track button ----------
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    last = is_last_lesson(track_id, lesson_id)
+    btn_label = "Complete track →" if last else f"Next lesson →"
+
+    if lesson_passed or is_lesson_complete(track_id, lesson_id):
+        if st.button(btn_label, type="primary", key=f"next_{track_id}_{lesson_id}"):
+            if last:
+                go_certificate(track_id)
+            else:
+                go_lesson(track_id, lesson_id + 1)
+    else:
+        st.button(btn_label, disabled=True, key=f"next_dis_{track_id}_{lesson_id}")
+        st.caption("Complete the lesson to continue.")
+
+
+def _render_track_lesson(track_id: int, lesson_id: int) -> bool:
+    """Dispatch to the correct track module's render_lesson function."""
+    try:
+        if track_id == 1:
+            from tracks.track1 import render_lesson
+        elif track_id == 2:
+            from tracks.track2 import render_lesson
+        elif track_id == 3:
+            from tracks.track3 import render_lesson
+        elif track_id == 4:
+            from tracks.track4 import render_lesson
+        elif track_id == 5:
+            from tracks.track5 import render_lesson
+        elif track_id == 6:
+            from tracks.track6 import render_lesson
+        elif track_id == 7:
+            from tracks.track7 import render_lesson
+        elif track_id == 8:
+            from tracks.track8 import render_lesson
+        else:
+            st.error(f"Track {track_id} not found.")
+            return False
+        return render_lesson(lesson_id)
+    except ImportError:
+        st.info(
+            f"Track {track_id} content is coming soon. "
+            "Check back after the next update.",
+            icon="🔜",
+        )
+        # Allow bypass during development
+        if st.button("Mark complete (dev)", key=f"dev_complete_{track_id}_{lesson_id}"):
+            complete_lesson(track_id, lesson_id)
+            st.rerun()
+        return is_lesson_complete(track_id, lesson_id)
+
+
+def view_certificate(track_id: int):
+    """Certificate page."""
+    _nav_header(track_id=track_id)
+    track = get_track(track_id)
+    render_certificate_page(
+        track_id=track_id,
+        track_title=track.get("title", ""),
+        certificate_title=track.get("certificate_title", ""),
+    )
+
+
+def view_reference():
+    """Course Reference — all lesson content, no quizzes."""
+    col1, _ = st.columns([1, 8])
+    with col1:
+        if st.button("← Home", key="ref_home"):
+            go_home()
+
+    st.markdown(
+        """
+        <div style="padding: 16px 0 24px 0;">
+          <div style="font-size:26px;font-weight:600;color:#161BAA;margin-bottom:6px;">
+            Course Reference
+          </div>
+          <div style="font-size:14px;color:#757575;">
+            All lesson content across every track. No quizzes or challenges.
+            Use this any time to review material.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    for t_id, track in TRACKS.items():
+        with st.expander(f"Track {t_id} — {track['title']}", expanded=False):
+            for l_id, lesson_meta in sorted(track["lessons"].items()):
+                st.markdown(
+                    f"#### {l_id}. {lesson_meta['title']}",
+                )
+                _render_reference_lesson(t_id, l_id)
+                st.markdown("---")
+
+
+def _render_reference_lesson(track_id: int, lesson_id: int):
+    """Render lesson concept content only — no quiz, no challenge."""
+    try:
+        if track_id == 1:
+            from tracks.track1 import LESSONS
+        elif track_id == 2:
+            from tracks.track2 import LESSONS
+        elif track_id == 3:
+            from tracks.track3 import LESSONS
+        elif track_id == 4:
+            from tracks.track4 import LESSONS
+        elif track_id == 5:
+            from tracks.track5 import LESSONS
+        elif track_id == 6:
+            from tracks.track6 import LESSONS
+        elif track_id == 7:
+            from tracks.track7 import LESSONS
+        elif track_id == 8:
+            from tracks.track8 import LESSONS
+        else:
+            st.caption("Content not available.")
+            return
+
+        lesson = LESSONS.get(lesson_id)
+        if lesson and lesson.get("concept"):
+            st.markdown(lesson["concept"])
+        else:
+            st.caption("Content coming soon.")
+    except (ImportError, AttributeError):
+        st.caption("Content coming soon.")
+
+
+# ---------------------------------------------------------------------------
+# Router
+# ---------------------------------------------------------------------------
+
+view = st.session_state.get("view", "home")
+track_id = st.session_state.get("current_track")
+lesson_id = st.session_state.get("current_lesson")
+
+if view == "home":
+    view_home()
+elif view == "track" and track_id:
+    view_track_overview(track_id)
+elif view == "lesson" and track_id and lesson_id:
+    view_lesson(track_id, lesson_id)
+elif view == "certificate" and track_id:
+    view_certificate(track_id)
+elif view == "reference":
+    view_reference()
+else:
+    view_home()

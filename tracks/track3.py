@@ -94,7 +94,12 @@ they produce the same deliverable you have in mind? If not, the prompt needs mor
                 "Your manager asks you to use Claude to draft outreach to health system CFOs "
                 "about NeuroFlow's BHIQ analytics product.\n\n"
                 "**Task:** Write a complete prompt — not the email itself — that would produce "
-                "a single high-quality outreach email. Your prompt must include all five RTCFC components."
+                "a single high-quality outreach email. Your prompt must include all five components:\n\n"
+                "- **Role** — who should Claude be for this task (e.g. a specific type of expert)\n"
+                "- **Task** — the exact deliverable Claude should produce\n"
+                "- **Context** — what Claude needs to know about the audience or situation\n"
+                "- **Format** — how the output should be structured (length, sections, etc.)\n"
+                "- **Constraints** — what Claude should avoid, limit, or require"
             ),
             "broken_example": "",
             "rubric": (

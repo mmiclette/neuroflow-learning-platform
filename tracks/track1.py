@@ -200,11 +200,33 @@ Statistical NLP improved on this by learning patterns from labeled text data rat
 rules manually. Early text classification, sentiment analysis, and named entity recognition
 systems used these methods.
 
-Modern NLP is built on transformer-based neural networks trained on enormous text corpora.
-These models — LLMs — do not follow rules or apply patterns from a fixed vocabulary. They
-learn distributed representations of meaning across billions of parameters, enabling
-capabilities that earlier approaches could not approach: understanding long documents,
-generating coherent multi-paragraph text, following complex instructions, reasoning across domains.
+Unlike earlier rule-based systems that relied on hand-coded linguistic patterns, or
+statistical models that treated words as isolated counts, transformers build contextual
+representations of meaning — the same word carries different weight depending on everything
+around it. At sufficient scale, these models gain capabilities that earlier approaches could
+not: understanding long documents, generating coherent multi-paragraph text, following complex
+instructions, and reasoning across domains.
+
+**NLP, LLMs, and small language models**
+
+These three terms describe related but distinct technologies. Understanding the differences
+explains why Claude behaves so differently from the AI already embedded in EHR systems and
+screening tools.
+
+| | Traditional NLP | Large language models (LLMs) | Small language models (SLMs) |
+|---|---|---|---|
+| **How it works** | Hand-coded rules or statistical pattern matching on text | Transformer neural network trained on massive general corpora | Transformer architecture, smaller parameter count, often fine-tuned on domain-specific data |
+| **Examples** | EHR symptom extractors, ICD code mappers, clinical text parsers | Claude, GPT-4, Gemini | Phi-3, Mistral 7B, BioMedLM |
+| **Strengths** | Fast, predictable, explainable, low cost | General reasoning, instruction following, long context, generation | Fast inference, lower cost, deployable on-premise, fine-tunable for specific domains |
+| **Limitations** | Brittle — breaks on unfamiliar phrasing; no generation capability | High compute cost, cloud dependency, general rather than specialized | Less capable on open-ended tasks; requires fine-tuning investment for best results |
+
+The symptom detection diagram above shows traditional NLP at work — rules and lexicons mapping
+clinical phrases to standardized codes. It is fast and reliable for that narrow task, but it
+cannot explain a regulatory change, draft a BD brief, or reason across multiple documents.
+That is the domain where LLMs like Claude operate.
+
+SLMs are worth knowing because they represent the direction healthcare AI is heading for
+embedded, real-time, or PHI-sensitive applications where cloud dependency is a constraint.
 
 **What NLP is used for in healthcare**
 

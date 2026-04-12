@@ -59,6 +59,14 @@ def render_graded_challenge(
                         f"✓ Passed — score {result['score']}/100 "
                         f"({cs['attempts']} {attempt_word})"
                     )
+                    if result.get("hint") and result["score"] < 100:
+                        st.markdown(
+                            f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                            f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+                            f'<span style="color:#478FCC;font-weight:500;">What would earn full marks:</span> '
+                            f'<span style="color:#212121;">{result["hint"]}</span></div>',
+                            unsafe_allow_html=True,
+                        )
                 else:
                     st.info("Model answer revealed. Lesson complete — move to next lesson.")
                     st.markdown(f"**Model answer:**\n\n{model_answer}")

@@ -4,7 +4,7 @@ import streamlit as st
 from utils.quiz import render_quiz
 from utils.challenge import render_graded_challenge
 from utils.session import is_lesson_complete, complete_lesson
-from utils.grading import call_sandbox_with_search
+from utils.grading import grade_challenge, call_sandbox
 
 TRACK_ID = 4
 
@@ -620,10 +620,10 @@ a reader who will notice.
 
 
 def _render_search_sandbox(lesson_id: int) -> bool:
-    """Lesson 4.6 sandbox: learner writes a search prompt, sees result."""
+    """Lesson 4.6 sandbox: learner writes a search prompt, badge confirms search instruction present."""
     state_key = f"sandbox_{TRACK_ID}_{lesson_id}"
     if state_key not in st.session_state:
-        st.session_state[state_key] = {"submitted": False, "output": "", "searched": False}
+        st.session_state[state_key] = {"submitted": False, "searched": False}
     ss = st.session_state[state_key]
 
     st.markdown("---")
@@ -640,23 +640,20 @@ def _render_search_sandbox(lesson_id: int) -> bool:
         if ss["searched"]:
             st.markdown(
                 '<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
-                'padding:4px 12px;margin-bottom:8px;font-size:12px;color:#1A6860;">'
-                '✓ Claude used web search</div>',
+                'padding:8px 14px;margin-bottom:8px;font-size:13px;color:#1A6860;">'
+                '✓ Your prompt includes an explicit search instruction — '
+                'Claude will retrieve current information rather than relying on training data.</div>',
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
                 '<div style="background:#FFF3F3;border:1px solid #F16061;border-radius:6px;'
-                'padding:4px 12px;margin-bottom:8px;font-size:12px;color:#C0392B;">'
-                '⚠ Claude did not use web search — training data only</div>',
+                'padding:8px 14px;margin-bottom:8px;font-size:13px;color:#C0392B;">'
+                '⚠ Your prompt does not include an explicit search instruction — '
+                'Claude may answer from training data instead of retrieving current measures. '
+                'Try adding a phrase like "search the web" or "find current information".</div>',
                 unsafe_allow_html=True,
             )
-        st.markdown("**Output:**")
-        st.markdown(
-            f'<div style="background:#F9F9F9;border:1px solid #BDBDBD;border-radius:6px;'
-            f'padding:14px;font-size:13px;line-height:1.7;">{__import__("html").escape(ss["output"]).replace(chr(10), "<br>")}</div>',
-            unsafe_allow_html=True,
-        )
         return True
 
     input_key = f"{state_key}_input"
@@ -675,9 +672,14 @@ def _render_search_sandbox(lesson_id: int) -> bool:
             if not prompt:
                 st.warning("Enter a prompt before submitting.")
                 return False
-            with st.spinner("Calling Haiku with web search…"):
-                output, searched = call_sandbox_with_search(prompt)
-            ss["output"] = output
+
+            # Check for explicit search instruction — no API call needed
+            search_keywords = [
+                "search the web", "search the internet", "search online",
+                "web search", "look up", "find current", "retrieve current",
+                "search for", "google", "browse", "find online",
+            ]
+            searched = any(kw in prompt.lower() for kw in search_keywords)
             ss["searched"] = searched
             ss["submitted"] = True
             complete_lesson(TRACK_ID, lesson_id)
@@ -696,8 +698,10 @@ def render_lesson(lesson_id: int) -> bool:
     st.markdown("---")
 
     if already_done:
-        st.success("✓ Lesson complete")
-        return True
+        # Let sandboxes and challenges fall through to show their output
+        if not (lesson.get("sandbox_lesson") or lesson.get("challenge")):
+            st.success("✓ Lesson complete")
+            return True
 
     # Lessons with quiz only
     if lesson.get("quiz") and not lesson.get("challenge"):

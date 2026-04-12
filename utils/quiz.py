@@ -11,6 +11,7 @@ def render_quiz(
     lesson_id: int,
     questions: list[dict],
     label: str = "Knowledge check",
+    mark_complete: bool = True,
 ) -> bool:
     """
     Render a multiple-choice quiz with the platform restart rule.
@@ -71,7 +72,8 @@ def render_quiz(
     q_idx = qs["current_q"]
     if q_idx >= len(questions):
         qs["completed"] = True
-        complete_lesson(track_id, lesson_id)
+        if mark_complete:
+            complete_lesson(track_id, lesson_id)
         st.rerun()
         return True
 
@@ -129,7 +131,8 @@ def render_quiz(
             qs["current_q"] += 1
             if qs["current_q"] >= len(questions):
                 qs["completed"] = True
-                complete_lesson(track_id, lesson_id)
+                if mark_complete:
+                    complete_lesson(track_id, lesson_id)
             st.rerun()
         else:
             qs["wrong_count"] += 1

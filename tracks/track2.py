@@ -51,6 +51,12 @@ Because Claude generates responses based on patterns learned from its corpus, th
 of what it produces depends almost entirely on the quality and specificity of what you
 provide. A vague prompt activates a broad range of patterns and produces a generic response.
 A specific, structured prompt narrows the activation and produces a targeted response.
+
+**Context and conversation length affect output quality**
+
+Research consistently shows that LLM reasoning performance degrades as context grows — even well below a model's technical limit. The underlying mechanism is attention dilution: as more tokens fill the context, relevant content in the middle of a conversation receives less model attention than content at the start or end. A 2024 Stanford study found accuracy dropped over 30% when relevant information was buried in the middle of long inputs.
+
+The practical implication for NeuroFlow staff: loading a Project with ten large knowledge files and running long conversations in that context degrades output quality even when the context window limit has not been reached. Keep knowledge files focused and relevant. Start fresh conversations for new tasks rather than extending existing ones. The guidance to keep conversations focused applies for output quality reasons as much as token allocation reasons.
 """,
         "quiz": [
             {
@@ -123,6 +129,10 @@ Claude Teams. Analyze that data in tools that operate under NeuroFlow's HIPAA ag
 Before entering information into Claude Teams, ask one question: does this contain anything
 that could identify a specific patient? If yes, stop. If no, proceed.
 
+**Your responsibility**
+
+All work products you create using Claude are your responsibility to review and confirm. Claude can produce incorrect, outdated, or incomplete information. When it does, that is not a reflection on Claude — it is a signal that your critical review caught something before it caused a problem. You will be held accountable for your work products regardless of how they were produced. Using AI assistance does not transfer professional ownership of the output or reduce your obligation to verify what you submit.
+
 **What about research?**
 
 When a task requires accessing external research, use a web-enabled tool first to find
@@ -156,6 +166,15 @@ to synthesize those findings, is the correct workflow.
                 ],
                 "correct_index": 2,
                 "hint": "The restriction that creates legal and compliance risk, not just quality risk.",
+            },
+            {
+                "question": "Who is responsible for a work product created with Claude's help?",
+                "options": [
+                    "I am — Claude assists, but I own and am accountable for everything I submit",
+                    "Claude is — it generated the content",
+                ],
+                "correct_index": 0,
+                "hint": "Claude is a tool. The person who submits the work is responsible for it.",
             },
         ],
     },
@@ -324,9 +343,9 @@ how it was produced.
                     "best achieves this?"
                 ),
                 "options": [
-                    "Please be careful not to include anything inaccurate.",
+                    "Please be careful not to include anything inaccurate. I need this to be factually correct.",
                     "Use only the information in the attached reports. Do not add claims, statistics, or examples that are not present in these documents.",
-                    "Double-check your work before responding.",
+                    "Double-check your work before responding and make sure everything is accurate and well-supported.",
                     "Only include information you are confident about.",
                 ],
                 "correct_index": 1,
@@ -474,8 +493,9 @@ def render_lesson(lesson_id: int) -> bool:
     st.markdown("---")
 
     if already_done:
-        st.success("✓  Lesson complete")
-        return True
+        if not lesson.get("challenge"):
+            st.success("✓  Lesson complete")
+            return True
 
     # Lessons with quiz only (no challenge)
     if lesson.get("quiz") and not lesson.get("challenge"):

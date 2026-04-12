@@ -29,6 +29,9 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 st.markdown("""
 <style>
+  /* ── Force light mode regardless of system setting ────────────────── */
+  :root { color-scheme: light only; }
+
   /* Hide default Streamlit chrome */
   #MainMenu { visibility: hidden; }
   footer { visibility: hidden; }
@@ -37,14 +40,15 @@ st.markdown("""
   section[data-testid="stSidebar"] { display: none; }
 
   /* App background */
-  .stApp { background-color: #FFFFFF; }
+  .stApp { background-color: #FFFFFF !important; }
   .block-container { padding-top: 16px !important; max-width: 860px; }
 
-  /* Primary button — navy with white text
-     Streamlit 1.32+ uses data-testid on the button element */
+  /* ── All text defaults to dark ─────────────────────────────────────── */
+  body, p, div, span, li, td, th, label { color: #212121 !important; }
+
+  /* ── Primary button — navy with white text ─────────────────────────── */
   [data-testid="baseButton-primary"],
-  .stButton button[kind="primary"],
-  .stButton > button[data-baseweb="button"][kind="primary"] {
+  .stButton button[kind="primary"] {
     background-color: #161BAA !important;
     color: #FFFFFF !important;
     border: none !important;
@@ -58,7 +62,7 @@ st.markdown("""
     color: #FFFFFF !important;
   }
 
-  /* Secondary button */
+  /* ── Secondary button ──────────────────────────────────────────────── */
   [data-testid="baseButton-secondary"],
   .stButton button[kind="secondary"] {
     border: 1.5px solid #161BAA !important;
@@ -67,7 +71,7 @@ st.markdown("""
     border-radius: 6px !important;
   }
 
-  /* Disabled button — grey */
+  /* ── Disabled button — grey ────────────────────────────────────────── */
   .stButton button:disabled,
   [data-testid="baseButton-primary"]:disabled,
   [data-testid="baseButton-secondary"]:disabled {
@@ -78,23 +82,63 @@ st.markdown("""
     border-radius: 6px !important;
   }
 
-  /* Radio buttons — text always dark, clear spacing */
+  /* ── Radio buttons ─────────────────────────────────────────────────── */
   .stRadio > div { gap: 4px; }
-  .stRadio label { color: #212121 !important; }
-  .stRadio label span { color: #212121 !important; }
+  .stRadio label, .stRadio label span,
   .stRadio [data-testid="stMarkdownContainer"] p {
     color: #212121 !important;
     font-size: 14px !important;
   }
 
-  /* Horizontal rule */
+  /* ── Alert / warning / info banners ───────────────────────────────── */
+  [data-testid="stAlert"],
+  [data-testid="stAlert"] p,
+  [data-testid="stAlert"] div,
+  [data-testid="stAlert"] span,
+  .stAlert p { color: #212121 !important; }
+
+  /* ── Markdown tables ───────────────────────────────────────────────── */
+  .stMarkdown table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .stMarkdown table th {
+    background-color: #E8E9F7 !important;
+    color: #161BAA !important;
+    font-weight: 600 !important;
+    padding: 8px 12px !important;
+    border: 1px solid #BDBDBD !important;
+    text-align: left !important;
+  }
+  .stMarkdown table td {
+    color: #212121 !important;
+    padding: 8px 12px !important;
+    border: 1px solid #BDBDBD !important;
+    background-color: #FFFFFF !important;
+  }
+  .stMarkdown table tr:nth-child(even) td {
+    background-color: #F8F9FA !important;
+  }
+
+  /* ── Spinner text ──────────────────────────────────────────────────── */
+  [data-testid="stSpinner"] p,
+  [data-testid="stSpinner"] div { color: #212121 !important; }
+
+  /* ── Code blocks ───────────────────────────────────────────────────── */
+  .stMarkdown code { background-color: #F0F2F6 !important; color: #161BAA !important; padding: 2px 5px; border-radius: 3px; }
+  .stMarkdown pre  { background-color: #F0F2F6 !important; color: #212121 !important; }
+
+  /* ── Captions ──────────────────────────────────────────────────────── */
+  .stCaption, [data-testid="stCaptionContainer"] p { color: #757575 !important; }
+
+  /* ── Horizontal rule ───────────────────────────────────────────────── */
   hr { border-color: #BDBDBD; margin: 24px 0; }
 
-  /* Markdown prose */
-  .stMarkdown p { font-size: 15px; line-height: 1.7; color: #212121; }
-  .stMarkdown h3 { color: #161BAA; margin-top: 24px; }
+  /* ── Markdown prose ────────────────────────────────────────────────── */
+  .stMarkdown p      { font-size: 15px; line-height: 1.7; color: #212121 !important; }
+  .stMarkdown h3     { color: #161BAA !important; margin-top: 24px; }
+  .stMarkdown h4     { color: #212121 !important; }
+  .stMarkdown li     { color: #212121 !important; }
+  .stMarkdown strong { color: #212121 !important; }
 
-  /* Track card */
+  /* ── Track card ────────────────────────────────────────────────────── */
   .track-card {
     border: 1px solid #BDBDBD;
     border-radius: 10px;
@@ -105,10 +149,10 @@ st.markdown("""
   }
   .track-card:hover { box-shadow: 0 2px 12px rgba(22,27,170,0.10); }
 
-  /* Level badges */
-  .badge-foundation { background:#E4F5F3; color:#1A6860; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
-  .badge-intermediate { background:#EBF3FA; color:#2A5C8A; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
-  .badge-advanced { background:#E7F6F5; color:#2A6E68; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  /* ── Level badges ──────────────────────────────────────────────────── */
+  .badge-foundation   { background:#E4F5F3; color:#1A6860 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  .badge-intermediate { background:#EBF3FA; color:#2A5C8A !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  .badge-advanced     { background:#E7F6F5; color:#2A6E68 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -371,17 +415,12 @@ def view_lesson(track_id: int, lesson_id: int):
     # ---------- Video ----------
     if lesson_meta.get("has_video"):
         video_url = lesson_meta.get("video_url", "")
-        st.components.v1.html(
-            f'''<iframe
-                width="100%"
-                height="400"
-                src="{video_url}"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-                style="border-radius:6px;"
-            ></iframe>''',
-            height=420,
+        st.markdown(
+            f'<iframe width="100%" height="400" src="{video_url}" '
+            f'frameborder="0" '
+            f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+            f'allowfullscreen style="border-radius:6px; display:block;"></iframe>',
+            unsafe_allow_html=True,
         )
         st.markdown("<br>", unsafe_allow_html=True)
 

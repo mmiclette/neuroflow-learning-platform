@@ -233,6 +233,221 @@ def get_diagram(diagram_id: str) -> str | None:
 """
 
 
+
+# ---------------------------------------------------------------------------
+# Lesson 1.2 — Machine learning pipeline
+# ---------------------------------------------------------------------------
+DIAGRAMS["ml_pipeline"] = """
+<svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>How machine learning works</title>
+<desc>Three-column pipeline: training data, ML model, prediction</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="14" y="14" width="186" height="250" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="14" y="14" width="186" height="38" rx="8" fill="#161BAA"/>
+<rect x="14" y="38" width="186" height="14" fill="#161BAA"/>
+<text x="107" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Training data</text>
+<text x="107" y="72" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">EHR</text>
+<text x="107" y="90" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">High signal, messy, real-time</text>
+<line x1="30" y1="104" x2="182" y2="104" stroke="#C0C4E8" stroke-width="0.5"/>
+<text x="107" y="120" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Claims</text>
+<text x="107" y="138" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Structured, longitudinal,</text>
+<text x="107" y="152" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">complete across systems</text>
+<line x1="202" y1="139" x2="238" y2="139" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="246" y="14" width="188" height="250" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="246" y="14" width="188" height="38" rx="8" fill="#161BAA"/>
+<rect x="246" y="38" width="188" height="14" fill="#161BAA"/>
+<text x="340" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">ML model</text>
+<text x="340" y="68" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575">Common model types</text>
+<line x1="262" y1="78" x2="418" y2="78" stroke="#C0C4E8" stroke-width="0.5"/>
+<text x="340" y="100" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Logistic regression</text>
+<text x="340" y="116" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Binary outcomes; interpretable</text>
+<text x="340" y="144" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Random forest</text>
+<text x="340" y="160" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Handles mixed data; robust</text>
+<text x="340" y="188" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Gradient boosting</text>
+<text x="340" y="204" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">High accuracy on health data</text>
+<line x1="436" y1="139" x2="470" y2="139" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="478" y="14" width="188" height="250" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="478" y="14" width="188" height="38" rx="8" fill="#2EA799"/>
+<rect x="478" y="38" width="188" height="14" fill="#2EA799"/>
+<text x="572" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Prediction</text>
+<text x="572" y="68" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#1A6860">Risk scores for new patients</text>
+<line x1="494" y1="78" x2="650" y2="78" stroke="#9ED5D0" stroke-width="0.5"/>
+<text x="572" y="100" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#212121">30-day readmission risk</text>
+<text x="572" y="118" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#212121">Behavioral health risk score</text>
+<text x="572" y="136" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#212121">Crisis / acute care risk</text>
+<text x="572" y="154" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#212121">Treatment non-response risk</text>
+<text x="572" y="172" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#212121">Engagement / no-show risk</text>
+<text x="572" y="204" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#1A6860" font-style="italic">Output: a probability score,</text>
+<text x="572" y="218" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#1A6860" font-style="italic">not a diagnosis or decision</text>
+</svg>
+"""
+
+# ---------------------------------------------------------------------------
+# Lesson 5.2 — Plugins by NeuroFlow role
+# ---------------------------------------------------------------------------
+DIAGRAMS["plugins_by_role"] = """
+<svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Recommended plugins by NeuroFlow role</title>
+<rect x="12" y="12" width="310" height="32" rx="4" fill="#161BAA"/>
+<text x="167" y="32" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Role</text>
+<rect x="328" y="12" width="340" height="32" rx="4" fill="#161BAA"/>
+<text x="498" y="32" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Best plugins</text>
+<rect x="12" y="48" width="310" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="70" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">BD / Sales</text>
+<rect x="328" y="48" width="340" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="62" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Sales</text>
+<text x="340" y="77" font-family="sans-serif" font-size="10" fill="#757575">Deal coaching, outreach generation, pipeline reasoning</text>
+<rect x="12" y="84" width="310" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="106" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Marketing</text>
+<rect x="328" y="84" width="340" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="98" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Marketing</text>
+<text x="340" y="113" font-family="sans-serif" font-size="10" fill="#757575">Campaign copy, brand voice, content strategy defaults</text>
+<rect x="12" y="120" width="310" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="142" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Finance</text>
+<rect x="328" y="120" width="340" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="134" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Data + Finance</text>
+<text x="340" y="149" font-family="sans-serif" font-size="10" fill="#757575">Calculations, model outputs, financial analysis defaults</text>
+<rect x="12" y="156" width="310" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="178" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">People Ops</text>
+<rect x="328" y="156" width="340" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="170" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Productivity</text>
+<text x="340" y="185" font-family="sans-serif" font-size="10" fill="#757575">Hiring workflows, policy drafting, task coordination</text>
+<rect x="12" y="192" width="310" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="214" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Product</text>
+<rect x="328" y="192" width="340" height="36" fill="#F8F9FA" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="206" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Data + Productivity</text>
+<text x="340" y="221" font-family="sans-serif" font-size="10" fill="#757575">Metrics analysis, roadmap planning, spec writing</text>
+<rect x="12" y="228" width="310" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="24" y="250" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Engineering</text>
+<rect x="328" y="228" width="340" height="36" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.5"/>
+<text x="340" y="242" font-family="sans-serif" font-size="11" fill="#212121" font-weight="500">Engineering</text>
+<text x="340" y="257" font-family="sans-serif" font-size="10" fill="#757575">Code review, architecture decisions, incident docs</text>
+</svg>
+"""
+
+# ---------------------------------------------------------------------------
+# Lesson 5.4 — Plugin / connector / prompt decision tree
+# ---------------------------------------------------------------------------
+DIAGRAMS["decision_tree"] = """
+<svg width="100%" viewBox="0 0 680 230" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>When to use prompt, connector, plugin, or combination</title>
+<desc>Four-column chart mapping task type to the right Claude tool</desc>
+<rect x="14" y="14" width="152" height="200" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="14" y="14" width="152" height="40" rx="8" fill="#161BAA"/>
+<rect x="14" y="40" width="152" height="14" fill="#161BAA"/>
+<text x="90" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Prompt</text>
+<text x="90" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#161BAA" font-weight="600">Just thinking?</text>
+<line x1="28" y1="88" x2="152" y2="88" stroke="#C0C4E8" stroke-width="0.5"/>
+<text x="90" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">All info is already</text>
+<text x="90" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">in the conversation.</text>
+<text x="90" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Deliverable is text.</text>
+<text x="90" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drafts, analysis,</text>
+<text x="90" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">briefs, summaries</text>
+<rect x="180" y="14" width="152" height="200" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="180" y="14" width="152" height="40" rx="8" fill="#478FCC"/>
+<rect x="180" y="40" width="152" height="14" fill="#478FCC"/>
+<text x="256" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Connector</text>
+<text x="256" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#2A5C8A" font-weight="600">Need outside data?</text>
+<line x1="194" y1="88" x2="318" y2="88" stroke="#B5D4F4" stroke-width="0.5"/>
+<text x="256" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Info lives in an</text>
+<text x="256" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">external service.</text>
+<text x="256" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Claude retrieves it.</text>
+<text x="256" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Gmail, Salesforce,</text>
+<text x="256" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drive, Monday</text>
+<rect x="346" y="14" width="152" height="200" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="346" y="14" width="152" height="40" rx="8" fill="#2EA799"/>
+<rect x="346" y="40" width="152" height="14" fill="#2EA799"/>
+<text x="422" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Plugin</text>
+<text x="422" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#0F6E56" font-weight="600">Need to compute?</text>
+<line x1="360" y1="88" x2="484" y2="88" stroke="#9ED5D0" stroke-width="0.5"/>
+<text x="422" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Task needs execution</text>
+<text x="422" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">beyond text output.</text>
+<text x="422" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Charts, calculations.</text>
+<text x="422" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Data, Engineering,</text>
+<text x="422" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Sales, Legal</text>
+<rect x="512" y="14" width="154" height="200" rx="8" fill="#ECEDF9" stroke="#3B42C4" stroke-width="0.8"/>
+<rect x="512" y="14" width="154" height="40" rx="8" fill="#3B42C4"/>
+<rect x="512" y="40" width="154" height="14" fill="#3B42C4"/>
+<text x="589" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Connector + Plugin</text>
+<text x="589" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#3B42C4" font-weight="600">Need both?</text>
+<line x1="526" y1="88" x2="652" y2="88" stroke="#C0C4E8" stroke-width="0.5"/>
+<text x="589" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Retrieve data from</text>
+<text x="589" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">outside + execute</text>
+<text x="589" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">on it. Use both.</text>
+<text x="589" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drive files + chart,</text>
+<text x="589" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">CRM data + analysis</text>
+</svg>
+"""
+
+
+# ---------------------------------------------------------------------------
+# Lesson 3.5 — Meta-prompting
+# ---------------------------------------------------------------------------
+DIAGRAMS["meta_prompting"] = """
+<svg width="100%" viewBox="0 0 680 272" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Meta-prompting: 7-step process for using Claude to write a prompt</title>
+<desc>Two rows showing the meta-prompting loop: steps 1-3 are the drafting and revision cycle, steps 5-7 are deploy and run</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<path d="M562 56 L562 28 L340 28 L340 56" fill="none" stroke="#161BAA" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+<text x="452" y="20" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#161BAA">revise and repeat</text>
+<rect x="25" y="56" width="186" height="62" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="25" y="56" width="186" height="28" rx="8" fill="#161BAA"/>
+<rect x="25" y="70" width="186" height="14" fill="#161BAA"/>
+<text x="33" y="74" font-family="sans-serif" font-size="9" fill="#9BAAEE">Step 1</text>
+<text x="118" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Ask Claude</text>
+<text x="118" y="96" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A3A8A">Describe the job to be done</text>
+<text x="118" y="110" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A3A8A">and what good output looks like</text>
+<line x1="213" y1="87" x2="239" y2="87" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="241" y="56" width="186" height="62" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="241" y="56" width="186" height="28" rx="8" fill="#2EA799"/>
+<rect x="241" y="70" width="186" height="14" fill="#2EA799"/>
+<text x="249" y="74" font-family="sans-serif" font-size="9" fill="#9EE2D6">Step 2</text>
+<text x="334" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Claude drafts a prompt</text>
+<text x="334" y="96" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1A6860">A complete, structured prompt</text>
+<text x="334" y="110" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1A6860">ready to test and refine</text>
+<line x1="429" y1="87" x2="455" y2="87" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="457" y="56" width="186" height="62" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="457" y="56" width="186" height="28" rx="8" fill="#161BAA"/>
+<rect x="457" y="70" width="186" height="14" fill="#161BAA"/>
+<text x="465" y="74" font-family="sans-serif" font-size="9" fill="#9BAAEE">Step 3</text>
+<text x="550" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Revise the prompt</text>
+<text x="550" y="96" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A3A8A">Test it, note what&apos;s off,</text>
+<text x="550" y="110" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A3A8A">tell Claude what to fix</text>
+<path d="M550 118 L550 156 L112 156 L112 170" fill="none" stroke="#888888" stroke-width="1.2" marker-end="url(#arrow)"/>
+<text x="330" y="148" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#757575">when satisfied, deploy the prompt</text>
+<rect x="25" y="170" width="172" height="62" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="25" y="170" width="172" height="28" rx="8" fill="#478FCC"/>
+<rect x="25" y="184" width="172" height="14" fill="#478FCC"/>
+<text x="33" y="188" font-family="sans-serif" font-size="9" fill="#C8E0F4">Step 5</text>
+<text x="111" y="188" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Copy the prompt</text>
+<text x="111" y="210" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A5C8A">Select and copy the</text>
+<text x="111" y="224" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A5C8A">finalized prompt text</text>
+<line x1="199" y1="201" x2="225" y2="201" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="227" y="170" width="196" height="62" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="227" y="170" width="196" height="28" rx="8" fill="#478FCC"/>
+<rect x="227" y="184" width="196" height="14" fill="#478FCC"/>
+<text x="235" y="188" font-family="sans-serif" font-size="9" fill="#C8E0F4">Step 6</text>
+<text x="325" y="188" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Paste the prompt</text>
+<text x="325" y="210" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A5C8A">Into project instructions</text>
+<text x="325" y="224" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2A5C8A">or a new chat window</text>
+<line x1="425" y1="201" x2="449" y2="201" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="451" y="170" width="204" height="62" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="451" y="170" width="204" height="28" rx="8" fill="#2EA799"/>
+<rect x="451" y="184" width="204" height="14" fill="#2EA799"/>
+<text x="459" y="188" font-family="sans-serif" font-size="9" fill="#9EE2D6">Step 7</text>
+<text x="553" y="188" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Claude responds</text>
+<text x="553" y="210" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1A6860">Strong understanding of</text>
+<text x="553" y="224" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1A6860">exactly what&apos;s being asked</text>
+<rect x="25" y="248" width="10" height="10" rx="2" fill="#161BAA"/>
+<text x="40" y="257" font-family="sans-serif" font-size="9" fill="#757575">You</text>
+<rect x="70" y="248" width="10" height="10" rx="2" fill="#2EA799"/>
+<text x="85" y="257" font-family="sans-serif" font-size="9" fill="#757575">Claude</text>
+<rect x="120" y="248" width="10" height="10" rx="2" fill="#478FCC"/>
+<text x="135" y="257" font-family="sans-serif" font-size="9" fill="#757575">Action</text>
+</svg>
+"""
+
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -240,5 +455,9 @@ def get_diagram_height(diagram_id: str) -> int:
         "connector_ecosystem": 380,
         "project_structure": 260,
         "agent_loop": 420,
+        "ml_pipeline": 310,
+        "plugins_by_role": 300,
+        "decision_tree": 360,
+        "meta_prompting": 290,
     }
     return heights.get(diagram_id, 300)

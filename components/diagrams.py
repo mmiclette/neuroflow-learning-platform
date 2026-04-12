@@ -448,6 +448,50 @@ DIAGRAMS["meta_prompting"] = """
 """
 
 
+# ---------------------------------------------------------------------------
+# Lesson 1.3 — NLP clinical symptom detection
+# ---------------------------------------------------------------------------
+DIAGRAMS["nlp_clinical"] = """
+<html><head><style>
+body{margin:0;padding:0;font-family:sans-serif;background:transparent;}
+.step{font-size:13px;font-weight:600;color:#161BAA;text-align:center;margin:0 0 8px 0;}
+.card{border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+.arr{text-align:center;color:#888;font-size:18px;margin:2px 0 10px;line-height:1;}
+.lbl{font-size:11px;color:#888;border-bottom:1px solid #C0C4E8;margin-bottom:10px;padding-bottom:6px;font-weight:500;}
+.tag{background:#E4F5F3;border:1px solid #2EA799;border-radius:3px;padding:1px 6px;font-size:13px;color:#0F6E56;white-space:nowrap;}
+</style></head><body>
+<div style="max-width:520px;margin:0 auto;padding:14px 20px 8px;">
+<p class="step">1. Scan provider notes</p>
+<div class="card" style="background:#EBF3FA;border:1px solid #B5D4F4;">
+<div class="lbl" style="border-bottom-color:#B5D4F4;">Encounter note</div>
+<div style="font-size:13px;color:#212121;line-height:2.1;">
+Patient reports feeling <span class="tag">sad</span> and <span class="tag">depressed mood</span> for past month.
+Also experiencing <span class="tag">poor sleep</span> and <span class="tag">fatigue</span>.
+</div></div>
+<div class="arr">&#8595;</div>
+<p class="step">2. Entity recognition</p>
+<div class="card" style="background:#E8E9F7;border:1px solid #C0C4E8;">
+<div class="lbl">Pattern matching</div>
+<div style="font-size:13px;color:#212121;line-height:2.2;">
+&#8220;sad&#8221; <span style="color:#888;">&#8594;</span> Depressed mood<br>
+&#8220;depressed mood&#8221; <span style="color:#888;">&#8594;</span> Depressed mood<br>
+&#8220;poor sleep&#8221; <span style="color:#888;">&#8594;</span> Sleep disturbance<br>
+&#8220;fatigue&#8221; <span style="color:#888;">&#8594;</span> Loss of energy
+</div></div>
+<div class="arr">&#8595;</div>
+<p class="step">3. Flag patients without a diagnosis</p>
+<div class="card" style="background:#E4F5F3;border:1px solid #2EA799;">
+<div class="lbl" style="border-bottom-color:#9ED5D0;color:#0F6E56;">Clinical decision</div>
+<div style="font-size:13px;color:#212121;line-height:2.2;">
+<span style="color:#2EA799;font-weight:600;">&#10003;</span> Mental health symptoms detected<br>
+<span style="color:#E24B4A;font-weight:600;">&#10007;</span> No mental health diagnosis code (F-code)<br>
+<span style="color:#161BAA;font-weight:600;">&#8594;</span> Flag patient for assessment
+</div></div>
+</div>
+</body></html>
+"""
+
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -459,5 +503,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "plugins_by_role": 300,
         "decision_tree": 360,
         "meta_prompting": 290,
+        "nlp_clinical": 420,
     }
     return heights.get(diagram_id, 300)

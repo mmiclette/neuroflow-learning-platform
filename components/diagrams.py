@@ -46,42 +46,46 @@ DIAGRAMS["context_window"] = """
 # Lesson 3.1 — RTCFC framework
 # ---------------------------------------------------------------------------
 DIAGRAMS["rtcfc"] = """
-<svg width="100%" viewBox="0 0 680 210" role="img" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" viewBox="0 0 680 220" role="img" xmlns="http://www.w3.org/2000/svg">
 <title>RTCFC prompt framework</title>
 <desc>Five prompt components: Role, Task, Context, Format, Constraints.</desc>
 <defs>
-  <clipPath id="cr0"><rect x="43" y="40" width="113" height="130" rx="6"/></clipPath>
-  <clipPath id="cr1"><rect x="164" y="40" width="113" height="130" rx="6"/></clipPath>
-  <clipPath id="cr2"><rect x="285" y="40" width="113" height="130" rx="6"/></clipPath>
-  <clipPath id="cr3"><rect x="406" y="40" width="113" height="130" rx="6"/></clipPath>
-  <clipPath id="cr4"><rect x="527" y="40" width="113" height="130" rx="6"/></clipPath>
+  <clipPath id="cr0"><rect x="43" y="40" width="113" height="140" rx="6"/></clipPath>
+  <clipPath id="cr1"><rect x="164" y="40" width="113" height="140" rx="6"/></clipPath>
+  <clipPath id="cr2"><rect x="285" y="40" width="113" height="140" rx="6"/></clipPath>
+  <clipPath id="cr3"><rect x="406" y="40" width="113" height="140" rx="6"/></clipPath>
+  <clipPath id="cr4"><rect x="527" y="40" width="113" height="140" rx="6"/></clipPath>
 </defs>
-<rect x="43" y="40" width="113" height="130" rx="6" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.5"/>
+<rect x="43" y="40" width="113" height="140" rx="6" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.5"/>
 <rect x="43" y="40" width="113" height="44" clip-path="url(#cr0)" fill="#161BAA"/>
 <text x="100" y="62" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Role</text>
 <text x="100" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">Who Claude is</text>
-<text x="100" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">for this task</text>
-<rect x="164" y="40" width="113" height="130" rx="6" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.5"/>
+<text x="100" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">acting as for</text>
+<text x="100" y="135" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">this task</text>
+<rect x="164" y="40" width="113" height="140" rx="6" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.5"/>
 <rect x="164" y="40" width="113" height="44" clip-path="url(#cr1)" fill="#2EA799"/>
 <text x="221" y="62" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Task</text>
-<text x="221" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">What to produce</text>
-<text x="221" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">exactly</text>
-<rect x="285" y="40" width="113" height="130" rx="6" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.5"/>
+<text x="221" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">What you are</text>
+<text x="221" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">asking Claude</text>
+<text x="221" y="135" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">to do</text>
+<rect x="285" y="40" width="113" height="140" rx="6" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.5"/>
 <rect x="285" y="40" width="113" height="44" clip-path="url(#cr2)" fill="#478FCC"/>
 <text x="342" y="62" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Context</text>
-<text x="342" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">What Claude</text>
-<text x="342" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">needs to know</text>
-<rect x="406" y="40" width="113" height="130" rx="6" fill="#E7F6F5" stroke="#4CB8AC" stroke-width="0.5"/>
+<text x="342" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">Information</text>
+<text x="342" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">Claude needs to</text>
+<text x="342" y="135" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">perform the task</text>
+<rect x="406" y="40" width="113" height="140" rx="6" fill="#E7F6F5" stroke="#4CB8AC" stroke-width="0.5"/>
 <rect x="406" y="40" width="113" height="44" clip-path="url(#cr3)" fill="#4CB8AC"/>
 <text x="463" y="62" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Format</text>
-<text x="463" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">How to</text>
-<text x="463" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">structure output</text>
-<rect x="527" y="40" width="113" height="130" rx="6" fill="#ECEDF9" stroke="#3B42C4" stroke-width="0.5"/>
+<text x="463" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">Structure, tone,</text>
+<text x="463" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">and length of</text>
+<text x="463" y="135" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">the output</text>
+<rect x="527" y="40" width="113" height="140" rx="6" fill="#ECEDF9" stroke="#3B42C4" stroke-width="0.5"/>
 <rect x="527" y="40" width="113" height="44" clip-path="url(#cr4)" fill="#3B42C4"/>
 <text x="584" y="62" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="500" fill="#FFFFFF">Constraints</text>
 <text x="584" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">What to avoid</text>
 <text x="584" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#212121">or exclude</text>
-<text x="340" y="192" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#757575">Use only what the task actually needs — not all five by default</text>
+<text x="340" y="202" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#757575">Use only what the task actually needs — not all five by default</text>
 </svg>
 """
 
@@ -232,7 +236,7 @@ def get_diagram(diagram_id: str) -> str | None:
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
-        "rtcfc": 230,
+        "rtcfc": 245,
         "connector_ecosystem": 380,
         "project_structure": 260,
         "agent_loop": 420,

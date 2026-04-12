@@ -129,7 +129,7 @@ when it should.
 Understanding where skills fit relative to Projects and plugins prevents confusion:
 
 - **Projects** hold persistent context — instructions, knowledge files, and conversation history scoped to a team workflow
-- **Skills** hold persistent expertise — domain knowledge and workflow instructions that Claude loads as capabilities  
+- **Skills** hold persistent expertise — domain knowledge and workflow instructions that Claude loads as capabilities
 - **Plugins** hold persistent tools — specialized reasoning patterns and execution capabilities (Data plugin, Legal plugin, etc.)
 
 Skills are the right layer when you have a recurring workflow that needs domain expertise
@@ -137,60 +137,118 @@ and process consistency. A `neuroflow-policy-comments` skill ensures every polic
 member drafting a federal comment letter works from the same regulatory expertise and
 letter structure, without re-establishing that expertise in every conversation.
 
+**How to develop a skill**
+
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/fHzC9qRGndA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+
+You do not need to write a skill from scratch. Claude can draft it for you through a
+process called meta-prompting — using Claude to write instructions for Claude.
+
+Open a standard chat outside any project. Tell Claude what you want to build. A useful
+prompt covers three things: what the task is, what the output should look like, and when
+the skill should activate. For example: "I want to build a skill for producing a one-page
+fit assessment of a federal solicitation for NeuroFlow. The output should always cover
+scope, eligibility, key dates, and a fit assessment against NeuroFlow's VA and DoD
+capabilities. Draft a SKILL.md I can install."
+
+Claude produces a complete draft including the frontmatter and full instructions. Read the
+description field closely — it controls when the skill loads. Claude usually gets close on
+the first attempt, but test it against your real trigger phrases before moving on.
+
+Before saving anything, test the draft. Paste the SKILL.md content into a new chat and
+ask Claude to use those instructions on a real example — an actual solicitation, an actual
+company, an actual document from your workflow. Generic test inputs produce misleading
+results. Evaluate the output against your standard, identify what falls short, and tell
+Claude specifically what to fix. Most skills reach a working state in two or three iterations.
+
+Once the output consistently meets your standard, save the skill. If Claude produced the
+skill as an artifact, click the save option directly on that artifact and Claude installs
+it without any additional steps. Alternatively, ask Claude to package the skill as a
+`.skill` file, download it, and upload it through the Skills section in the Claude Teams
+admin panel.
+
+To modify an existing skill, upload the current `.skill` file into a chat, tell Claude
+what needs to change and why, and test the revised version the same way you tested the
+original. If a skill is activating at the wrong times or missing cases where it should
+trigger, that is almost always a description problem — a one-line fix Claude can diagnose
+and correct if you show it an example that failed.
+
 **How to deploy a skill**
 
-You write the `SKILL.md`, upload the folder to Skills in the Claude Teams admin panel,
-and the skill becomes available to all team members. When someone's conversation matches
-the description trigger phrases, Claude loads the skill's instructions automatically.
+Each team member installs and activates skills individually through their own Claude
+settings. Skills are not automatically shared or active for everyone on the team — each
+person controls which skills are enabled in their own environment.
+
+To install a skill, navigate to **Customize → Skills** in your Claude settings. From there
+you can toggle on Anthropic's built-in skills, install skills that have been shared with
+you, or upload a custom skill by packaging the skill folder as a ZIP file and selecting
+**+ Create skill → Upload a skill**.
+
+Once installed and toggled on, you activate a skill in one of two ways. The first is
+automatic — Claude reads the skill's description at the start of each conversation and
+loads it when your request matches the trigger phrases in the description field. The second
+is manual — type a forward slash followed by the skill name (for example
+`/neuroflow-competitive-intel`) to invoke it directly without relying on automatic detection.
+Use the manual method when you want to ensure a specific skill runs regardless of how you
+phrased the request.
+
+Skills provisioned by an organization owner appear in **Customize → Skills** alongside
+Anthropic skills and any skills you have uploaded yourself. If you are on a Team plan and
+want to share skills with your organization, an owner must first enable sharing in
+**Organization settings → Skills**. Once sharing is enabled, a skill can be distributed to
+specific colleagues or published to the organization directory where anyone on the team can
+find and install it.
 """,
         "challenge": {
             "scenario": (
-                "NeuroFlow's policy team drafts public comment letters responding to CMS "
-                "proposed rules, SAMHSA guidance, congressional RFIs, and policy position "
-                "statements. The team currently re-establishes this context in every Claude "
-                "conversation from scratch.\n\n"
-                "You want Claude to draft a `neuroflow-policy-comments` skill. "
+                "NeuroFlow's product and engineering teams write Jira tickets constantly — "
+                "bug reports, feature requests, and technical tasks. The quality is inconsistent: "
+                "some tickets have clear acceptance criteria and reproduction steps, others are "
+                "a single vague sentence. The team re-explains what a good ticket looks like in "
+                "every Claude conversation.\n\n"
+                "You want Claude to draft a `neuroflow-jira-tickets` skill. "
                 "**Task:** Write the prompt you would send to Claude to draft this skill. "
                 "Your prompt must give Claude the domain expertise to assign, the task types "
-                "to include, the audience and output structure to follow, and at least one "
-                "explicit constraint on what the skill should prohibit."
+                "to include, the output structure to follow, and at least one explicit constraint "
+                "on what the skill should prohibit."
             ),
             "broken_example": "",
             "rubric": (
                 "Score the prompt against five criteria (20 points each):\n\n"
                 "1. Domain and purpose described clearly enough for Claude to write an accurate "
-                "description field and role — names the regulatory context and agencies involved, "
-                "not just 'policy team'.\n\n"
-                "2. Task types specified with at least two concrete examples (public comment "
-                "letters, RFI responses, congressional submissions, or similar).\n\n"
-                "3. Output structure named — letter sections or format requirements — so Claude "
-                "knows what consistency to enforce across users.\n\n"
-                "4. Audience or context provided — who the letters go to and what they need "
-                "to achieve (CMS, SAMHSA, VA/DoD, congressional staff, or similar).\n\n"
-                "5. At least one explicit 'do not' constraint named — the most consequential "
-                "prohibition for federal policy submissions."
+                "description field and role — names the type of work (product/engineering tickets) "
+                "and the problem being solved (inconsistent quality, missing structure).\n\n"
+                "2. Task types specified with at least two concrete examples — bug reports, "
+                "feature requests, technical tasks, or similar Jira ticket types.\n\n"
+                "3. Output structure named — specific required sections like title, summary, "
+                "acceptance criteria, reproduction steps, or definition of done — so Claude "
+                "knows what to enforce across all tickets.\n\n"
+                "4. Audience or context provided — who writes these tickets and who reads them "
+                "(engineers, PMs, QA, or similar) so Claude can calibrate detail level.\n\n"
+                "5. At least one explicit 'do not' constraint — the most important prohibition "
+                "for Jira tickets (e.g. do not leave acceptance criteria vague, do not omit "
+                "reproduction steps for bugs, or similar)."
             ),
             "model_answer": (
-                "Draft a Claude skill called neuroflow-policy-comments for NeuroFlow's policy "
-                "team. The skill should assign the role of a senior federal health policy analyst "
-                "with expertise in CMS rulemaking, SAMHSA guidance, and VA/DoD behavioral health programs.\n\n"
-                "Task types to include: public comment letters responding to CMS proposed rules, "
-                "SAMHSA guidance responses, congressional RFI responses, and policy position "
-                "statements for federal submissions.\n\n"
-                "Output structure: every letter must follow this sequence — organization "
-                "introduction (2–3 sentences), position statement (1 paragraph, no hedging), "
-                "numbered supporting arguments (3–5 paragraphs, each ending with a concrete "
-                "recommendation), and a closing ask naming what NeuroFlow wants the agency to do.\n\n"
-                "The skill triggers when the user says phrases like 'draft a comment letter', "
-                "'respond to this proposed rule', 'write to CMS', or 'RFI response'.\n\n"
-                "Include one explicit constraint: do not fabricate citations, statistics, or "
-                "outcome data. If a supporting argument lacks a verifiable source, flag the "
-                "gap explicitly rather than inventing one."
+                "Draft a Claude skill called neuroflow-jira-tickets for NeuroFlow's product "
+                "and engineering teams. The skill should assign the role of a senior product "
+                "manager with experience writing well-structured Jira tickets for a healthcare "
+                "technology company.\n\n"
+                "Task types to include: bug reports, feature requests, and technical tasks.\n\n"
+                "Output structure: every ticket must include — a clear one-line title, a "
+                "2–3 sentence summary of the problem or request, acceptance criteria as a "
+                "numbered list, and for bugs: exact reproduction steps and expected vs. actual "
+                "behavior. Definition of done should be included for feature requests.\n\n"
+                "The skill triggers when the user says phrases like 'write a Jira ticket', "
+                "'draft a bug report', 'create a feature request', or 'write a task for Jira'.\n\n"
+                "Include one explicit constraint: do not write vague acceptance criteria. "
+                "Every acceptance criterion must be testable — a QA engineer should be able "
+                "to verify it with a clear pass or fail."
             ),
             "hints": [
-                "Claude needs enough domain detail to write a role. 'Policy team' is not enough — name the expertise, the regulatory context, and the agencies involved.",
-                "The output structure is what makes a skill produce consistent results across users. Name the letter sections explicitly so Claude can enforce them.",
-                "The constraint is what prevents the most consequential failure mode. In a federal policy context, what should Claude never do?",
+                "Claude needs enough context to write a useful role. 'Product team' is not enough — describe what kind of tickets and what quality problem you're solving.",
+                "The output structure is what makes a skill produce consistent results. Name the specific sections every ticket must include.",
+                "The constraint prevents the most common failure mode. What is the single biggest quality problem with Jira tickets that Claude should be explicitly told to avoid?",
             ],
         },
     },

@@ -216,7 +216,7 @@ screening tools.
 | | Traditional NLP | Large language models (LLMs) | Small language models (SLMs) |
 |---|---|---|---|
 | **How it works** | Hand-coded rules or statistical pattern matching on text | Transformer neural network trained on massive general corpora | Transformer architecture, smaller parameter count, often fine-tuned on domain-specific data |
-| **Examples** | EHR symptom extractors, ICD code mappers, clinical text parsers | Claude, GPT-4, Gemini | Phi-3, Mistral 7B, BioMedLM |
+| **Examples** | EHR symptom extractors, ICD code mappers, clinical text parsers | Claude, GPT, Gemini | Phi-3, Mistral 7B, BioMedLM |
 | **Strengths** | Fast, predictable, explainable, low cost | General reasoning, instruction following, long context, generation | Fast inference, lower cost, deployable on-premise, fine-tunable for specific domains |
 | **Limitations** | Brittle — breaks on unfamiliar phrasing; no generation capability | High compute cost, cloud dependency, general rather than specialized | Less capable on open-ended tasks; requires fine-tuning investment for best results |
 

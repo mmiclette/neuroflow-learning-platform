@@ -404,6 +404,16 @@ The NeuroFlow-Intelligence pipeline uses structured logging via the `logger` obj
 Without expected behavior, Claude writes what seems reasonable. Without boundaries, Claude
 may improve adjacent code it encountered while reading. It means well. It still requires
 your review.
+
+**The uncertainty handling rule**
+
+The most common Claude Code failure mode is not incorrect logic — it is a plausible-looking diff that implements the wrong behavior because Claude filled in a gap rather than asking. Add this rule explicitly to any task prompt where ambiguity exists:
+
+```
+If you cannot confidently determine the correct file to modify or the correct pattern to follow, stop and ask rather than proceeding with a guess.
+```
+
+This single instruction prevents Claude from making a confident-sounding change to the wrong function, adopting the wrong pattern, or modifying a file it was not meant to touch. Claude's default is to proceed; this instruction overrides that default at the specific moments where proceeding causes the most damage.
 """,
         "challenge": {
             "setup": "",
@@ -465,8 +475,9 @@ def render_lesson(lesson_id: int) -> bool:
         st.markdown("---")
 
     if already_done:
-        st.success("✓ Lesson complete")
-        return True
+        if not lesson.get("challenge"):
+            st.success("✓ Lesson complete")
+            return True
 
     if lesson.get("quiz"):
         from utils.quiz import render_quiz

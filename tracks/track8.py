@@ -86,8 +86,8 @@ important as the search logic.
                     "agentic session?"
                 ),
                 "options": [
-                    "Single-turn calls are free; agentic sessions cost more",
-                    "Agentic sessions require a different model than single-turn calls",
+                    "Single-turn calls are free; agentic sessions incur higher costs because they run longer and use more compute",
+                    "Agentic sessions require a specialized model with additional reasoning capabilities not available in the standard API",
                     "A single-turn call sends one message and receives one response; an agentic session maintains state across multiple tool calls and reasoning steps until a stopping condition is reached",
                     "Single-turn calls use Claude chat; agentic sessions use Claude Code exclusively",
                 ],

@@ -46,6 +46,23 @@ st.markdown("""
   /* ── All text defaults to dark ─────────────────────────────────────── */
   body, p, div, span, li, td, th, label { color: #212121 !important; }
 
+  /* ── Override: button text is always white (navy bg) or navy (secondary) ─ */
+  [data-testid="baseButton-primary"] *,
+  [data-testid="baseButton-primary"] p,
+  [data-testid="baseButton-primary"] span,
+  [data-testid="baseButton-primary"] div,
+  .stButton button[kind="primary"] *,
+  .stButton button[kind="primary"] p,
+  .stButton button[kind="primary"] span {
+    color: #FFFFFF !important;
+  }
+  [data-testid="baseButton-secondary"] *,
+  [data-testid="baseButton-secondary"] p,
+  [data-testid="baseButton-secondary"] span,
+  .stButton button[kind="secondary"] * {
+    color: #161BAA !important;
+  }
+
   /* ── Primary button — navy with white text ─────────────────────────── */
   [data-testid="baseButton-primary"],
   .stButton button[kind="primary"] {

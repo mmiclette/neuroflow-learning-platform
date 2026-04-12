@@ -522,6 +522,18 @@ Deep Research is the most token-intensive Claude capability. Each session consum
 substantially more allocation than a standard conversation. Use it for work that genuinely
 requires multi-source synthesis, not for single-question lookups.
 
+**When Claude searches and when it doesn't**
+
+Even with web search enabled, Claude does not always search automatically. If a question looks like something Claude can answer from its training data — a definition, a general concept, a well-known program — it may respond without searching, using information that could be months or years out of date. For current program status, recent policy changes, or active solicitations, Claude's training data is unreliable by design.
+
+Add this standing instruction to any research-focused Project or conversation to eliminate the ambiguity:
+
+```
+For any question about current program status, recent policy changes, or active solicitations, search the web before responding.
+```
+
+This instruction makes the search behavior explicit rather than leaving it to Claude's judgment about what counts as "current."
+
 **When to cite your sources**
 
 Before using a finding in a business document, confirm the source exists and says what Claude

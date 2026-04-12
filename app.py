@@ -40,8 +40,11 @@ st.markdown("""
   .stApp { background-color: #FFFFFF; }
   .block-container { padding-top: 16px !important; max-width: 860px; }
 
-  /* Primary button (active CTA) — navy with white text */
-  .stButton button[kind="primary"] {
+  /* Primary button — navy with white text
+     Streamlit 1.32+ uses data-testid on the button element */
+  [data-testid="baseButton-primary"],
+  .stButton button[kind="primary"],
+  .stButton > button[data-baseweb="button"][kind="primary"] {
     background-color: #161BAA !important;
     color: #FFFFFF !important;
     border: none !important;
@@ -49,19 +52,25 @@ st.markdown("""
     font-weight: 500 !important;
     padding: 10px 24px !important;
   }
+  [data-testid="baseButton-primary"]:hover,
   .stButton button[kind="primary"]:hover {
     background-color: #1219CC !important;
+    color: #FFFFFF !important;
   }
 
   /* Secondary button */
+  [data-testid="baseButton-secondary"],
   .stButton button[kind="secondary"] {
-    border-color: #161BAA !important;
+    border: 1.5px solid #161BAA !important;
     color: #161BAA !important;
+    background-color: #FFFFFF !important;
     border-radius: 6px !important;
   }
 
   /* Disabled button — grey */
-  .stButton button:disabled {
+  .stButton button:disabled,
+  [data-testid="baseButton-primary"]:disabled,
+  [data-testid="baseButton-secondary"]:disabled {
     background-color: #BDBDBD !important;
     color: #FFFFFF !important;
     border: none !important;
@@ -69,8 +78,14 @@ st.markdown("""
     border-radius: 6px !important;
   }
 
-  /* Radio buttons — cleaner spacing */
+  /* Radio buttons — text always dark, clear spacing */
   .stRadio > div { gap: 4px; }
+  .stRadio label { color: #212121 !important; }
+  .stRadio label span { color: #212121 !important; }
+  .stRadio [data-testid="stMarkdownContainer"] p {
+    color: #212121 !important;
+    font-size: 14px !important;
+  }
 
   /* Horizontal rule */
   hr { border-color: #BDBDBD; margin: 24px 0; }
@@ -357,8 +372,15 @@ def view_lesson(track_id: int, lesson_id: int):
     if lesson_meta.get("has_video"):
         video_url = lesson_meta.get("video_url", "")
         st.components.v1.html(
-            f'<iframe width="100%" height="400" src="{video_url}" '
-            f'frameborder="0" allowfullscreen></iframe>',
+            f'''<iframe
+                width="100%"
+                height="400"
+                src="{video_url}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                style="border-radius:6px;"
+            ></iframe>''',
             height=420,
         )
         st.markdown("<br>", unsafe_allow_html=True)

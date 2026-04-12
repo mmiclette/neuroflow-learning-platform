@@ -176,6 +176,10 @@ Payer: Commercial insurer launching a value-based behavioral health contract.
 **The diversity rule:** If two examples share a structural quirk, Claude will treat that
 quirk as a requirement. Include examples that vary in structure while converging on the
 format or tone that matters.
+
+**Negative examples**
+
+Showing Claude what the output should *not* look like is often more efficient than describing the constraint in words. When you need Claude to avoid a specific pattern — a clinical tone that sounds robotic, bullet lists when you want prose, hedging language in a position statement — provide one example of the wrong version alongside your correct examples and label it explicitly. This is particularly useful for tone and clinical language standards in NeuroFlow's external-facing documents, where the failure mode is hard to describe but easy to recognize.
 """,
         "quiz": [
             {
@@ -381,6 +385,16 @@ Think through this step by step before answering.
 ```
 
 The first form is stronger — it names the content of the reasoning and links it to the output.
+
+**Tone and framing affect output quality**
+
+Aggressive language actively hurts output quality with current Claude models. Phrases like "CRITICAL!", "YOU MUST", and "NEVER EVER" overtrigger the model — Claude 4 models are significantly more proactive than their predecessors, and instructions written to motivate older models now produce worse results than calm, direct instructions. Anthropic's own documentation for Claude 4.6 specifically warns against anti-laziness prompting that was necessary for earlier models. Staff conditioned to emphasize important instructions this way will get worse outputs without understanding why.
+
+Write instructions as calm, specific directives. "Always use verified data. If none is available, provide ranges and label them as estimates." outperforms "NEVER fabricate data!!!" for the same reason a well-written policy outperforms a shouted rule.
+
+**Positive framing consistently outperforms negation**
+
+Telling a model not to do something forces it to process that concept first — the forbidden behavior becomes active in the context window before the model works around it. "Only use real data" outperforms "don't use mock data." "Respond in prose paragraphs" outperforms "don't use bullet points." Every constraint in a NeuroFlow Project instruction should be rewritten as a positive requirement wherever possible.
 """,
         "quiz": [
             {
@@ -391,9 +405,9 @@ The first form is stronger — it names the content of the reasoning and links i
                     "produces the most useful output?"
                 ),
                 "options": [
-                    "Should NeuroFlow partner with this health system?",
+                    "Should NeuroFlow partner with this health system? Give me your honest assessment of whether it's a good fit.",
                     "Think through this step by step. Consider: the contract terms and financial implications, the market access this partnership opens, the internal resources required, and how it fits our current strategic priorities. Then provide a structured recommendation.",
-                    "List the pros and cons of this partnership",
+                    "List the pros and cons of this partnership, covering financials, market access, and strategic fit.",
                     "What do you think about this partnership opportunity?",
                 ],
                 "correct_index": 1,
@@ -476,10 +490,10 @@ patterns account for most cases:
                     "longer than needed. Which follow-up instruction is most effective?"
                 ),
                 "options": [
-                    "Please make this shorter.",
-                    "This is too long.",
+                    "Please make this shorter — it feels too long for what we need.",
+                    "This is too long. Can you trim it down a bit and make it more concise?",
                     "Cut this to 200 words. Keep the core argument in paragraph 1 and the three supporting points. Remove all other content.",
-                    "Summarize the above.",
+                    "Summarize the above and keep only the most important points.",
                 ],
                 "correct_index": 2,
                 "hint": "Effective refinement names the target length and what to keep.",
@@ -572,8 +586,14 @@ def render_lesson(lesson_id: int) -> bool:
     st.markdown("---")
 
     if already_done:
-        st.success("Lesson complete")
-        return True
+        # For sandbox and challenge lessons, render the component so output is visible.
+        # The component handles its own completed state display.
+        # Only short-circuit here for quiz-only lessons.
+        if lesson.get("sandbox") or lesson.get("challenge"):
+            pass  # fall through to the component renderers below
+        else:
+            st.success("✓ Lesson complete")
+            return True
 
     # 3.1 — comparison sandbox
     if lesson.get("sandbox") and lesson["sandbox"]["type"] == "comparison":

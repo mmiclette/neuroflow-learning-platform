@@ -460,7 +460,7 @@ body{margin:0;padding:0;font-family:sans-serif;background:transparent;}
 .lbl{font-size:11px;color:#888;border-bottom:1px solid #C0C4E8;margin-bottom:10px;padding-bottom:6px;font-weight:500;}
 .tag{background:#E4F5F3;border:1px solid #2EA799;border-radius:3px;padding:1px 6px;font-size:13px;color:#0F6E56;white-space:nowrap;}
 </style></head><body>
-<div style="max-width:520px;margin:0 auto;padding:14px 20px 8px;">
+<div style="max-width:520px;margin:0 auto;padding:14px 20px 8px;"><p style="text-align:center;font-size:12px;font-weight:600;color:#757575;letter-spacing:0.5px;margin:0 0 14px 0;text-transform:uppercase;">Example of NLP in action</p>
 <p class="step">1. Scan provider notes</p>
 <div class="card" style="background:#EBF3FA;border:1px solid #B5D4F4;">
 <div class="lbl" style="border-bottom-color:#B5D4F4;">Encounter note</div>
@@ -503,6 +503,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "plugins_by_role": 300,
         "decision_tree": 360,
         "meta_prompting": 290,
-        "nlp_clinical": 560,
+        "nlp_clinical": 650,
     }
     return heights.get(diagram_id, 300)

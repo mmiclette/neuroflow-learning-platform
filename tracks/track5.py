@@ -373,7 +373,7 @@ def _render_data_sandbox(lesson_id: int) -> bool:
         st.markdown("**Output:**")
         st.markdown(
             f'<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
-            f'padding:14px;font-size:13px;line-height:1.7;">{ss["output"]}</div>',
+            f'padding:14px;font-size:13px;line-height:1.7;">{__import__("html").escape(ss["output"]).replace(chr(10), "<br>")}</div>',
             unsafe_allow_html=True,
         )
         return True

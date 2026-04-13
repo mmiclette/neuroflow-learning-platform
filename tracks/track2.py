@@ -135,10 +135,18 @@ All work products you create using Claude are your responsibility to review and 
 
 **What about research?**
 
-When a task requires accessing external research, use a web-enabled tool first to find
-publicly available information, then bring your analysis into Claude Teams. Using Perplexity,
-Google Scholar, or web search to find publicly available research, then using Claude Teams
-to synthesize those findings, is the correct workflow.
+Claude Teams includes built-in web search, which handles most research tasks directly.
+Ask Claude to search the web for publicly available information and it will retrieve,
+summarize, and synthesize findings in the same conversation.
+
+For tasks that require more targeted searching — specific academic databases, regulatory
+archives, or known sources — tools like Perplexity, Google Scholar, or direct web search
+can complement Claude. The typical workflow is to search externally when you need precision
+on a specific source, then bring those findings into Claude Teams for analysis, drafting,
+or synthesis.
+
+The key constraint is the same either way: no PHI in the conversation, regardless of
+how the research was gathered.
 """,
         "quiz": [
             {

@@ -706,7 +706,19 @@ def render_lesson(lesson_id: int) -> bool:
         return False
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
-    st.markdown(lesson["concept"])
+
+    # Handle inline HTML (mid-lesson iframes and images)
+    concept = lesson["concept"]
+    if "<img " in concept or "<iframe " in concept:
+        import re
+        parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', concept, flags=re.DOTALL)
+        for part in parts:
+            if part.startswith("<img ") or part.startswith("<iframe "):
+                st.markdown(part, unsafe_allow_html=True)
+            elif part.strip():
+                st.markdown(part)
+    else:
+        st.markdown(concept)
     st.markdown("---")
 
     if already_done:

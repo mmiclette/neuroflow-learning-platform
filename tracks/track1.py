@@ -49,7 +49,8 @@ Deep learning is also the foundation that large language models are built on.
 **Generative AI** is AI that creates new content rather than classifying inputs or predicting
 outcomes. The content it produces can be text, images, video, audio, or code — depending on
 what the model was trained on. DALL-E generates images. Sora generates video. These are all
-generative AI systems, and none of them are language models.
+generative AI systems. Generative AI is a broader category — large language models are one
+type of generative AI, but not all generative AI systems are language models.
 
 **Large language models (LLMs)** are a specific type of generative AI trained on text. They
 understand language, follow instructions, reason through problems, and generate fluent written

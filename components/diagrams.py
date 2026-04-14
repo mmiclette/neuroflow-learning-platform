@@ -633,16 +633,16 @@ DIAGRAMS["gating"] = """
 <text x="518" y="62" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">"Before presenting, check criteria</text>
 <text x="518" y="73" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">and fix issues first."</text>
 <line x1="518" y1="80" x2="518" y2="102" stroke="#161BAA" stroke-width="1.2" marker-end="url(#arrow)"/>
-<rect x="418" y="104" width="200" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
-<rect x="418" y="104" width="200" height="28" rx="8" fill="#854F0B"/>
-<rect x="418" y="118" width="200" height="14" fill="#854F0B"/>
+<rect x="418" y="104" width="200" height="56" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="418" y="104" width="200" height="28" rx="8" fill="#2EA799"/>
+<rect x="418" y="118" width="200" height="14" fill="#2EA799"/>
 <text x="518" y="120" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Self-check (internal)</text>
-<text x="518" y="142" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">Claude checks against criteria</text>
-<text x="518" y="153" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">and fixes before stopping</text>
-<path d="M618 124 L642 124 L642 52 L618 52" fill="none" stroke="#854F0B" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-<text x="646" y="92" font-family="sans-serif" font-size="9" fill="#854F0B" font-weight="600">Fix &amp;</text>
-<text x="646" y="104" font-family="sans-serif" font-size="9" fill="#854F0B">retry</text>
-<line x1="518" y1="160" x2="518" y2="182" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow)"/>
+<text x="518" y="142" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1A6860">Claude checks against criteria</text>
+<text x="518" y="153" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1A6860">and fixes before stopping</text>
+<path d="M618 124 L642 124 L642 52 L618 52" fill="none" stroke="#2EA799" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<text x="646" y="92" font-family="sans-serif" font-size="9" fill="#0F6E56" font-weight="600">Fix &amp;</text>
+<text x="646" y="104" font-family="sans-serif" font-size="9" fill="#0F6E56">retry</text>
+<line x1="518" y1="160" x2="518" y2="182" stroke="#2EA799" stroke-width="1.2" marker-end="url(#arrow)"/>
 <rect x="418" y="184" width="200" height="56" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
 <rect x="418" y="184" width="200" height="28" rx="8" fill="#478FCC"/>
 <rect x="418" y="198" width="200" height="14" fill="#478FCC"/>
@@ -670,7 +670,7 @@ DIAGRAMS["gating"] = """
 <text x="32" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Stage</text>
 <rect x="82" y="450" width="12" height="10" rx="2" fill="#B5D4F4" stroke="#478FCC" stroke-width="0.5"/>
 <text x="100" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Gate</text>
-<rect x="142" y="450" width="12" height="10" rx="2" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+<rect x="142" y="450" width="12" height="10" rx="2" fill="#5DCAA5" stroke="#2EA799" stroke-width="0.5"/>
 <text x="160" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Self-check</text>
 <polygon points="240,455 248,460 240,465 232,460" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
 <text x="256" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#757575">Your review</text>
@@ -693,6 +693,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "nlp_clinical": 650,
         "model_comparison": 300,
         "hallucination_check": 400,
-        "gating": 590,
+        "gating": 540,
     }
     return heights.get(diagram_id, 300)

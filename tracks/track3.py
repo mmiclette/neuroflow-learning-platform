@@ -355,36 +355,135 @@ for one-off tasks where writing the prompt yourself is faster than explaining wh
     },
     6: {
         "concept": """
-Chain-of-thought (CoT) prompting asks Claude to work through a problem step by step before
-producing an answer. On tasks involving logic, trade-offs, or multi-factor analysis, CoT
-produces more accurate and defensible outputs than asking Claude to answer directly.
+Chain-of-thought (CoT) prompting is the practice of working through a complex problem in
+deliberate steps rather than asking Claude for a final answer all at once. Reasoning quality
+improves when each step is confirmed before building on it — whether that confirmation comes
+from Claude narrating its own reasoning, or from you driving each step manually.
+
+**The manual approach — most reliable in practice**
+
+The most effective form of CoT is you asking each question yourself, reviewing the answer,
+and building the next question on what you confirmed. This keeps you in control of the
+reasoning chain and prevents Claude from making assumptions that compound across steps.
+
+For a partnership evaluation, instead of asking "Should we pursue this partnership?", work
+through it in sequence:
+
+*Step 1:* "Summarize the key contract terms and flag anything unusual."
+
+*Step 2 (after reviewing):* "Based on those terms, what market access does this provide
+and what does it restrict?"
+
+*Step 3 (after reviewing):* "Given the terms and market access, what internal resources
+would this require?"
+
+*Step 4 (after reviewing):* "Now give me a structured recommendation drawing on everything
+we have established."
+
+Each step inherits confirmed work from the step before. If Step 2 reveals a restriction you
+had not noticed, you address it before Step 3 builds on flawed assumptions. This is
+materially different from asking one long question and hoping Claude reasons correctly
+through all dimensions at once.
+
+**The single-prompt approach — useful for contained tasks**
+
+For tasks that are complex but self-contained, you can ask Claude to show its reasoning
+within a single response:
+
+```
+Before producing your recommendation, reason through the key considerations and trade-offs
+explicitly — contract terms, market access, resource requirements, and strategic fit.
+Then provide a structured recommendation.
+```
+
+This is faster but gives you less control. Use it when the reasoning dimensions are clear
+and you trust Claude's judgment on how to weigh them.
 
 **When CoT helps**
 
-- Analyzing a policy document for compliance implications
-- Comparing multiple options against a set of criteria
-- Working through a decision with competing considerations
-- Any task where reasoning quality matters more than speed
+- Complex decisions with multiple competing factors
+- Policy or regulatory analysis where the reasoning chain matters as much as the conclusion
+- Any output used externally where you need to defend the reasoning, not just the answer
 
 **When CoT adds noise**
 
 - Simple factual questions
 - Formatting or conversion tasks
-- Short drafting tasks where you want the output, not the reasoning
+- Short drafts where you want the output, not the reasoning process
 
-**How to invoke it**
+**Gating: staged output with checkpoints**
 
-For complex tasks:
+CoT controls how Claude reasons through a problem. Gating formalizes that same discipline
+into a structure that enforces the checkpoints — Claude cannot advance until you say so.
+
+By default, Claude completes a multi-step task in one pass. Gating instructs Claude to stop
+at defined checkpoints and wait for your input before continuing. Each gate is a decision
+point — you can approve and advance, request revisions and re-check the same stage, or
+change direction entirely before the next stage begins.
+
+Three elements make gating reliable: a stopping rule at the top, prescribed text Claude
+must output at each gate, and a consistent activation keyword you send to advance.
+
 ```
-Before producing your recommendation, reason through the key considerations and trade-offs explicitly.
+Complete this task in stages. After each stage, stop and write exactly:
+"GATE [number] — ready for review. Reply GO to continue or tell me
+what to revise."
+Do not begin the next stage until I reply GO.
+
+STAGE 1
+Draft the market opportunity: who the buyers are, the problem MBC
+solves, and why behavioral health clinics are underserved.
+
+STAGE 2
+Draft three value propositions for clinic operators aligned with the
+market opportunity.
+
+STAGE 3
+Write the full go-to-market brief using the approved sections.
 ```
 
-For simpler tasks:
+After Stage 1, Claude stops and outputs the gate message. If the summary needs revision,
+describe the change and Claude revises Stage 1 again. Only when you reply GO does it
+advance. Stage 3 inherits confirmed work from both previous stages.
+
+**Self-checking gates**
+
+A gate can also require Claude to evaluate its own output before presenting it to you.
+This catches predictable errors — invented statistics, wrong tone, format violations —
+before they reach your review pass.
+
 ```
-Think through this step by step before answering.
+Complete this task in stages. Before presenting each stage, check your
+own output against the criteria below and fix any issues. Then stop and
+write exactly:
+"GATE [number] — self-check passed. Reply GO to continue or tell me
+what to revise."
+
+Self-check criteria:
+- No statistics or citations unless I provided them
+- Tone is direct and professional, not promotional
+- Length matches the format specified
+
+STAGE 1
+Draft the market opportunity: who the buyers are, the problem MBC
+solves, and why behavioral health clinics are underserved.
+
+STAGE 2
+Draft three value propositions for clinic operators aligned with the
+market opportunity.
 ```
 
-The first form is stronger — it names the content of the reasoning and links it to the output.
+Self-checking gates work well for NeuroFlow's external-facing documents where the failure
+modes — fabricated data, promotional language, wrong format — are consistent enough to
+describe in a checklist.
+
+**When gating is worth the extra steps**
+
+Use gating when output will be used externally and each section must meet a quality bar
+before the next builds on it, when clinical or regulatory language means an early wrong
+direction compounds downstream, or when a subject matter expert needs to review each stage.
+For internal drafts or low-stakes tasks, a single prompt with a review pass at the end is
+faster and sufficient.
 
 **Tone and framing affect output quality**
 
@@ -426,6 +525,21 @@ Telling a model not to do something forces it to process that concept first — 
                 ],
                 "correct_index": 1,
                 "hint": "Match the prompting technique to the task complexity.",
+            },
+            {
+                "question": (
+                    "You set up a gated prompt with three clearly labeled stages. "
+                    "After Stage 1, Claude outputs the gate message — but then immediately "
+                    "continues and writes Stage 2 without waiting. What most likely caused this?"
+                ),
+                "options": [
+                    "The stages were not numbered correctly",
+                    "Claude does not support multi-stage prompts",
+                    "The prompt had no prescribed gate text or activation keyword, so Claude had nothing stopping it from continuing",
+                    "Stage 2 was too similar to Stage 1 for Claude to understand these were separate tasks — better labeling and clearer distinctions between stages would fix the issue",
+                ],
+                "correct_index": 2,
+                "hint": "The stopping rule and prescribed gate text are what create the pause — without them, Claude reads the stages as instructions to complete, not checkpoints to wait at.",
             },
         ],
     },

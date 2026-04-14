@@ -590,7 +590,7 @@ DIAGRAMS["hallucination_check"] = """
 # Lesson 3.6 — Gating: standard gate and self-checking gate
 # ---------------------------------------------------------------------------
 DIAGRAMS["gating"] = """
-<svg width="100%" viewBox="0 0 680 540" role="img" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" viewBox="-40 0 720 560" role="img" xmlns="http://www.w3.org/2000/svg">
 <title>Gating prompt patterns: standard gate and self-checking gate</title>
 <desc>Side-by-side flowcharts showing standard and self-checking gates with exact prompt language at each step</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
@@ -693,6 +693,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "nlp_clinical": 650,
         "model_comparison": 300,
         "hallucination_check": 400,
-        "gating": 520,
+        "gating": 590,
     }
     return heights.get(diagram_id, 300)

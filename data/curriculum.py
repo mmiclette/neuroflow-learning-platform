@@ -60,7 +60,7 @@ TRACKS = {
                 "api_calls": False,
             },
             2: {
-                "title": "Models, modes, and the Claude ecosystem",
+                "title": "Claude Teams: what staff can and cannot do",
                 "type": "quiz",
                 "time_estimate": 7,
                 "has_video": False,
@@ -69,7 +69,7 @@ TRACKS = {
                 "api_calls": False,
             },
             3: {
-                "title": "Claude Teams: what staff can and cannot do",
+                "title": "Models, modes, and the Claude ecosystem",
                 "type": "quiz",
                 "time_estimate": 7,
                 "has_video": False,

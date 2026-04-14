@@ -492,6 +492,193 @@ Also experiencing <span class="tag">poor sleep</span> and <span class="tag">fati
 """
 
 
+# ---------------------------------------------------------------------------
+# Lesson 2.3 — Model comparison: Haiku, Sonnet, Opus
+# ---------------------------------------------------------------------------
+DIAGRAMS["model_comparison"] = """
+<svg width="100%" viewBox="0 0 680 285" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Choosing the right Claude model</title>
+<desc>Three-column card comparison of Haiku, Sonnet, and Opus with task examples and allocation guidance</desc>
+<rect x="14" y="14" width="200" height="252" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="14" y="14" width="200" height="42" rx="8" fill="#478FCC"/>
+<rect x="14" y="42" width="200" height="14" fill="#478FCC"/>
+<text x="114" y="38" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">Haiku</text>
+<text x="114" y="72" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#2A5C8A" font-weight="600">FASTEST · LOWEST COST</text>
+<line x1="30" y1="83" x2="198" y2="83" stroke="#B5D4F4" stroke-width="0.5"/>
+<text x="28" y="100" font-family="sans-serif" font-size="10" fill="#212121">· Summarizing short documents</text>
+<text x="28" y="117" font-family="sans-serif" font-size="10" fill="#212121">· Answering specific questions</text>
+<text x="28" y="134" font-family="sans-serif" font-size="10" fill="#212121">· Grammar and spelling checks</text>
+<text x="28" y="151" font-family="sans-serif" font-size="10" fill="#212121">· Simple rewrites and edits</text>
+<text x="28" y="168" font-family="sans-serif" font-size="10" fill="#212121">· Quick lookups and definitions</text>
+<rect x="28" y="220" width="172" height="30" rx="4" fill="#D4E8F8" stroke="#478FCC" stroke-width="0.5"/>
+<text x="114" y="235" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#2A5C8A" font-weight="600">Use when speed matters most</text>
+<rect x="240" y="14" width="200" height="252" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="240" y="14" width="200" height="42" rx="8" fill="#161BAA"/>
+<rect x="240" y="42" width="200" height="14" fill="#161BAA"/>
+<text x="340" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">Sonnet</text>
+<text x="340" y="50" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#AAB4F0">DEFAULT FOR MOST WORK</text>
+<text x="340" y="72" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#2A3A8A" font-weight="600">BALANCED · RECOMMENDED</text>
+<line x1="256" y1="83" x2="424" y2="83" stroke="#C0C4E8" stroke-width="0.5"/>
+<text x="254" y="100" font-family="sans-serif" font-size="10" fill="#212121">· Document analysis and synthesis</text>
+<text x="254" y="117" font-family="sans-serif" font-size="10" fill="#212121">· Structured writing and drafting</text>
+<text x="254" y="134" font-family="sans-serif" font-size="10" fill="#212121">· Multi-step research tasks</text>
+<text x="254" y="151" font-family="sans-serif" font-size="10" fill="#212121">· RFP and brief preparation</text>
+<text x="254" y="168" font-family="sans-serif" font-size="10" fill="#212121">· Instruction-following reliably</text>
+<rect x="254" y="220" width="172" height="30" rx="4" fill="#D0D3F0" stroke="#161BAA" stroke-width="0.5"/>
+<text x="340" y="235" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#161BAA" font-weight="600">Use for most daily work</text>
+<rect x="466" y="14" width="200" height="252" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
+<rect x="466" y="14" width="200" height="42" rx="8" fill="#2EA799"/>
+<rect x="466" y="42" width="200" height="14" fill="#2EA799"/>
+<text x="566" y="38" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">Opus</text>
+<text x="566" y="72" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#0F6E56" font-weight="600">MOST CAPABLE · HIGHEST COST</text>
+<line x1="482" y1="83" x2="650" y2="83" stroke="#9ED5D0" stroke-width="0.5"/>
+<text x="480" y="100" font-family="sans-serif" font-size="10" fill="#212121">· Complex multi-document reasoning</text>
+<text x="480" y="117" font-family="sans-serif" font-size="10" fill="#212121">· Nuanced policy and clinical work</text>
+<text x="480" y="134" font-family="sans-serif" font-size="10" fill="#212121">· Competing considerations / tradeoffs</text>
+<text x="480" y="151" font-family="sans-serif" font-size="10" fill="#212121">· Lengthy regulatory analysis</text>
+<text x="480" y="168" font-family="sans-serif" font-size="10" fill="#212121">· When first-attempt quality matters</text>
+<rect x="480" y="220" width="172" height="30" rx="4" fill="#B8E8E3" stroke="#2EA799" stroke-width="0.5"/>
+<text x="566" y="228" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#0F6E56" font-weight="600">Use when judgment quality</text>
+<text x="566" y="242" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#0F6E56" font-weight="600">matters most</text>
+<text x="340" y="278" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#757575">Use the lightest model that reliably handles the task — Opus for a grammar check wastes allocation</text>
+</svg>
+"""
+
+
+# ---------------------------------------------------------------------------
+# Lesson 2.4 — Hallucination check traffic light
+# ---------------------------------------------------------------------------
+DIAGRAMS["hallucination_check"] = """
+<svg width="100%" viewBox="0 0 680 385" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Hallucination check: when and how to verify Claude output</title>
+<desc>Three-zone guide showing which Claude outputs to trust, spot-check, or always verify externally, with verification methods for each</desc>
+<rect x="14" y="14" width="650" height="90" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.8"/>
+<rect x="14" y="14" width="14" height="90" rx="4" fill="#3B6D11"/>
+<rect x="20" y="14" width="8" height="90" fill="#3B6D11"/>
+<circle cx="51" cy="59" r="13" fill="#639922"/>
+<text x="51" y="59" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">G</text>
+<text x="76" y="33" font-family="sans-serif" font-size="12" font-weight="600" fill="#27500A">Use directly — low hallucination risk</text>
+<text x="76" y="51" font-family="sans-serif" font-size="10" fill="#444444">Reasoning, structure, tone, drafting from your own source material, formatting,</text>
+<text x="76" y="65" font-family="sans-serif" font-size="10" fill="#444444">summaries of content you provided, rewriting, brainstorming, and task planning.</text>
+<text x="76" y="84" font-family="sans-serif" font-size="10" fill="#3B6D11" font-weight="600">How to verify: re-read for logic and completeness — no external lookup needed.</text>
+<rect x="14" y="118" width="650" height="90" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+<rect x="14" y="118" width="14" height="90" rx="4" fill="#854F0B"/>
+<rect x="20" y="118" width="8" height="90" fill="#854F0B"/>
+<circle cx="51" cy="163" r="13" fill="#BA7517"/>
+<text x="51" y="163" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">Y</text>
+<text x="76" y="137" font-family="sans-serif" font-size="12" font-weight="600" fill="#633806">Spot-check — moderate risk</text>
+<text x="76" y="155" font-family="sans-serif" font-size="10" fill="#444444">Named organizations, general legislation, product capabilities, broad industry statistics,</text>
+<text x="76" y="169" font-family="sans-serif" font-size="10" fill="#444444">regulatory body positions, and named individuals&apos; roles or affiliations.</text>
+<text x="76" y="188" font-family="sans-serif" font-size="10" fill="#854F0B" font-weight="600">How to verify: web search the claim — confirm the source exists and says what Claude claims.</text>
+<rect x="14" y="222" width="650" height="104" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.8"/>
+<rect x="14" y="222" width="14" height="104" rx="4" fill="#A32D2D"/>
+<rect x="20" y="222" width="8" height="104" fill="#A32D2D"/>
+<circle cx="51" cy="270" r="13" fill="#E24B4A"/>
+<text x="51" y="270" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">R</text>
+<text x="76" y="241" font-family="sans-serif" font-size="12" font-weight="600" fill="#791F1F">Always verify externally — high risk</text>
+<text x="76" y="259" font-family="sans-serif" font-size="10" fill="#444444">Specific citations, named studies, statistics attributed to a source, journal names, DOIs,</text>
+<text x="76" y="273" font-family="sans-serif" font-size="10" fill="#444444">dates of rulings or publications, funding amounts, and clinical outcome data.</text>
+<text x="76" y="293" font-family="sans-serif" font-size="10" fill="#A32D2D" font-weight="600">How to verify: ask Claude for the full citation and DOI, then confirm it exists</text>
+<text x="76" y="307" font-family="sans-serif" font-size="10" fill="#A32D2D" font-weight="600">in PubMed, Google Scholar, or the original publication.</text>
+<rect x="14" y="340" width="650" height="30" rx="6" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.5"/>
+<text x="339" y="355" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#161BAA" font-weight="600">Rule: the more specific and attributable the claim, the higher the verification requirement</text>
+</svg>
+"""
+
+
+# ---------------------------------------------------------------------------
+# Lesson 3.6 — Gating: standard gate and self-checking gate
+# ---------------------------------------------------------------------------
+DIAGRAMS["gating"] = """
+<svg width="100%" viewBox="0 0 680 540" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Gating prompt patterns: standard gate and self-checking gate</title>
+<desc>Side-by-side flowcharts showing standard and self-checking gates with exact prompt language at each step</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text x="162" y="16" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#161BAA">Standard gate</text>
+<rect x="62" y="26" width="200" height="54" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="62" y="26" width="200" height="28" rx="8" fill="#161BAA"/>
+<rect x="62" y="40" width="200" height="14" fill="#161BAA"/>
+<text x="162" y="42" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Stage 1</text>
+<text x="162" y="62" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">"Do not begin the next stage until I reply GO."</text>
+<line x1="162" y1="80" x2="162" y2="102" stroke="#161BAA" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="62" y="104" width="200" height="56" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="62" y="104" width="200" height="28" rx="8" fill="#478FCC"/>
+<rect x="62" y="118" width="200" height="14" fill="#478FCC"/>
+<text x="162" y="120" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Gate 1 — Claude stops</text>
+<text x="162" y="142" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A5C8A">"GATE 1 — ready for review.</text>
+<text x="162" y="153" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A5C8A">Reply GO to continue."</text>
+<line x1="162" y1="160" x2="162" y2="182" stroke="#478FCC" stroke-width="1.2" marker-end="url(#arrow)"/>
+<polygon points="162,184 238,218 162,252 86,218" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text x="162" y="211" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">You review</text>
+<text x="162" y="224" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">the output</text>
+<line x1="162" y1="252" x2="162" y2="274" stroke="#3B6D11" stroke-width="1.2" marker-end="url(#arrow)"/>
+<text x="176" y="265" font-family="sans-serif" font-size="9" fill="#3B6D11" font-weight="600">You: "GO"</text>
+<path d="M86 218 L44 218 L44 132 L62 132" fill="none" stroke="#A32D2D" stroke-width="1.1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<text x="42" y="178" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D" font-weight="600">You revise:</text>
+<text x="42" y="192" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D">"Change the</text>
+<text x="42" y="204" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D">tone to..."</text>
+<rect x="62" y="276" width="200" height="40" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="62" y="276" width="200" height="20" rx="8" fill="#161BAA"/>
+<rect x="62" y="286" width="200" height="10" fill="#161BAA"/>
+<text x="162" y="288" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Stage 2</text>
+<text x="162" y="306" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">Builds on confirmed Stage 1</text>
+<line x1="162" y1="316" x2="162" y2="334" stroke="#161BAA" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+<text x="162" y="348" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#757575">continues...</text>
+<line x1="340" y1="8" x2="340" y2="490" stroke="#DDDDDD" stroke-width="0.8" stroke-dasharray="5,4"/>
+<text x="518" y="16" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#161BAA">Self-checking gate</text>
+<rect x="418" y="26" width="200" height="54" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="418" y="26" width="200" height="28" rx="8" fill="#161BAA"/>
+<rect x="418" y="40" width="200" height="14" fill="#161BAA"/>
+<text x="518" y="42" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Stage 1</text>
+<text x="518" y="62" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">"Before presenting, check criteria</text>
+<text x="518" y="73" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">and fix issues first."</text>
+<line x1="518" y1="80" x2="518" y2="102" stroke="#161BAA" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="418" y="104" width="200" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+<rect x="418" y="104" width="200" height="28" rx="8" fill="#854F0B"/>
+<rect x="418" y="118" width="200" height="14" fill="#854F0B"/>
+<text x="518" y="120" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Self-check (internal)</text>
+<text x="518" y="142" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">Claude checks against criteria</text>
+<text x="518" y="153" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">and fixes before stopping</text>
+<path d="M618 124 L642 124 L642 52 L618 52" fill="none" stroke="#854F0B" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<text x="646" y="92" font-family="sans-serif" font-size="9" fill="#854F0B" font-weight="600">Fix &amp;</text>
+<text x="646" y="104" font-family="sans-serif" font-size="9" fill="#854F0B">retry</text>
+<line x1="518" y1="160" x2="518" y2="182" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="418" y="184" width="200" height="56" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
+<rect x="418" y="184" width="200" height="28" rx="8" fill="#478FCC"/>
+<rect x="418" y="198" width="200" height="14" fill="#478FCC"/>
+<text x="518" y="200" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Gate 1 — Claude stops</text>
+<text x="518" y="222" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A5C8A">"GATE 1 — self-check passed.</text>
+<text x="518" y="233" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A5C8A">Reply GO to continue."</text>
+<line x1="518" y1="240" x2="518" y2="262" stroke="#478FCC" stroke-width="1.2" marker-end="url(#arrow)"/>
+<polygon points="518,264 594,298 518,332 442,298" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text x="518" y="291" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">You review</text>
+<text x="518" y="304" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#633806">the output</text>
+<line x1="518" y1="332" x2="518" y2="354" stroke="#3B6D11" stroke-width="1.2" marker-end="url(#arrow)"/>
+<text x="532" y="345" font-family="sans-serif" font-size="9" fill="#3B6D11" font-weight="600">You: "GO"</text>
+<path d="M442 298 L400 298 L400 212 L418 212" fill="none" stroke="#A32D2D" stroke-width="1.1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<text x="398" y="258" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D" font-weight="600">You revise:</text>
+<text x="398" y="272" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D">"Shorten</text>
+<text x="398" y="284" text-anchor="end" font-family="sans-serif" font-size="9" fill="#A32D2D">section 2"</text>
+<rect x="418" y="356" width="200" height="40" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
+<rect x="418" y="356" width="200" height="20" rx="8" fill="#161BAA"/>
+<rect x="418" y="366" width="200" height="10" fill="#161BAA"/>
+<text x="518" y="368" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Stage 2</text>
+<text x="518" y="386" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2A3A8A">Builds on confirmed Stage 1</text>
+<line x1="518" y1="396" x2="518" y2="414" stroke="#161BAA" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+<text x="518" y="428" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#757575">continues...</text>
+<rect x="14" y="450" width="12" height="10" rx="2" fill="#9BAAEE" stroke="#161BAA" stroke-width="0.5"/>
+<text x="32" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Stage</text>
+<rect x="82" y="450" width="12" height="10" rx="2" fill="#B5D4F4" stroke="#478FCC" stroke-width="0.5"/>
+<text x="100" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Gate</text>
+<rect x="142" y="450" width="12" height="10" rx="2" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+<text x="160" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#444">Self-check</text>
+<polygon points="240,455 248,460 240,465 232,460" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.7"/>
+<text x="256" y="456" dominant-baseline="central" font-family="sans-serif" font-size="9" fill="#757575">Your review</text>
+<text x="340" y="500" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#757575">Self-check catches predictable errors before they reach your review pass</text>
+</svg>
+"""
+
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -504,5 +691,8 @@ def get_diagram_height(diagram_id: str) -> int:
         "decision_tree": 360,
         "meta_prompting": 290,
         "nlp_clinical": 650,
+        "model_comparison": 300,
+        "hallucination_check": 400,
+        "gating": 520,
     }
     return heights.get(diagram_id, 300)

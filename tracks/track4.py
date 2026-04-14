@@ -136,6 +136,81 @@ and process consistency. A `neuroflow-policy-comments` skill ensures every polic
 member drafting a federal comment letter works from the same regulatory expertise and
 letter structure, without re-establishing that expertise in every conversation.
 
+**A worked example: writing a skill prompt**
+
+Here is a complete prompt that would produce a working skill for the product team:
+
+```
+I want to build a skill called neuroflow-user-stories for the product team.
+
+The skill should assign the role of a senior product manager experienced in
+behavioral health technology. The task is to draft well-structured outputs
+from raw customer discovery material.
+
+The skill should handle two task types:
+- User stories from raw customer discovery notes
+- Jobs-to-be-done statements from interview transcripts
+
+Every user story the skill produces must follow this format:
+- A one-line title summarizing the need
+- The standard structure: "As a [persona], I want [capability] so that [outcome]"
+- Acceptance criteria as a numbered list of testable conditions
+- A one-sentence context note explaining what the discovery note revealed
+
+The skill should activate when the user says phrases like "write a user story,"
+"draft user stories from these notes," "turn these discovery notes into stories,"
+or "create a user story."
+
+Constraint: Do not invent capabilities or outcomes that are not directly
+supported by the discovery notes. If the notes are ambiguous, flag the gap
+rather than filling it in.
+
+Draft a SKILL.md I can install.
+```
+
+Notice the structure: it names the role, defines the task types, specifies the
+output format with specific required sections, lists trigger phrases for the
+description field, and ends with a constraint that prevents the most
+consequential failure mode — fabricating product requirements.
+
+**A worked example: writing a skill prompt**
+
+Here is a complete prompt that would produce a working skill for the product team:
+
+```
+I want to build a skill called neuroflow-user-stories for the product team.
+
+The skill should assign the role of a senior product manager experienced in
+behavioral health technology. The task is to draft well-structured outputs
+from raw customer discovery material.
+
+The skill should handle two task types:
+- User stories from raw customer discovery notes
+- Jobs-to-be-done statements from interview transcripts
+
+Every user story the skill produces must follow this format:
+- A one-line title summarizing the need
+- The standard user story structure: "As a [persona], I want [capability]
+  so that [outcome]"
+- Acceptance criteria as a numbered list of testable conditions
+- A one-sentence context note explaining what the discovery note revealed
+
+The skill should activate when the user says phrases like "write a user
+story," "draft user stories from these notes," "turn these discovery notes
+into stories," or "create a user story."
+
+Constraint: Do not invent capabilities or outcomes that are not directly
+supported by the discovery notes. If the notes are ambiguous, flag the gap
+rather than filling it in.
+
+Draft a SKILL.md I can install.
+```
+
+Notice the structure: it names the role, defines the output format with specific
+sections, lists trigger phrases for the description field, and includes a
+constraint that prevents the most consequential failure mode — fabricating
+product requirements.
+
 **How to develop a skill**
 
 <iframe width="100%" height="380" src="https://www.youtube.com/embed/fHzC9qRGndA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
@@ -669,13 +744,10 @@ def _render_search_sandbox(lesson_id: int) -> bool:
         return True
 
     input_key = f"{state_key}_input"
-    starter = (
-        "Search the web for the current 2026 HEDIS behavioral health quality measures "
-        "and summarize what you find. Cite your sources."
-    )
     st.text_area(
-        "Your prompt:", value=starter, key=input_key,
+        "Your prompt:", value="", key=input_key,
         height=140, label_visibility="collapsed",
+        placeholder="Write a prompt that explicitly asks Claude to search the web for current information...",
     )
     col1, _ = st.columns([1, 5])
     with col1:

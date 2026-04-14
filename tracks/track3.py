@@ -504,10 +504,10 @@ Telling a model not to do something forces it to process that concept first — 
                     "produces the most useful output?"
                 ),
                 "options": [
-                    "Should NeuroFlow partner with this health system? Give me your honest assessment of whether it's a good fit.",
-                    "Think through this step by step. Consider: the contract terms and financial implications, the market access this partnership opens, the internal resources required, and how it fits our current strategic priorities. Then provide a structured recommendation.",
-                    "List the pros and cons of this partnership, covering financials, market access, and strategic fit.",
-                    "What do you think about this partnership opportunity?",
+                    "Should NeuroFlow partner with this health system? Give me your honest assessment of whether it's a good fit. Conduct a web search and review their strategic goals and new leadership hires.",
+                    "Think through this step by step. Consider: the contract terms and financial implications, the market access this partnership opens, the internal resources required, and how it fits our current strategic priorities. Then provide a structured recommendation. Stop after each step, before proceeding to the next so we can review the output.",
+                    "List the pros and cons of this partnership, covering financials, market access, and strategic fit. Include market access, resource requirements, and strategic fit.",
+                    "What do you think about this partnership opportunity? What makes this health system a good fit? What makes it a poor fit?",
                 ],
                 "correct_index": 1,
                 "hint": "Name the specific considerations you want Claude to reason through before it concludes.",
@@ -520,7 +520,7 @@ Telling a model not to do something forces it to process that concept first — 
                 "options": [
                     "Yes — CoT always improves output quality regardless of task type",
                     "No — this is a simple factual question that does not require step-by-step reasoning; adding CoT would produce unnecessary output without improving accuracy",
-                    "Yes — medical questions always benefit from CoT to ensure accuracy",
+                    "Yes — medical questions always benefit from CoT to ensure accuracy, this will ensure you have the correct answer without needing confirmation",
                     "No — CoT only works for coding tasks",
                 ],
                 "correct_index": 1,

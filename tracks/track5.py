@@ -60,7 +60,7 @@ agreements.
                 "options": [
                     "Connect the Snowflake connector so Claude can query the data directly",
                     "Export a de-identified summary from Snowflake and paste it into Claude Teams for analysis",
-                    "Use Snowflake's built-in LLM tool for analysis that stays within Snowflake's environment — do not connect Snowflake to Claude, because the data contains PHI",
+                    "Do not connect Claude Teams account to Snowflake, because the data contains PHI",
                     "Use the Data plugin, which operates under a separate HIPAA-compliant framework",
                 ],
                 "correct_index": 2,

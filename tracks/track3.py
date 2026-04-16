@@ -342,7 +342,7 @@ for one-off tasks where writing the prompt yourself is faster than explaining wh
 
 **Practice: write a meta-prompt**
 
-The best way to understand meta-prompting is to use it. Below is a feature evaluation
+The best way to understand meta-prompting is to use it. Below is a product feature evaluation
 workflow that a product team would run repeatedly. Your task is to write a meta-prompt
 that asks Claude to produce Project instructions for this workflow.
 
@@ -350,19 +350,16 @@ The workflow should: clarify the user and the problem being solved, identify alt
 including doing nothing, estimate impact versus effort, define MVP scope, and propose an
 experiment design to validate the decision.
 
-*Hint: what can you copy and paste directly from the challenge description into your prompt?*
 """,
         "sandbox": {
             "type": "graded",
             "prompt": "",
             "scenario": (
                 "Write a meta-prompt asking Claude to produce Project instructions for a "
-                "feature evaluation workflow. The workflow should: clarify the user and the "
-                "problem being solved, identify alternatives including doing nothing, estimate "
-                "impact versus effort, define MVP scope, and propose an experiment design to "
-                "validate the decision.\n\n"
-                "*Hint: what can you copy and paste directly from this challenge description "
-                "into your prompt?*"
+                "product feature evaluation workflow. The workflow should: clarify the user "
+                "and the problem being solved, identify alternatives including doing nothing, "
+                "estimate impact versus effort, define MVP scope, and propose an experiment "
+                "design to validate the decision."
             ),
             "rubric": (
                 "Score the meta-prompt on three criteria (33 points each, rounded to 100):\n\n"
@@ -384,7 +381,7 @@ experiment design to validate the decision.
                 "Never give generic feedback like 'add more detail.'"
             ),
             "model_answer": (
-                "Write Project instructions for a feature evaluation workflow. The workflow "
+                "Write Project instructions for a product feature evaluation workflow. The workflow "
                 "should help the product team: clarify the user and the problem being solved, "
                 "identify alternatives including doing nothing, estimate impact versus effort, "
                 "define MVP scope, and propose an experiment design to validate the decision."

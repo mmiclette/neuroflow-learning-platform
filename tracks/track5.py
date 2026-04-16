@@ -227,6 +227,7 @@ the item name, and every field.
                 "Your prompt should be specific enough that Claude knows exactly what to "
                 "calculate, how to sort the chart, and where to draw the threshold.\n\n"
                 "\n| Site | Assessments sent | Completion rate |\n"
+                "| --- | --- | --- |\n"
                 "| Riverside | 340 | 71% |\n"
                 "| Oakland | 210 | 88% |\n"
                 "| Sacramento | 480 | 64% |\n"

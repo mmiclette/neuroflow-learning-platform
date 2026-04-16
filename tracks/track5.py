@@ -255,44 +255,6 @@ the item name, and every field.
                 "Add a benchmark — e.g. '80% target' — so the output is self-interpreting.",
             ],
         },
-        "challenge": {
-            "scenario": (
-                "A BD team member just finished a discovery call with Riverside Health System. "
-                "The team tracks all active prospects in a Monday board called **BD Pipeline**. "
-                "A new item needs to be added for this account with the relevant details.\n\n"
-                "**Task:** Write the prompt you would send to Claude to add this item to "
-                "the Monday board. Your prompt must name the board, define the item, and "
-                "specify at least four field values to populate — including deal stage, "
-                "next action, next action due date, and a one-sentence call summary."
-            ),
-            "broken_example": "",
-            "rubric": (
-                "Score the prompt against four criteria (25 points each):\n\n"
-                "1. Board named explicitly — the prompt names 'BD Pipeline' or equivalent board.\n\n"
-                "2. Item name defined clearly — the prompt names 'Riverside Health System' or "
-                "equivalent as the item name.\n\n"
-                "3. At least four fields specified with values — deal stage, next action, "
-                "next action due date, and call summary are all populated with specific values, "
-                "not placeholders.\n\n"
-                "4. Next action is a concrete task — describes an actual action (send a document, "
-                "schedule a demo, follow up on a specific question), not a generic placeholder "
-                "like 'follow up' or 'next steps'."
-            ),
-            "model_answer": (
-                "Add a new item to the BD Pipeline board in Monday with the following details:\n\n"
-                "Item name: Riverside Health System\n"
-                "Deal stage: Discovery\n"
-                "Next action: Send BHIQ product overview and Epic integration one-pager\n"
-                "Next action due date: April 14, 2026\n"
-                "Call summary: Medical director expressed interest in BHIQ for their ACO REACH "
-                "population and asked specifically about Epic integration capability."
-            ),
-            "hints": [
-                "Monday board items have defined fields. If your prompt does not name the field values, Claude will fill them in with guesses — name every field you want populated.",
-                "Your next action needs to be a concrete task someone could act on, not 'follow up' or 'next steps'.",
-                "Make sure you have named all four required fields: deal stage, next action, next action due date, and call summary — with actual values, not placeholders.",
-            ],
-        },
     },
     4: {
         "concept": """
@@ -512,28 +474,17 @@ def render_lesson(lesson_id: int) -> bool:
             st.success("✓ Lesson complete")
             return True
 
-    if lesson.get("sandbox_lesson") and lesson.get("challenge"):
+    if lesson.get("sandbox_lesson"):
         dc = lesson.get("data_challenge")
         if dc:
-            sandbox_done = render_graded_challenge(
+            return render_graded_challenge(
                 track_id=TRACK_ID, lesson_id=lesson_id,
                 scenario=dc["scenario"], broken_example="",
                 rubric=dc["rubric"], model_answer=dc["model_answer"],
                 hints=dc["hints"], input_label="Your Data plugin prompt",
-                max_chars=400, single_attempt=True, mark_complete=False,
+                max_chars=400, single_attempt=True,
             )
-        else:
-            sandbox_done = _render_data_sandbox(lesson_id)
-        if not sandbox_done:
-            return False
-        ch = lesson["challenge"]
-        return render_graded_challenge(
-            track_id=TRACK_ID, lesson_id=lesson_id,
-            scenario=ch["scenario"], broken_example=ch["broken_example"],
-            rubric=ch["rubric"], model_answer=ch["model_answer"],
-            hints=ch["hints"], input_label="Your connector prompt",
-            max_chars=500,
-        )
+        return _render_data_sandbox(lesson_id)
 
     if lesson.get("quiz"):
         return render_quiz(

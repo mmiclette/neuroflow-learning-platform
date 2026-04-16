@@ -156,18 +156,18 @@ inside your prompt. Claude reads the examples, identifies the pattern, and repli
 
 **How to format examples in a prompt**
 
-Wrap examples in XML tags so Claude distinguishes them from instructions:
+Separate your examples from your instructions by labeling them clearly. One simple way is to
+use bracketed section labels — Claude reads these as structure markers that distinguish your
+examples from the task itself:
 
 ```
 [TASK] Write a one-sentence value proposition for the payer audience below.
 
-<examples>
-<example>
+[EXAMPLES]
 Payer: Medicare Advantage plan focused on reducing total cost of care
 Value prop: BHIQ identifies high-risk behavioral health members before avoidable
 utilization, enabling care teams to intervene earlier and reduce total cost of care.
-</example>
-</examples>
+[END EXAMPLES]
 
 Now write a value proposition for:
 Payer: Commercial insurer launching a value-based behavioral health contract.
@@ -218,6 +218,11 @@ Showing Claude what the output should *not* look like is often more efficient th
     },
     4: {
         "concept": """
+The RTCFC framework gave you a structure for a single prompt. Breaking work into steps is
+how you apply that structure to complex, multi-stage tasks. Each step is its own focused
+prompt — and each prompt can use Role, Task, Context, Format, and Constraints to define
+exactly what you need at that stage.
+
 Claude handles focused tasks better than sprawling ones. A prompt asking Claude to read a
 document, extract themes, write three audience versions, and format them for email will
 produce mediocre results across all four tasks. The same work broken into sequential prompts
@@ -334,7 +339,63 @@ Write three versions of this prompt optimized for:
 
 Meta-prompting is most valuable for prompts you will use repeatedly. It is less useful
 for one-off tasks where writing the prompt yourself is faster than explaining what you need.
+
+**Practice: write a meta-prompt**
+
+The best way to understand meta-prompting is to use it. Below is a feature evaluation
+workflow that a product team would run repeatedly. Your task is to write a meta-prompt
+that asks Claude to produce Project instructions for this workflow.
+
+The workflow should: clarify the user and the problem being solved, identify alternatives
+including doing nothing, estimate impact versus effort, define MVP scope, and propose an
+experiment design to validate the decision.
+
+*Hint: what can you copy and paste directly from the challenge description into your prompt?*
 """,
+        "sandbox": {
+            "type": "graded",
+            "prompt": "",
+            "scenario": (
+                "Write a meta-prompt asking Claude to produce Project instructions for a "
+                "feature evaluation workflow. The workflow should: clarify the user and the "
+                "problem being solved, identify alternatives including doing nothing, estimate "
+                "impact versus effort, define MVP scope, and propose an experiment design to "
+                "validate the decision.\n\n"
+                "*Hint: what can you copy and paste directly from this challenge description "
+                "into your prompt?*"
+            ),
+            "rubric": (
+                "Score the meta-prompt on three criteria (33 points each, rounded to 100):\n\n"
+                "1. The prompt asks Claude to produce Project instructions, a reusable prompt, "
+                "or a structured template — not just a one-off answer. "
+                "Phrases like 'write project instructions for', 'write a prompt for', or "
+                "'create a template that' satisfy this. A prompt that simply asks Claude to "
+                "do the task itself (e.g. 'evaluate this feature') does not.\n\n"
+                "2. The prompt names the workflow purpose — feature evaluation, product "
+                "prioritization, or similar. Generic phrases like 'a workflow' without naming "
+                "what it does do not satisfy this.\n\n"
+                "3. The prompt includes at least three of the five workflow components: "
+                "clarify user and problem, identify alternatives (including do nothing), "
+                "estimate impact vs effort, define MVP scope, propose experiment design. "
+                "Count only components explicitly named — do not infer.\n\n"
+                "If any criterion is missing, name it specifically in the hint — e.g. "
+                "'Your prompt asks Claude to do the task rather than write instructions for it' "
+                "or 'Your prompt is missing at least two of the five workflow components.' "
+                "Never give generic feedback like 'add more detail.'"
+            ),
+            "model_answer": (
+                "Write Project instructions for a feature evaluation workflow. The workflow "
+                "should help the product team: clarify the user and the problem being solved, "
+                "identify alternatives including doing nothing, estimate impact versus effort, "
+                "define MVP scope, and propose an experiment design to validate the decision."
+            ),
+            "hints": [
+                "A meta-prompt asks Claude to write instructions — not to do the task itself. "
+                "Start with 'Write Project instructions for...' or 'Write a prompt for...'",
+                "The workflow components are described in the challenge. You can copy them "
+                "directly into your prompt rather than paraphrasing.",
+            ],
+        },
         "quiz": [
             {
                 "question": (
@@ -734,6 +795,25 @@ def render_lesson(lesson_id: int) -> bool:
         sandbox_done = render_sandbox(
             track_id=TRACK_ID, lesson_id=lesson_id,
             starter_prompt=sb["starter_prompt"], instruction=sb["instruction"],
+        )
+        if not sandbox_done:
+            return False
+        if lesson.get("quiz"):
+            return render_quiz(
+                track_id=TRACK_ID, lesson_id=lesson_id,
+                questions=lesson["quiz"], label="Knowledge check",
+            )
+        return sandbox_done
+
+    # 3.5 — graded sandbox then quiz
+    if lesson.get("sandbox") and lesson["sandbox"]["type"] == "graded":
+        sb = lesson["sandbox"]
+        sandbox_done = render_graded_challenge(
+            track_id=TRACK_ID, lesson_id=lesson_id,
+            scenario=sb["scenario"], broken_example="",
+            rubric=sb["rubric"], model_answer=sb["model_answer"],
+            hints=sb["hints"], input_label="Your meta-prompt", max_chars=500,
+            single_attempt=True, mark_complete=False,
         )
         if not sandbox_done:
             return False

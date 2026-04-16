@@ -257,14 +257,14 @@ DIAGRAMS["ml_pipeline"] = """
 <rect x="246" y="14" width="188" height="38" rx="8" fill="#161BAA"/>
 <rect x="246" y="38" width="188" height="14" fill="#161BAA"/>
 <text x="340" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">ML model</text>
-<text x="340" y="68" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575">Common model types</text>
+<text x="340" y="68" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575">What the model does</text>
 <line x1="262" y1="78" x2="418" y2="78" stroke="#C0C4E8" stroke-width="0.5"/>
-<text x="340" y="100" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Logistic regression</text>
-<text x="340" y="116" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Binary outcomes; interpretable</text>
-<text x="340" y="144" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Random forest</text>
-<text x="340" y="160" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Handles mixed data; robust</text>
-<text x="340" y="188" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Gradient boosting</text>
-<text x="340" y="204" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">High accuracy on health data</text>
+<text x="340" y="104" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Learns patterns</text>
+<text x="340" y="120" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">From thousands of labeled examples</text>
+<text x="340" y="150" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Identifies signals</text>
+<text x="340" y="166" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Combinations that predict outcome</text>
+<text x="340" y="196" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="11" fill="#161BAA" font-weight="600">Assigns probability</text>
+<text x="340" y="212" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Score for each new patient</text>
 <line x1="436" y1="139" x2="470" y2="139" stroke="#888888" stroke-width="1.4" marker-end="url(#arrow)"/>
 <rect x="478" y="14" width="188" height="250" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
 <rect x="478" y="14" width="188" height="38" rx="8" fill="#2EA799"/>
@@ -679,6 +679,145 @@ DIAGRAMS["gating"] = """
 """
 
 
+# ---------------------------------------------------------------------------
+# Lesson 1.1 — AI type hierarchy (nested)
+# ---------------------------------------------------------------------------
+DIAGRAMS["ai_hierarchy"] = """
+<html><head><style>
+body{margin:0;padding:8px;background:transparent;}
+</style></head><body>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:16px 0 24px;font-family:var(--font-sans,sans-serif)}
+.diagram-row{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.svg-col{flex:0 0 360px;min-width:300px}
+.info-col{flex:1;min-width:220px;padding-top:4px}
+.info-box{border-radius:12px;padding:18px 20px;transition:background .2s,border-color .2s;border:1.5px solid #2E4799;background:#f0f4ff}
+.info-title{font-size:15px;font-weight:500;margin-bottom:6px}
+.info-body{font-size:13px;line-height:1.65;color:#212121}
+.info-body p{margin-bottom:8px}
+.info-body p:last-child{margin-bottom:0}
+.info-nf{margin-top:10px;font-size:12px;line-height:1.6;padding:9px 11px;border-radius:7px}
+.info-nf-label{font-size:11px;font-weight:500;opacity:.75;margin-bottom:3px}
+.info-ex{margin-top:8px;font-size:12px;line-height:1.55;padding:9px 11px;border-radius:7px}
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 10px;border-radius:20px;border:1.5px solid transparent;transition:all .15s;white-space:nowrap}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+svg .ring{cursor:pointer}
+svg .ring:hover > ellipse{opacity:.82}
+svg .sym-btn{cursor:pointer}
+svg .sym-btn:hover > rect{opacity:.88}
+</style>
+
+<div class="wrap">
+<div class="diagram-row">
+<div class="svg-col">
+<svg width="100%" viewBox="0 0 360 360" role="img">
+  <title>AI taxonomy — nested rings</title>
+  <desc>Concentric rings inside an AI boundary. Symbolic AI sits as a tappable box in the foreground left, inside the AI ring but outside ML. Inner rings: ML, neural networks, deep learning, generative AI, LLMs.</desc>
+
+  <!-- AI outermost ring -->
+  <g class="ring" id="r-ai" onclick="show('ai')">
+    <ellipse cx="200" cy="190" rx="155" ry="165" fill="#161B4A" stroke="#2E4799" stroke-width="1.2"/>
+    <text x="200" y="30" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Artificial intelligence</text>
+  </g>
+
+  <!-- ML ring -->
+  <g class="ring" id="r-ml" onclick="show('ml')">
+    <ellipse cx="215" cy="203" rx="116" ry="122" fill="#2E4799" stroke="#478FCC" stroke-width="1"/>
+    <text x="215" y="88" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Machine learning</text>
+  </g>
+
+  <!-- Neural networks ring -->
+  <g class="ring" id="r-nn" onclick="show('nn')">
+    <ellipse cx="215" cy="212" rx="86" ry="92" fill="#1e5c9e" stroke="#478FCC" stroke-width="1"/>
+    <text x="215" y="127" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Neural networks</text>
+  </g>
+
+  <!-- Deep learning ring -->
+  <g class="ring" id="r-dl" onclick="show('dl')">
+    <ellipse cx="215" cy="221" rx="62" ry="68" fill="#1a7a8a" stroke="#4CB6AC" stroke-width="1"/>
+    <text x="215" y="160" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Deep learning</text>
+  </g>
+
+  <!-- Generative AI ring -->
+  <g class="ring" id="r-gen" onclick="show('gen')">
+    <ellipse cx="215" cy="230" rx="43" ry="49" fill="#2a9aaa" stroke="#4CB6AC" stroke-width="0.8"/>
+    <text x="215" y="188" text-anchor="middle" font-size="11" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Generative AI</text>
+  </g>
+
+  <!-- LLM innermost ring -->
+  <g class="ring" id="r-llm" onclick="show('llm')">
+    <ellipse cx="215" cy="238" rx="28" ry="33" fill="#4CB6AC" stroke="#fff" stroke-width="0.8" stroke-opacity="0.3"/>
+    <text x="215" y="235" text-anchor="middle" font-size="11" font-weight="500" fill="#0a3d35" font-family="var(--font-sans,sans-serif)">LLMs</text>
+    <text x="215" y="249" text-anchor="middle" font-size="9" fill="#085041" font-family="var(--font-sans,sans-serif)">Claude · GPT · Llama</text>
+  </g>
+
+  <!-- Symbolic AI — drawn LAST so it paints above all rings -->
+  <g class="sym-btn" id="r-sym" onclick="show('sym')">
+    <rect x="18" y="158" width="96" height="58" rx="9" fill="#2E4799" stroke="#478FCC" stroke-width="1.5"/>
+    <text x="66" y="178" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Symbolic AI</text>
+    <text x="66" y="194" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">Rule-based</text>
+    <text x="66" y="208" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">No learning</text>
+  </g>
+
+  <text x="190" y="350" text-anchor="middle" font-size="11" fill="#757575" font-family="var(--font-sans,sans-serif)">Tap any layer to learn more</text>
+</svg>
+</div>
+
+<div class="info-col">
+<div class="info-box" id="info-box">
+  <div class="info-title" id="info-title" style="color:#161B4A">Select a layer</div>
+  <div class="info-body" id="info-body">Tap any ring or the Symbolic AI box to see what it means and how NeuroFlow uses it.</div>
+  <div class="info-nf" id="info-nf" style="display:none"><div class="info-nf-label" id="info-nf-label"></div><div id="info-nf-text"></div></div>
+  <div class="info-ex" id="info-ex" style="display:none"></div>
+</div>
+<div class="legend">
+  <div class="leg" onclick="show('sym')" style="background:#2E4799;color:#fff;border-color:#478FCC"><div class="leg-dot" style="background:#478FCC"></div>Symbolic AI</div>
+  <div class="leg" onclick="show('ai')" style="background:#161B4A;color:#fff;border-color:#2E4799"><div class="leg-dot" style="background:#4CB6AC"></div>AI</div>
+  <div class="leg" onclick="show('ml')" style="background:#1a2f7a;color:#fff;border-color:#478FCC"><div class="leg-dot" style="background:#2E4799"></div>ML</div>
+  <div class="leg" onclick="show('nn')" style="background:#e8f2fb;color:#161B4A;border-color:#478FCC"><div class="leg-dot" style="background:#1e5c9e"></div>Neural networks</div>
+  <div class="leg" onclick="show('dl')" style="background:#e4f5f4;color:#085041;border-color:#4CB6AC"><div class="leg-dot" style="background:#1a7a8a"></div>Deep learning</div>
+  <div class="leg" onclick="show('gen')" style="background:#e0f4f3;color:#085041;border-color:#4CB6AC"><div class="leg-dot" style="background:#2a9aaa"></div>Generative AI</div>
+  <div class="leg" onclick="show('llm')" style="background:#f0faf9;color:#085041;border-color:#4CB6AC"><div class="leg-dot" style="background:#4CB6AC"></div>LLMs</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const D={
+  sym:{title:"Symbolic AI",body:"<p>Symbolic AI is the oldest and most intuitive form. A symbolic AI system follows explicit rules that a human wrote. If this condition is true, do that. There is no learning — the system only does exactly what its rules specify, nothing more.</p><p>This makes symbolic AI predictable and auditable. You can always trace an output back to the rule that produced it. The limitation is brittleness: if a situation arises that no rule covers, the system cannot adapt.</p>",nfLabel:"NeuroFlow today",nf:"The logic that determines which content a patient receives, which assessment to deliver next, and when to trigger a clinical alert is rule-based. A clinician or product team defined those rules and the system executes them.",ex:"A clinical decision tree that routes a patient to crisis resources if PHQ-9 item 9 scores above zero is symbolic AI.",bg:"#2E4799",border:"#478FCC",titleC:"#fff",bodyC:"#d4e4ff",nfBg:"#1a3070",nfC:"#b5d4f4",exBg:"#1f3c8a",exC:"#b5d4f4"},
+  ai:{title:"Artificial intelligence",body:"<p>AI is the broadest category — any technique that lets a computer perform tasks we associate with human thinking. Machine learning is one approach within AI. Symbolic AI is another. Both sit inside the AI boundary, but they work in fundamentally different ways.</p>",nfLabel:"",nf:"",ex:"The outer boundary contains everything: rule-based clinical alerts, risk stratification models, and large language models are all AI.",bg:"#161B4A",border:"#2E4799",titleC:"#fff",bodyC:"#d4dfff",nfBg:"",nfC:"",exBg:"#0f1e55",exC:"#b5d4f4"},
+  ml:{title:"Machine learning",body:"<p>Instead of following rules, an ML model learns from examples. A developer provides a large dataset of past cases with known outcomes, and the model identifies statistical patterns connecting inputs to those outcomes. When it encounters a new case, it applies those learned patterns to generate a prediction.</p>",nfLabel:"NeuroFlow — BHIQ",nf:"The risk stratification models were trained on historical behavioral health data — assessment scores, utilization patterns, diagnosis codes — paired with known outcomes. The model learned which combinations of factors are statistically associated with higher risk.",ex:"A fraud detection model trained on millions of labeled transactions learns to flag unusual patterns without anyone writing explicit rules.",bg:"#1a2f7a",border:"#478FCC",titleC:"#fff",bodyC:"#d4e4ff",nfBg:"#0f2060",nfC:"#b5d4f4",exBg:"#152878",exC:"#b5d4f4"},
+  nn:{title:"Neural networks",body:"<p>Neural networks are ML architectures loosely inspired by the brain. They stack layers of simple computational units that transform inputs step by step. Each layer learns to detect increasingly abstract features.</p><p>NLP (natural language processing) lives here. It is a task domain — language translation, summarization, classification, sentiment analysis — not a separate architectural layer. Most modern NLP runs on deep neural networks.</p>",nfLabel:"",nf:"",ex:"An image classifier uses early layers to detect edges, middle layers to detect shapes, and final layers to recognize specific objects.",bg:"#1e5c9e",border:"#478FCC",titleC:"#fff",bodyC:"#d0e8ff",nfBg:"",nfC:"",exBg:"#0f3a6a",exC:"#b5d4f4"},
+  dl:{title:"Deep learning",body:"<p>Deep learning refers to neural networks with many layers — deep enough to learn highly complex patterns. Medical imaging analysis, speech recognition, and translation are all deep learning applications.</p><p>Deep learning is the foundation that large language models are built on. Every LLM is a deep learning model, but most deep learning models are not LLMs.</p>",nfLabel:"",nf:"",ex:"Detecting abnormalities in radiology scans requires deep learning — the patterns are too subtle for hand-written rules or shallow ML models.",bg:"#1a7a8a",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"",nfC:"",exBg:"#0d5060",exC:"#9FE1CB"},
+  gen:{title:"Generative AI",body:"<p>Generative AI creates new content rather than classifying inputs or predicting outcomes. The output can be text, images, video, audio, or code depending on what the model was trained on.</p><p>LLMs are one type of generative AI. DALL-E generates images. Sora generates video. These are generative AI systems but not language models.</p>",nfLabel:"",nf:"",ex:"DALL-E generates images from text prompts. It is generative AI but not an LLM — it produces pixels, not language.",bg:"#1a6870",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"",nfC:"",exBg:"#0f4a52",exC:"#9FE1CB"},
+  llm:{title:"Large language models",body:"<p>LLMs are a specific type of generative AI trained on text. They understand language, follow instructions, reason through problems, and generate fluent written output. Every LLM is a generative AI system built on deep learning, but most generative AI systems are not LLMs.</p><p>Claude, GPT-5, Gemini, and Llama are all LLMs. Open-source models like Llama and Mistral are available for anyone to run. Closed-source models like GPT and Claude are accessed via API.</p>",nfLabel:"NeuroFlow — AI features",nf:"LLMs are the foundation of NeuroFlow's clinical decision support work and AI-assisted features. When NeuroFlow surfaces a treatment recommendation or synthesizes a patient summary, an LLM generates that output — operating within guardrails defined by the symbolic AI layer.",ex:"Claude reads your prompt, weighs the relationships between every word using attention, and generates a response one token at a time.",bg:"#085041",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"#04342C",nfC:"#9FE1CB",exBg:"#052e28",exC:"#9FE1CB"}
+};
+function show(key){
+  const d=D[key];
+  document.getElementById('info-box').style.background=d.bg;
+  document.getElementById('info-box').style.borderColor=d.border;
+  const title=document.getElementById('info-title');
+  title.style.color=d.titleC; title.textContent=d.title;
+  const body=document.getElementById('info-body');
+  body.style.color=d.bodyC; body.innerHTML=d.body;
+  const nf=document.getElementById('info-nf');
+  if(d.nf){
+    nf.style.display='block'; nf.style.background=d.nfBg; nf.style.color=d.nfC;
+    document.getElementById('info-nf-label').textContent=d.nfLabel;
+    document.getElementById('info-nf-label').style.color=d.nfC;
+    document.getElementById('info-nf-text').textContent=d.nf;
+  } else { nf.style.display='none'; }
+  const ex=document.getElementById('info-ex');
+  ex.style.display='block'; ex.style.background=d.exBg; ex.style.color=d.exC; ex.textContent=d.ex;
+}
+</script>
+</body></html>
+"""
+
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -694,5 +833,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "model_comparison": 300,
         "hallucination_check": 400,
         "gating": 540,
+        "ai_hierarchy": 600,
     }
     return heights.get(diagram_id, 300)

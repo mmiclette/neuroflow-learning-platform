@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Engineering Quick Reference — NeuroFlow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #212121; font-size: 11px; }
+  .page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: 0.45in 0.5in; }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid #161BAA; padding-bottom: 8px; margin-bottom: 16px; }
+  .header h1 { font-size: 18px; font-weight: 700; color: #161BAA; }
+  .header .sub { font-size: 10px; color: #757575; text-align: right; line-height: 1.5; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .card { border: 1px solid #C0C4E8; border-radius: 8px; overflow: hidden; }
+  .card-header { background: #161BAA; color: #fff; padding: 6px 10px; font-size: 11px; font-weight: 600; }
+  .card-header.teal { background: #2EA799; }
+  .card-header.navy { background: #0C447C; }
+  .card-header.purple { background: #534AB7; }
+  .card-header.green { background: #3B6D11; }
+  .card-body { padding: 8px 10px; background: #fff; }
+  .item { margin-bottom: 7px; }
+  .item:last-child { margin-bottom: 0; }
+  .label { font-weight: 600; font-size: 10px; color: #161BAA; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 2px; }
+  .label.teal { color: #0F6E56; }
+  .label.navy { color: #0C447C; }
+  .label.purple { color: #3C3489; }
+  .label.green { color: #27500A; }
+  .desc { font-size: 10.5px; color: #333; line-height: 1.5; }
+  .example { background: #F5F5F5; border-left: 2px solid #C0C4E8; padding: 4px 7px; border-radius: 0 4px 4px 0; font-size: 9.5px; color: #444; font-style: italic; margin-top: 3px; line-height: 1.4; }
+  .rule { background: #E8E9F7; border-radius: 4px; padding: 5px 8px; font-size: 10.5px; color: #161BAA; font-weight: 500; margin-bottom: 6px; }
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 4px; }
+  .do { background: #EAF3DE; border-radius: 3px; padding: 3px 6px; font-size: 9.5px; color: #27500A; }
+  .dont { background: #FCEBEB; border-radius: 3px; padding: 3px 6px; font-size: 9.5px; color: #791F1F; }
+  .do::before { content: "✓ "; font-weight: 600; }
+  .dont::before { content: "✗ "; font-weight: 600; }
+  .wide { grid-column: span 2; }
+  .full { grid-column: span 3; }
+  .rtcfc-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 4px; }
+  .rtcfc-cell { background: #E8E9F7; border-radius: 4px; padding: 5px 6px; text-align: center; }
+  .rtcfc-letter { font-size: 14px; font-weight: 700; color: #161BAA; }
+  .rtcfc-word { font-size: 9px; font-weight: 600; color: #3C3489; }
+  .rtcfc-desc { font-size: 8.5px; color: #555; margin-top: 2px; line-height: 1.3; }
+  .footer { margin-top: 14px; border-top: 1px solid #E0E0E0; padding-top: 8px; display: flex; justify-content: space-between; font-size: 9px; color: #999; }
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; padding: 0.4in 0.45in; }
+    .no-print { display: none; }
+  }
+  .print-btn { display: block; text-align: center; margin: 16px auto 0; padding: 8px 20px; background: #161BAA; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; width: fit-content; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1>Prompt Engineering Quick Reference</h1>
+      <div style="font-size:11px;color:#555;margin-top:3px;">Track 3 — NeuroFlow AI Learning Platform</div>
+    </div>
+    <div class="sub">neuroflowai.streamlit.app<br>Keep this page. Use it every time you prompt.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- RTCFC Framework — full width -->
+    <div class="card full">
+      <div class="card-header">The RTCFC framework — structure every prompt around these five components</div>
+      <div class="card-body">
+        <div class="rtcfc-row">
+          <div class="rtcfc-cell"><div class="rtcfc-letter">R</div><div class="rtcfc-word">Role</div><div class="rtcfc-desc">Who Claude should be. "You are a senior BD strategist at a behavioral health company."</div></div>
+          <div class="rtcfc-cell"><div class="rtcfc-letter">T</div><div class="rtcfc-word">Task</div><div class="rtcfc-desc">The exact deliverable. "Write a 3-paragraph cold email to a health system CFO."</div></div>
+          <div class="rtcfc-cell"><div class="rtcfc-letter">C</div><div class="rtcfc-word">Context</div><div class="rtcfc-desc">What Claude needs to know. "The CFO is focused on total cost of care. Avoid clinical jargon."</div></div>
+          <div class="rtcfc-cell"><div class="rtcfc-letter">F</div><div class="rtcfc-word">Format</div><div class="rtcfc-desc">How it should look. "Three paragraphs. No bullet points. Under 200 words."</div></div>
+          <div class="rtcfc-cell"><div class="rtcfc-letter">C</div><div class="rtcfc-word">Constraints</div><div class="rtcfc-desc">What to avoid. "Do not mention specific pricing. Do not use first-person plural."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specificity -->
+    <div class="card">
+      <div class="card-header teal">Specificity</div>
+      <div class="card-body">
+        <div class="rule">Claude takes the shortest path. Make the destination specific.</div>
+        <div class="do-dont">
+          <div class="do">A 500-word blog post for health system COOs</div>
+          <div class="dont">Something for our website</div>
+          <div class="do">Health system CFOs focused on total cost of care</div>
+          <div class="dont">Healthcare people</div>
+          <div class="do">3 bullets, each under 15 words, active voice</div>
+          <div class="dont">Make it shorter</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Examples -->
+    <div class="card">
+      <div class="card-header navy">Grounding with examples</div>
+      <div class="card-body">
+        <div class="item">
+          <div class="label navy">Show, don't describe</div>
+          <div class="desc">Examples narrow the space of acceptable outputs. One good example beats three paragraphs of description.</div>
+        </div>
+        <div class="item">
+          <div class="label navy">Separate from instructions</div>
+          <div class="desc">Use labeled sections so Claude distinguishes examples from the task:</div>
+          <div class="example">[EXAMPLES]<br>Value prop: BHIQ identifies high-risk members before avoidable utilization...<br>[END EXAMPLES]<br><br>Now write a value prop for: [new audience]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-step prompting -->
+    <div class="card">
+      <div class="card-header purple">Multi-step prompting</div>
+      <div class="card-body">
+        <div class="item">
+          <div class="label purple">Each step = one focused RTCFC prompt</div>
+          <div class="desc">Break complex tasks into sequential prompts. Each step builds on confirmed output from the last.</div>
+        </div>
+        <div class="item">
+          <div class="label purple">When steps help</div>
+          <div class="desc">More than two distinct phases. Output of one phase shapes the next. You need to review intermediate outputs.</div>
+        </div>
+        <div class="example">Step 1: Summarize key terms → review → Step 2: Identify implications → review → Step 3: Draft recommendation</div>
+      </div>
+    </div>
+
+    <!-- Meta-prompting -->
+    <div class="card">
+      <div class="card-header">Meta-prompting</div>
+      <div class="card-body">
+        <div class="item">
+          <div class="label">Use Claude to write prompts for Claude</div>
+          <div class="desc">Most valuable for recurring workflows. Three methods:</div>
+        </div>
+        <div class="item">
+          <div class="label">Prompt creation</div>
+          <div class="desc">"Write Project instructions for a BD outreach workflow that produces value prop emails for health system CFOs."</div>
+        </div>
+        <div class="item">
+          <div class="label">Prompt analysis</div>
+          <div class="desc">"Here are my current Project instructions. How does Claude interpret them? What is unclear or missing?"</div>
+        </div>
+        <div class="item">
+          <div class="label">Automated iteration</div>
+          <div class="desc">"Write 3 versions of this prompt optimized for: CFO, clinical director, Medicaid director."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CoT and Gating -->
+    <div class="card">
+      <div class="card-header teal">Chain-of-thought + gating</div>
+      <div class="card-body">
+        <div class="item">
+          <div class="label teal">Manual CoT (most reliable)</div>
+          <div class="desc">You ask each question, review, build the next on confirmed output. No assumptions compound.</div>
+        </div>
+        <div class="item">
+          <div class="label teal">Single-prompt CoT</div>
+          <div class="desc">"Before your recommendation, reason through contract terms, market access, and resources explicitly. Then conclude."</div>
+        </div>
+        <div class="item">
+          <div class="label teal">Gating structure</div>
+          <div class="desc">Enforces stops between stages. Three required elements:</div>
+          <div class="example">1. Stopping rule: "Do not begin next stage until I reply GO."<br>2. Prescribed gate text Claude must output<br>3. Your activation keyword: GO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tone and framing — wide -->
+    <div class="card wide">
+      <div class="card-header green">Tone, framing, and prompt debugging</div>
+      <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <div class="item">
+            <div class="label green">Calm directives outperform shouted rules</div>
+            <div class="do-dont" style="grid-template-columns:1fr 1fr;">
+              <div class="do">Always use verified data. If unavailable, label estimates.</div>
+              <div class="dont">NEVER fabricate data!!!</div>
+            </div>
+          </div>
+          <div class="item" style="margin-top:6px;">
+            <div class="label green">Positive framing outperforms negation</div>
+            <div class="do-dont" style="grid-template-columns:1fr 1fr;">
+              <div class="do">Respond in prose paragraphs</div>
+              <div class="dont">Don't use bullet points</div>
+              <div class="do">Only use real data</div>
+              <div class="dont">Don't use mock data</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="item">
+            <div class="label green">Prompt debugging checklist</div>
+            <div class="desc" style="line-height:1.7;">
+              □ Is the task clearly named?<br>
+              □ Is the audience or reader specified?<br>
+              □ Is the format or structure defined?<br>
+              □ Are constraints written as positive requirements?<br>
+              □ Would an example help narrow the output space?<br>
+              □ Is the prompt asking for one thing or several?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hallucination check -->
+    <div class="card">
+      <div class="card-header navy">Hallucination check</div>
+      <div class="card-body">
+        <div class="item">
+          <div class="label navy" style="background:#EAF3DE;border-radius:3px;padding:2px 6px;display:inline-block;color:#27500A;">🟢 Use directly</div>
+          <div class="desc">Reasoning, drafts from your own material, formatting, brainstorming, rewriting</div>
+        </div>
+        <div class="item">
+          <div class="label" style="background:#FAEEDA;border-radius:3px;padding:2px 6px;display:inline-block;color:#633806;">🟡 Spot-check</div>
+          <div class="desc">Named organizations, general legislation, broad industry statistics, named roles</div>
+          <div class="example">Web search the claim. Confirm the source exists.</div>
+        </div>
+        <div class="item">
+          <div class="label" style="background:#FCEBEB;border-radius:3px;padding:2px 6px;display:inline-block;color:#791F1F;">🔴 Always verify</div>
+          <div class="desc">Specific citations, named studies, statistics attributed to a source, DOIs, dates of publications</div>
+          <div class="example">Ask Claude for the full citation + DOI. Confirm in PubMed or Google Scholar.</div>
+        </div>
+        <div class="rule" style="margin-top:6px;font-size:9.5px;">The more specific and attributable the claim → the higher the verification requirement</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>NeuroFlow AI Learning Platform — Track 3: Prompt Engineering</span>
+    <span>Print or save as PDF · neuroflowai.streamlit.app</span>
+  </div>
+</div>
+
+<button class="print-btn no-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+
+</body>
+</html>

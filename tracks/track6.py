@@ -43,6 +43,15 @@ manually triggering it each time.
 **Security note:** Cowork asks permission before deleting files or taking significant
 actions. Grant access only to trusted directories. Like any agentic tool, Cowork is
 vulnerable to prompt injection — malicious instructions embedded in files it reads.
+
+**A note on Claude Code**
+
+The table above includes Claude Code as one of the three modes. Claude Code is covered in
+depth in Track 7 — but since it appears here, here is the one-line distinction: Claude Code
+is a command-line tool for software engineers. It reads and modifies code files, runs tests,
+and operates inside a terminal. It is not a general-purpose productivity tool. If your work
+does not involve writing or debugging code, Cowork and Claude chat handle the automation
+and drafting use cases you need.
 """,
         "quiz": [
             {
@@ -325,13 +334,34 @@ No manual download required. Cowork retrieves files through the connector and sa
 
 **The highest-value Cowork pattern at NeuroFlow**
 
-Local proprietary files + live connector data, with output written back to a team channel:
+Local proprietary files + live connector data, with output written back to a team channel.
+Here are concrete examples across three teams:
+
+*Product:*
 ```
 Access /Product/RoadmapDocs on my local machine. Pull all Jira
 tickets in the current sprint that are unresolved. Produce a
 weekly engineering status report combining roadmap documents with
 open Jira tickets. Post the summary to #product-updates in Slack
 and save a copy to /Reports as YYYY-MM-DD_SprintStatus.md.
+```
+
+*Sales:*
+```
+Access /Sales/AccountResearch on my local machine. Pull the five
+most recent emails from each account in my HubSpot pipeline stage
+"Proposal Sent." Produce a one-paragraph call prep brief for each
+account combining the research file with the email history. Save
+each brief to /Sales/CallPrep as AccountName_CallPrep.md.
+```
+
+*Marketing:*
+```
+Access /Marketing/ContentDrafts on my local machine. Pull the
+last 30 days of top-performing LinkedIn posts from our company
+page. Identify the three content formats with the highest
+engagement. Produce a one-page brief comparing our draft
+headlines against those formats. Save it as ContentAudit.md.
 ```
 
 **PHI reminder:** Do not grant Cowork access to folders or connectors that contain patient-identifiable information.
@@ -466,8 +496,9 @@ def render_lesson(lesson_id: int) -> bool:
     st.markdown("---")
 
     if already_done:
-        st.success("✓ Lesson complete")
-        return True
+        if not lesson.get("challenge"):
+            st.success("✓ Lesson complete")
+            return True
 
     if lesson.get("challenge"):
         ch = lesson["challenge"]

@@ -41,10 +41,7 @@ visible inside the Project.
 **Maintaining a Project over time**
 
 Projects decay without maintenance. NeuroFlow's products and positioning change. A Project
-built in January that no one updates by April is working from stale context. The cadence
-that works: weekly (five minutes) — skim recent conversations, add any corrections to the
-instructions that you re-prompted twice. Monthly (fifteen minutes) — re-read the full
-instruction set and knowledge file list, remove anything no longer true.
+built in January that no one updates by April is working from stale context. Review Project instructions regularly and archive old projects to prevent confusion.
 
 The practical test: if you find yourself typing the same background paragraph at the start
 of new conversations, that background belongs in a Project.
@@ -93,6 +90,95 @@ of new conversations, that background belongs in a Project.
         ],
     },
     2: {
+        "concept": """
+Project instructions are a system prompt applied to every conversation in the Project. Weak
+instructions produce inconsistent outputs regardless of how good individual follow-up prompts
+are. Strong instructions eliminate entire categories of re-prompting.
+
+**What makes instructions strong**
+
+Strong Project instructions have four elements:
+
+**Role and context** — who Claude is in this Project and what NeuroFlow does. "You are a
+senior BD strategist at NeuroFlow, a behavioral health technology company that serves health
+systems, Medicaid MCOs, and federal agencies including the VA and DoD." This grounds every
+response in the right domain without staff repeating it.
+
+**Persistent task scope** — what this Project is for and what it produces. "This Project
+helps the BD team draft outreach emails, value propositions, and partner briefings."
+
+**Output standards** — format, length, and style expectations. "Default to concise,
+benefit-forward prose in active voice. Lead with the business outcome. No bullet points
+unless the user asks. No clinical jargon in external-facing outputs."
+
+**Constraints** — what Claude should never do in this Project. "Do not use first-person
+plural ('we', 'our'). Do not make claims about outcomes without a source. If a request falls
+outside BD use cases, note that and ask for clarification."
+
+**Using Claude to write your own instructions**
+
+The most practical way to write strong Project instructions for a recurring workflow is to
+use Claude in that conversation to help. After a session that produced good outputs, prompt
+Claude to extract and formalize the working context into instructions:
+
+```
+Review this conversation and write Project instructions I can paste
+directly into Project Settings. The Project helps the BD team draft
+value proposition emails for health system buyers. Incorporate the
+product positioning doc and case studies uploaded as knowledge files
+so Claude draws on them when generating outreach.
+```
+
+Claude reads the conversation, identifies the implicit role and constraints, and formalizes
+them. The result is instructions that match what already worked — not instructions you have
+to draft from scratch.
+""",
+        "challenge": {
+            "scenario": (
+                "You have been working with Claude on a conversation drafting value proposition "
+                "emails for health system and payer audiences. You want to turn this into a "
+                "Project the whole BD team can use.\n\n"
+                "**Task:** Write a single sentence asking Claude to generate Project instructions "
+                "from this conversation. Your prompt should ask Claude to review the conversation, "
+                "specify the Project's purpose, and name the knowledge files that should be "
+                "referenced — a product positioning doc and case studies uploaded as Project "
+                "Knowledge.\n\n"
+                "*Hint: what can you copy and paste directly from this challenge description "
+                "into your prompt?*"
+            ),
+            "broken_example": "",
+            "rubric": (
+                "The learner is writing a single-sentence prompt. Score 25 points for each "
+                "of the following four elements present in the sentence:\n\n"
+                "1. Asks Claude to review the current conversation — phrases like 'review this "
+                "conversation', 'based on what we discussed', or 'from this session'.\n\n"
+                "2. Names the Project's purpose — the BD team, value proposition emails, "
+                "health system or payer audiences, or similar.\n\n"
+                "3. Names at least one knowledge file — product positioning doc, case studies, "
+                "BHIQ overview, or similar.\n\n"
+                "4. Asks for Project instructions as output — not advice, not a summary. "
+                "Phrases like 'write Project instructions' or 'instructions I can paste'.\n\n"
+                "If any element is missing, the hint must name the specific missing element "
+                "in plain language — e.g. 'Your prompt did not ask Claude to review the "
+                "conversation' or 'Your prompt did not name any knowledge files to reference.' "
+                "Do not give generic feedback like 'include more detail.' "
+                "A genuine single sentence that covers all four elements earns full marks."
+            ),
+            "model_answer": (
+                "Review this conversation and write Claude Project instructions I can paste "
+                "directly into Project Settings. The Project should help the BD team draft "
+                "value proposition emails for health system and payer buyers. Incorporate "
+                "the product positioning doc and the case studies uploaded as knowledge files "
+                "so Claude draws on them when generating outreach."
+            ),
+            "hints": [
+                "The most commonly missed element is asking Claude to review the conversation itself. Without this, Claude has no source to draw the instructions from.",
+                "Claude doesn't know which files you plan to upload. Name them in the prompt so the instructions tell Claude how to use them.",
+                "The output should be ready to paste into Project Settings — phrase the request so Claude produces instructions, not just advice.",
+            ],
+        },
+    },
+    3: {
         "concept": """
 A Skill is a self-contained package of instructions that teaches Claude a specific domain
 of expertise and a set of workflows. When a skill is active, Claude does not need you to
@@ -173,44 +259,6 @@ output format with specific required sections, lists trigger phrases for the
 description field, and ends with a constraint that prevents the most
 consequential failure mode — fabricating product requirements.
 
-**A worked example: writing a skill prompt**
-
-Here is a complete prompt that would produce a working skill for the product team:
-
-```
-I want to build a skill called neuroflow-user-stories for the product team.
-
-The skill should assign the role of a senior product manager experienced in
-behavioral health technology. The task is to draft well-structured outputs
-from raw customer discovery material.
-
-The skill should handle two task types:
-- User stories from raw customer discovery notes
-- Jobs-to-be-done statements from interview transcripts
-
-Every user story the skill produces must follow this format:
-- A one-line title summarizing the need
-- The standard user story structure: "As a [persona], I want [capability]
-  so that [outcome]"
-- Acceptance criteria as a numbered list of testable conditions
-- A one-sentence context note explaining what the discovery note revealed
-
-The skill should activate when the user says phrases like "write a user
-story," "draft user stories from these notes," "turn these discovery notes
-into stories," or "create a user story."
-
-Constraint: Do not invent capabilities or outcomes that are not directly
-supported by the discovery notes. If the notes are ambiguous, flag the gap
-rather than filling it in.
-
-Draft a SKILL.md I can install.
-```
-
-Notice the structure: it names the role, defines the output format with specific
-sections, lists trigger phrases for the description field, and includes a
-constraint that prevents the most consequential failure mode — fabricating
-product requirements.
-
 **How to develop a skill**
 
 <iframe width="100%" height="380" src="https://www.youtube.com/embed/fHzC9qRGndA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
@@ -273,138 +321,60 @@ want to share skills with your organization, an owner must first enable sharing 
 specific colleagues or published to the organization directory where anyone on the team can
 find and install it.
 """,
-        "challenge": {
-            "scenario": (
-                "NeuroFlow's product and engineering teams write Jira tickets constantly — "
-                "bug reports, feature requests, and technical tasks. The quality is inconsistent: "
-                "some tickets have clear acceptance criteria and reproduction steps, others are "
-                "a single vague sentence. The team re-explains what a good ticket looks like in "
-                "every Claude conversation.\n\n"
-                "You want Claude to draft a `neuroflow-jira-tickets` skill. "
-                "**Task:** Write the prompt you would send to Claude to draft this skill. "
-                "Your prompt must give Claude the domain expertise to assign, the task types "
-                "to include, the output structure to follow, and at least one explicit constraint "
-                "on what the skill should prohibit."
-            ),
-            "broken_example": "",
-            "rubric": (
-                "Score the prompt against five criteria (20 points each):\n\n"
-                "1. Domain and purpose described clearly enough for Claude to write an accurate "
-                "description field and role — names the type of work (product/engineering tickets) "
-                "and the problem being solved (inconsistent quality, missing structure).\n\n"
-                "2. Task types specified with at least two concrete examples — bug reports, "
-                "feature requests, technical tasks, or similar Jira ticket types.\n\n"
-                "3. Output structure named — specific required sections like title, summary, "
-                "acceptance criteria, reproduction steps, or definition of done — so Claude "
-                "knows what to enforce across all tickets.\n\n"
-                "4. Audience or context provided — who writes these tickets and who reads them "
-                "(engineers, PMs, QA, or similar) so Claude can calibrate detail level.\n\n"
-                "5. At least one explicit 'do not' constraint — the most important prohibition "
-                "for Jira tickets (e.g. do not leave acceptance criteria vague, do not omit "
-                "reproduction steps for bugs, or similar)."
-            ),
-            "model_answer": (
-                "Draft a Claude skill called neuroflow-jira-tickets for NeuroFlow's product "
-                "and engineering teams. The skill should assign the role of a senior product "
-                "manager with experience writing well-structured Jira tickets for a healthcare "
-                "technology company.\n\n"
-                "Task types to include: bug reports, feature requests, and technical tasks.\n\n"
-                "Output structure: every ticket must include — a clear one-line title, a "
-                "2–3 sentence summary of the problem or request, acceptance criteria as a "
-                "numbered list, and for bugs: exact reproduction steps and expected vs. actual "
-                "behavior. Definition of done should be included for feature requests.\n\n"
-                "The skill triggers when the user says phrases like 'write a Jira ticket', "
-                "'draft a bug report', 'create a feature request', or 'write a task for Jira'.\n\n"
-                "Include one explicit constraint: do not write vague acceptance criteria. "
-                "Every acceptance criterion must be testable — a QA engineer should be able "
-                "to verify it with a clear pass or fail."
-            ),
-            "hints": [
-                "Claude needs enough context to write a useful role. 'Product team' is not enough — describe what kind of tickets and what quality problem you're solving.",
-                "The output structure is what makes a skill produce consistent results. Name the specific sections every ticket must include.",
-                "The constraint prevents the most common failure mode. What is the single biggest quality problem with Jira tickets that Claude should be explicitly told to avoid?",
-            ],
-        },
-    },
-    3: {
-        "concept": """
-Project instructions are a system prompt applied to every conversation in the Project. Weak
-instructions produce inconsistent outputs regardless of how good individual follow-up prompts
-are. Strong instructions eliminate entire categories of re-prompting.
-
-**What makes instructions strong**
-
-Strong Project instructions have four elements:
-
-**Role and context** — who Claude is in this Project and what NeuroFlow does. "You are a
-senior BD strategist at NeuroFlow, a behavioral health technology company that serves health
-systems, Medicaid MCOs, and federal agencies including the VA and DoD." This grounds every
-response in the right domain without staff repeating it.
-
-**Persistent task scope** — what this Project is for and what it produces. "This Project
-helps the BD team draft outreach emails, value propositions, and partner briefings."
-
-**Output standards** — format, length, and style expectations. "Default to concise,
-benefit-forward prose in active voice. Lead with the business outcome. No bullet points
-unless the user asks. No clinical jargon in external-facing outputs."
-
-**Constraints** — what Claude should never do in this Project. "Do not use first-person
-plural ('we', 'our'). Do not make claims about outcomes without a source. If a request falls
-outside BD use cases, note that and ask for clarification."
-
-**Using Claude to write your own instructions**
-
-The most practical way to write strong Project instructions for a recurring workflow is to
-use Claude in that conversation to help. After a session that produced good outputs, prompt
-Claude to extract and formalize the working context into instructions:
-
-```
-Review this conversation and write Project instructions I can paste
-directly into Project Settings. The Project helps the BD team draft
-value proposition emails for health system buyers. Incorporate the
-product positioning doc and case studies uploaded as knowledge files
-so Claude draws on them when generating outreach.
-```
-
-Claude reads the conversation, identifies the implicit role and constraints, and formalizes
-them. The result is instructions that match what already worked — not instructions you have
-to draft from scratch.
-""",
-        "challenge": {
-            "scenario": (
-                "The NeuroFlow BD team has been using Claude to draft value proposition emails "
-                "for health system and payer audiences. After several good sessions, you want to "
-                "formalize this into a Project so the whole team can use it consistently.\n\n"
-                "**Task:** Write the prompt you would send to Claude — at the end of a working "
-                "conversation — to generate Project instructions for a BD Value Proposition "
-                "Project. Your prompt must ask Claude to review the conversation, specify the "
-                "Project's purpose, and name the knowledge files that should be referenced."
-            ),
-            "broken_example": "",
-            "rubric": (
-                "Score the prompt against four criteria (25 points each):\n\n"
-                "1. Asks Claude to review the current conversation or prior session to draw "
-                "the instructions from — not to invent instructions from scratch.\n\n"
-                "2. Specifies the Project's purpose and who will use it (BD team, value "
-                "proposition emails, health system or payer audiences, or similar).\n\n"
-                "3. Names at least one knowledge file the Project should reference (product "
-                "positioning doc, case studies, BHIQ overview, or similar).\n\n"
-                "4. Asks for output that can be pasted directly into Project Settings — "
-                "'write Project instructions', 'instructions I can paste', or similar phrasing."
-            ),
-            "model_answer": (
-                "Review this conversation and write Claude Project instructions I can paste "
-                "directly into Project Settings. The Project should help the BD team draft "
-                "value proposition emails for health system and payer buyers. Incorporate "
-                "the product positioning doc and the case studies uploaded as knowledge files "
-                "so Claude draws on them when generating outreach."
-            ),
-            "hints": [
-                "The most commonly missed element is asking Claude to review the conversation itself. Without this, Claude has no source to draw the instructions from.",
-                "Claude doesn't know which files you plan to upload. Name them in the prompt so the instructions tell Claude how to use them.",
-                "The output should be ready to paste into Project Settings — phrase the request so Claude produces instructions, not just advice.",
-            ],
-        },
+        "quiz": [
+            {
+                "question": (
+                    "A skill prompt for Jira tickets includes a role, two task types, and "
+                    "an output structure. Which additional element makes the skill most "
+                    "reliable in production?"
+                ),
+                "options": [
+                    "A list of every possible ticket status so Claude can set them automatically",
+                    "An explicit constraint — for example: do not leave acceptance criteria "
+                    "vague; every criterion must be a testable, binary condition",
+                    "A sample of the team's past Jira tickets pasted directly into the prompt",
+                    "Instructions to search the web for Jira best practices before responding",
+                ],
+                "correct_index": 1,
+                "hint": "The worked example showed that a constraint prevents the most consequential failure mode — fabricating or leaving vague the elements that matter most.",
+            },
+            {
+                "question": (
+                    "Your neuroflow-jira-tickets skill works well for bug reports but "
+                    "produces inconsistent feature requests. What is the most targeted fix?"
+                ),
+                "options": [
+                    "Delete the skill and write a new one from scratch covering only feature requests",
+                    "Add a second task type block that defines the required sections specifically "
+                    "for feature requests — user story, acceptance criteria, definition of done, "
+                    "and dependencies",
+                    "Switch from the Skills feature to a Project with instructions instead",
+                    "Add more examples of good bug reports so Claude learns the pattern better",
+                ],
+                "correct_index": 1,
+                "hint": "Skills can define separate output structures for each task type — adding specificity to the weak task type is faster than rebuilding from scratch.",
+            },
+            {
+                "question": (
+                    "You are writing the description field for the neuroflow-jira-tickets skill. "
+                    "Which description most clearly controls when the skill activates and "
+                    "prevents it from loading on unrelated requests?"
+                ),
+                "options": [
+                    "Helps the product and engineering team with Jira-related work and ticket management",
+                    "Activates when the user asks to write a Jira ticket, draft a bug report, "
+                    "create a feature request, or write a task for Jira",
+                    "Use this skill whenever you need help with project management or task tracking",
+                    "A Jira ticket writing skill for the NeuroFlow product team",
+                ],
+                "correct_index": 1,
+                "hint": (
+                    "The description field should list specific action phrases users will actually "
+                    "type — not a general description of the skill. Vague descriptions load the "
+                    "skill too broadly; action phrases give Claude a precise trigger."
+                ),
+            },
+        ],
     },
     4: {
         "concept": """
@@ -423,9 +393,7 @@ facts: your job function, the teams and products you work on, and preferences yo
 expressed. Over time this means Claude starts conversations with working knowledge of who
 you are and what you typically need.
 
-To view, edit, or delete your memories, go to **Settings → Memory**. Review this
-periodically. Claude may capture something imprecisely or retain a fact that is no longer
-accurate. Memories you delete stop applying immediately.
+To view, edit, or delete your memories, go to **Settings → Capabilities** in Claude.ai or Claude Desktop, then click "View and edit memory." You can also click your profile icon in the bottom-left corner and select Memory. Review your memories periodically — Claude may capture something imprecisely or retain a fact that is no longer accurate. Memories you delete stop applying immediately.
 
 Memory is global — it applies across all conversations and Projects. It takes lower priority
 than Project instructions. If your memory says "use bullet points" but the Project
@@ -795,9 +763,14 @@ def render_lesson(lesson_id: int) -> bool:
 
     if already_done:
         # Let sandboxes and challenges fall through to show their output
-        if not (lesson.get("sandbox_lesson") or lesson.get("challenge")):
+        # Quiz-only lessons short-circuit here; sandbox/challenge lessons fall through
+        if not (lesson.get("sandbox_lesson") or lesson.get("challenge")) and not lesson.get("quiz"):
             st.success("✓ Lesson complete")
             return True
+        if not (lesson.get("sandbox_lesson") or lesson.get("challenge")) and lesson.get("quiz"):
+            st.success("✓ Lesson complete")
+            # Still render quiz for review, but it won't refire completion
+            pass
 
     # Lessons with quiz only
     if lesson.get("quiz") and not lesson.get("challenge"):
@@ -806,7 +779,7 @@ def render_lesson(lesson_id: int) -> bool:
             questions=lesson["quiz"], label="Knowledge check",
         )
 
-    # Graded challenge lessons (4.2, 4.3)
+    # Graded challenge lessons (4.2)
     if lesson.get("challenge"):
         ch = lesson["challenge"]
         return render_graded_challenge(

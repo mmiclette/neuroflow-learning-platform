@@ -23,8 +23,8 @@ Pinecrest Counseling,77,155,80"""
 LESSONS = {
     1: {
         "concept": """
-Claude's connectors are built on the Model Context Protocol (MCP), an open standard that
-creates secure bridges between Claude and external services. You find and enable connectors
+Claude's connectors are built on a secure integration layer that creates authenticated
+bridges between Claude and external services. You find and enable connectors
 in the Search and tools panel at the bottom left of any Claude conversation. Each connector
 you add appears there as a toggle. Disable connectors not relevant to your current task
 before starting — each active connector adds retrieval overhead even when unused.
@@ -103,7 +103,7 @@ Connectors extend Claude's reach — they let Claude pull information from and t
 the tools your team already uses. Plugins extend Claude's capabilities — they give Claude a
 focused skill set and specialized tools for a specific category of work.
 
-A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there?
+> **A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there?**
 
 Anthropic builds and maintains plugins. Each one adds domain-specific defaults, specialized
 reasoning patterns, and execution tools that Claude does not have in a standard conversation.
@@ -132,6 +132,19 @@ defaults applied automatically across the session. Do not use a plugin when a we
 prompt handles the task — a single outreach email drafted with a strong RTCFC prompt does
 not need the Sales plugin. Plugins add token overhead. Use the simplest approach that
 achieves the result.
+
+**Using plugins across roles**
+
+Plugins are often designed for a specific role or field, but you do not need to use the
+full package. Each plugin bundles skills, connectors, and sub-agents together — but
+individual skills surface as slash commands you can trigger on demand. If one or two skills
+from the Sales or Legal plugin are useful to your workflow, you can use those without
+engaging the rest of the plugin.
+
+If nothing in the existing library fits your task, Plugin Create walks you through building
+something from scratch, or you can start from an existing template and modify it. The
+answer to "what am I trying to do" may already exist inside a plugin built for a different
+role.
 """,
         "quiz": [
             {
@@ -155,6 +168,10 @@ achieves the result.
     },
     3: {
         "concept": """
+> 📌 **Screenshot placeholder — Tools panel**
+> *Insert annotated screenshot of the Claude Teams interface showing the Search and tools panel (bottom left), with the connector list visible and one connector toggled on. Annotate: (1) where to find the panel, (2) the toggle for enabling/disabling connectors, (3) the permission prompt that appears on first write action.*
+
+
 Connectors and plugins do not change the relationship between prompt quality and output quality.
 A vague connector prompt produces unfocused retrieval. A vague Data plugin prompt produces
 descriptive prose instead of analysis. The tools provide capability. The prompt determines
@@ -193,6 +210,47 @@ board update. A prompt that says "add this to Monday" leaves Claude to guess the
 the item name, and every field.
 """,
         "sandbox_lesson": True,
+        "data_challenge": {
+            "scenario": (
+                "The table below shows PHQ-9 completion rates by site over 6 months. "
+                "Write a prompt for the Data plugin that produces at least one calculated "
+                "result and one chart. Specify the chart type, sort order, and a benchmark "
+                "or threshold to interpret against.\n\n"
+                "| Site | Rate |\n"
+                "| Riverside | 71% |\n"
+                "| Oakland | 88% |\n"
+                "| Sacramento | 64% |\n"
+                "| Fresno | 82% |\n"
+                "| Stockton | 56% |\n"
+                "| Modesto | 79% |\n"
+                "| San Jose | 91% |\n"
+                "| Bakersfield | 68% |\n"
+                "| Santa Rosa | 85% |\n"
+                "| Redding | 73% |\n"
+            ),
+            "rubric": (
+                "Score the prompt against three criteria (33 points each, rounded to 100):\n\n"
+                "1. Asks for at least one specific calculation — average rate, highest/lowest "
+                "performers, sites below a threshold, or similar numeric analysis.\n\n"
+                "2. Names a specific chart type (bar chart, line chart, etc.) and a sort "
+                "order (ascending, descending, alphabetical, or ranked).\n\n"
+                "3. Includes a benchmark or threshold to interpret against — for example "
+                "'below 80%', 'above target', or a specific numeric cutoff.\n\n"
+                "If any criterion is missing, the hint must name it specifically — e.g. "
+                "'Your prompt did not specify a chart type' or 'Your prompt did not include "
+                "a benchmark to interpret the results against.' Never give generic feedback."
+            ),
+            "model_answer": (
+                "Using the PHQ-9 completion rate data, calculate the average completion rate "
+                "per site and identify the three highest and three lowest performers. Generate "
+                "a bar chart ranked by completion rate descending. Add a one-sentence "
+                "interpretation noting which sites fall below the 80% target."
+            ),
+            "hints": [
+                "A strong prompt names a specific calculation AND a chart type with a sort order.",
+                "Add a benchmark — e.g. '80% target' — so the output is self-interpreting.",
+            ],
+        },
         "challenge": {
             "scenario": (
                 "A BD team member just finished a discovery call with Riverside Health System. "
@@ -234,6 +292,10 @@ the item name, and every field.
     },
     4: {
         "concept": """
+> 📌 **Screenshot placeholder — Plugin selector**
+> *Insert annotated screenshot of the Claude Teams interface showing the plugin selection menu, with at least one plugin active. Annotate: (1) where plugins appear in the UI, (2) how to tell a plugin is active, (3) the slash command palette that shows available plugin skills.*
+
+
 Plugins, connectors, and well-crafted prompts can each produce outputs that look similar on
 the surface. Knowing which to reach for prevents two equally common mistakes: over-engineering
 a simple task by adding tools it does not need, and under-powering a complex one by leaving
@@ -282,11 +344,11 @@ simplifying the tool stack is the first step.
                 "options": [
                     "A) Prompt only — all source material is attached and the deliverable is text",
                     "B) Connector — LinkedIn requires a connector to draft and post",
-                    "C) Plugin — the Marketing plugin improves social content quality",
+                    "C) Plugin — the Marketing plugin improves social content quality, but only adds value when Claude needs specialised defaults or tools not available in a standard prompt",
                     "D) Combination — the Marketing plugin plus a connector to pull program details",
                 ],
                 "correct_index": 0,
-                "hint": "All the information is already in the conversation and the output is text — what does that tell you?",
+                "hint": "All source material is attached and the deliverable is text. The threshold for adding a plugin is when the task requires execution Claude cannot do natively — rendering charts, running calculations, or accessing live external data. A 300-word post from an attached PDF does not cross that threshold.",
             },
             {
                 "question": (
@@ -345,7 +407,7 @@ simplifying the tool stack is the first step.
                     "D) Combination — the Sales plugin plus connectors to pull competitive data",
                 ],
                 "correct_index": 0,
-                "hint": "All source material is present and the deliverable is text — the simplest approach that achieves the result.",
+                "hint": "All source material is present and the deliverable is text. The threshold for adding a plugin is when the task requires execution Claude cannot do natively — charts, calculations, code. A 300-word post from attached material does not cross that threshold.",
             },
         ],
     },
@@ -368,26 +430,36 @@ def _render_data_sandbox(lesson_id: int) -> bool:
     )
     st.code(SAMPLE_CSV, language="text")
 
-    if ss["submitted"]:
-        st.success("✓ Sandbox complete")
-        st.markdown("**Output:**")
-        st.markdown(
-            f'<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
-            f'padding:14px;font-size:13px;line-height:1.7;">{__import__("html").escape(ss["output"]).replace(chr(10), "<br>")}</div>',
-            unsafe_allow_html=True,
-        )
-        return True
-
-    starter = (
+    MODEL_ANSWER_53 = (
         "Using the PHQ-9 completion rate data provided, calculate the average completion "
         "rate per site. Identify the three highest and three lowest performers. Generate "
         "a bar chart ranked by completion rate descending. Add a one-sentence interpretation "
         "below the chart noting which sites are below the 80% target."
     )
+
+    if ss["submitted"]:
+        st.success("✓ Sandbox complete")
+        st.markdown("**Your output:**")
+        st.markdown(
+            f'<div style="background:#F0FBF9;border:1px solid #2EA799;border-radius:6px;'
+            f'padding:14px;font-size:13px;line-height:1.7;">{__import__("html").escape(ss["output"]).replace(chr(10), "<br>")}</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown("**What a strong prompt includes:**")
+        st.markdown(
+            '- A specific calculation (e.g. average rate per site, highest/lowest performers)\n'
+            '- An explicit chart type and sort order\n'
+            '- A benchmark or threshold to interpret against (e.g. 80% target)\n'
+            '- A one-sentence interpretation so the output is self-explanatory'
+        )
+        st.markdown(f"**Example prompt:**\n\n> {MODEL_ANSWER_53}")
+        return True
+
     input_key = f"{state_key}_input"
     st.text_area(
-        "Your prompt:", value=starter, key=input_key,
+        "Your prompt:", value="", key=input_key,
         height=140, label_visibility="collapsed",
+        placeholder="Write a prompt asking Claude to calculate results and produce a chart from the data above. Specify the chart type and what you want calculated.",
     )
     col1, _ = st.columns([1, 5])
     with col1:
@@ -419,11 +491,22 @@ def render_lesson(lesson_id: int) -> bool:
     st.markdown("---")
 
     if already_done:
-        st.success("✓ Lesson complete")
-        return True
+        if not (lesson.get("sandbox_lesson") or lesson.get("challenge")):
+            st.success("✓ Lesson complete")
+            return True
 
     if lesson.get("sandbox_lesson") and lesson.get("challenge"):
-        sandbox_done = _render_data_sandbox(lesson_id)
+        dc = lesson.get("data_challenge")
+        if dc:
+            sandbox_done = render_graded_challenge(
+                track_id=TRACK_ID, lesson_id=lesson_id,
+                scenario=dc["scenario"], broken_example="",
+                rubric=dc["rubric"], model_answer=dc["model_answer"],
+                hints=dc["hints"], input_label="Your Data plugin prompt",
+                max_chars=400, single_attempt=True, mark_complete=False,
+            )
+        else:
+            sandbox_done = _render_data_sandbox(lesson_id)
         if not sandbox_done:
             return False
         ch = lesson["challenge"]

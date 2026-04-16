@@ -445,9 +445,33 @@ def _render_four_field_challenge(
                     f"✓ Passed — score {r['score']}/100 "
                     f"({cs['attempts']} {attempt_word})"
                 )
+                if r.get("strengths"):
+                    st.markdown(
+                        f'<div style="background:#EAF3DE;border-left:3px solid #3B6D11;'
+                        f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+                        f'<span style="color:#3B6D11;font-weight:500;">What worked:</span> '
+                        f'<span style="color:#212121;">{r["strengths"]}</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                if r.get("hint") and r["score"] < 100:
+                    st.markdown(
+                        f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                        f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+                        f'<span style="color:#478FCC;font-weight:500;">What would earn full marks:</span> '
+                        f'<span style="color:#212121;">{r["hint"]}</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                with st.expander("Compare with full-credit example"):
+                    st.markdown(f"```\n{ch['model_answer']}\n```")
             else:
-                st.info("Model answer revealed. Lesson complete.")
-                st.markdown(f"**Model answer:**\n\n```\n{ch['model_answer']}\n```")
+                st.info("Review the full-credit example below, then move to the next lesson.")
+                st.markdown(
+                    f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                    f'border-radius:4px;padding:10px 14px;margin:8px 0 4px;">'
+                    f'<span style="color:#478FCC;font-weight:500;">Full-credit example:</span></div>',
+                    unsafe_allow_html=True,
+                )
+                st.markdown(f"```\n{ch['model_answer']}\n```")
         return True
 
     # Attempt counter

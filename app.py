@@ -385,6 +385,21 @@ def view_track_overview(track_id: int):
     if is_track_complete(track_id):
         if st.button("View certificate →", type="primary", key=f"track_cert_{track_id}"):
             go_certificate(track_id)
+        # Track 3 — prompt engineering flashcard download
+        if track_id == 3:
+            try:
+                with open("track3_flashcard.html", "rb") as f:
+                    flashcard_bytes = f.read()
+                st.download_button(
+                    label="⬇ Download prompt engineering quick reference",
+                    data=flashcard_bytes,
+                    file_name="NeuroFlow_PromptEngineering_QuickReference.html",
+                    mime="text/html",
+                    key="track3_flashcard_dl",
+                )
+                st.caption("Open the downloaded file in any browser to view or print.")
+            except FileNotFoundError:
+                pass
     else:
         next_lesson = get_first_incomplete_lesson(track_id)
         lbl = f"Continue — Lesson {next_lesson}" if done > 0 else f"Start — Lesson 1"
@@ -420,7 +435,8 @@ def view_lesson(track_id: int, lesson_id: int):
     )
 
     # ---------- Diagram (before content, where applicable) ----------
-    if lesson_meta.get("has_diagram") and not lesson_meta.get("has_video"):
+    if (lesson_meta.get("has_diagram") and not lesson_meta.get("has_video")
+            and lesson_meta.get("diagram_position") != "after"):
         diagram_id = lesson_meta.get("diagram_id")
         if diagram_id:
             html = get_diagram(diagram_id)
@@ -453,6 +469,17 @@ def view_lesson(track_id: int, lesson_id: int):
 
     # ---------- Track lesson content ----------
     lesson_passed = _render_track_lesson(track_id, lesson_id)
+
+    # ---------- Diagram after content (diagram_position="after") ----------
+    if (lesson_meta.get("has_diagram")
+            and lesson_meta.get("diagram_position") == "after"):
+        diagram_id = lesson_meta.get("diagram_id")
+        if diagram_id:
+            html = get_diagram(diagram_id)
+            height = get_diagram_height(diagram_id)
+            if html:
+                st.markdown("<br>", unsafe_allow_html=True)
+                st.components.v1.html(html, height=height, scrolling=False)
 
     # ---------- Next / Complete Track button ----------
     st.markdown("<br>", unsafe_allow_html=True)

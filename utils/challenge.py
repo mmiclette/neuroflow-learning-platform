@@ -8,6 +8,17 @@ from utils.session import complete_lesson
 from utils.grading import grade_challenge
 
 
+def _strengths_callout(text: str) -> None:
+    st.markdown(
+        f'<div style="background:#EAF3DE;border-left:3px solid #3B6D11;'
+        f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+        f'<span style="color:#3B6D11;font-weight:500;">What worked:</span> '
+        f'<span style="color:#212121;">{text}</span></div>',
+        unsafe_allow_html=True,
+    )
+
+
+
 def render_graded_challenge(
     track_id: int,
     lesson_id: int,
@@ -19,12 +30,14 @@ def render_graded_challenge(
     input_label: str = "Your response",
     max_chars: int = 500,
     single_attempt: bool = False,
+    mark_complete: bool = True,
 ) -> bool:
     """
     Render a graded short-input challenge.
 
-    single_attempt=True: Lesson 3.2 mode — submit once, always advance,
-    show explanation only (no score number displayed).
+    single_attempt=True: submit once, always advance, show explanation.
+    mark_complete=False: do not call complete_lesson on pass — let the
+      caller (e.g. a following quiz) own the completion signal.
 
     Returns True when the lesson is passed or auto-advanced.
     """
@@ -51,7 +64,31 @@ def render_graded_challenge(
         if cs["last_result"]:
             result = cs["last_result"]
             if single_attempt:
-                st.info(f"**Submitted.** {result.get('explanation', '')}")
+                explanation = result.get('explanation', '')
+                score = result.get('score', 0)
+                if score >= 95:
+                    st.success(f"✓ All criteria met.")
+                    if result.get('strengths'):
+                        _strengths_callout(result['strengths'])
+                    with st.expander("Compare with full-credit example"):
+                        st.markdown(model_answer)
+                else:
+                    st.info(f"**Submitted.** {explanation}")
+                    if result.get('hint'):
+                        st.markdown(
+                            f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                            f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+                            f'<span style="color:#478FCC;font-weight:500;">What was missing:</span> '
+                            f'<span style="color:#212121;">{result["hint"]}</span></div>',
+                            unsafe_allow_html=True,
+                        )
+                    st.markdown(
+                        f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                        f'border-radius:4px;padding:10px 14px;margin:8px 0 4px;">'
+                        f'<span style="color:#478FCC;font-weight:500;">Full-credit example:</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                    st.markdown(model_answer)
             else:
                 if result.get("pass"):
                     attempt_word = "attempt" if cs["attempts"] == 1 else "attempts"
@@ -59,6 +96,8 @@ def render_graded_challenge(
                         f"✓ Passed — score {result['score']}/100 "
                         f"({cs['attempts']} {attempt_word})"
                     )
+                    if result.get("strengths"):
+                        _strengths_callout(result["strengths"])
                     if result.get("hint") and result["score"] < 100:
                         st.markdown(
                             f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
@@ -67,9 +106,17 @@ def render_graded_challenge(
                             f'<span style="color:#212121;">{result["hint"]}</span></div>',
                             unsafe_allow_html=True,
                         )
+                    with st.expander("Compare with full-credit example"):
+                        st.markdown(model_answer)
                 else:
-                    st.info("Model answer revealed. Lesson complete — move to next lesson.")
-                    st.markdown(f"**Model answer:**\n\n{model_answer}")
+                    st.info("Review the full-credit example below, then move to the next lesson.")
+                    st.markdown(
+                        f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                        f'border-radius:4px;padding:10px 14px;margin:8px 0 4px;">'
+                        f'<span style="color:#478FCC;font-weight:500;">Full-credit example:</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                    st.markdown(model_answer)
         return True
 
     # -----------------------------------------------------------------------
@@ -143,20 +190,23 @@ def render_graded_challenge(
             cs["last_result"]["explanation"] = explanation
             cs["passed"] = True
             cs["completed"] = True
-            complete_lesson(track_id, lesson_id)
+            if mark_complete:
+                complete_lesson(track_id, lesson_id)
             st.rerun()
 
         elif result["pass"]:
             cs["passed"] = True
             cs["completed"] = True
-            complete_lesson(track_id, lesson_id)
+            if mark_complete:
+                complete_lesson(track_id, lesson_id)
             st.rerun()
 
         elif cs["attempts"] >= 3:
             # 3rd failure — reveal model answer and advance
             cs["show_model_answer"] = True
             cs["completed"] = True
-            complete_lesson(track_id, lesson_id)
+            if mark_complete:
+                complete_lesson(track_id, lesson_id)
             st.rerun()
 
         else:

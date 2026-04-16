@@ -31,6 +31,10 @@ symbolic AI predictable and auditable — you can always trace an output back to
 that produced it. The limitation is brittleness: if a situation arises that no rule covers,
 the system cannot adapt.
 
+A patient who describes their symptoms as "feeling empty" or "like I'm going through the
+motions" would not trigger a rule written for "depressed" or "hopeless" — even though both
+phrases are clinically significant. The rule must match exactly; it cannot infer meaning.
+
 **Statistical machine learning** takes a different approach. Instead of following rules, an
 ML model learns from examples. A developer provides a large dataset of past cases with known
 outcomes, and the model identifies statistical patterns that connect inputs to those outcomes.
@@ -128,9 +132,7 @@ being told in advance what the groups should be.
 penalizing undesired ones. This is how many AI systems that play games or optimize processes
 are trained.
 
-**Where ML models fail**
-
-Understanding failure modes helps staff set appropriate expectations with partners.
+<div style="background:#EBF3FA;border-left:4px solid #478FCC;border-radius:0 6px 6px 0;padding:12px 16px;margin:16px 0;"><strong style="color:#0C447C;">Where supervised ML models fail</strong><br><span style="color:#212121;font-size:13px;">These failure modes apply specifically to supervised learning — models trained on labeled examples to make predictions. Understanding them helps staff set appropriate expectations with partners.</span></div>
 
 **Overfitting** occurs when a model learns the training data too well — it memorizes specific
 examples rather than general patterns — and performs poorly on new data.
@@ -186,16 +188,28 @@ is a meaningful differentiator in health system and federal partner conversation
     },
     3: {
         "concept": """
-Natural language processing (NLP) is the branch of AI focused on understanding, interpreting,
-and generating human language. It is the field that produced large language models. Understanding
-NLP grounds the rest of this program in something more substantial than "here is how to use
-a chatbot."
+NeuroFlow uses three types of AI, and understanding which is which prevents the most common
+confusion staff encounter in partner and customer conversations:
+
+- **Symbolic AI** — the rule-based logic in BHIQ that controls assessment delivery and clinical alerts
+- **Statistical ML** — the BHIQ risk stratification models trained on behavioral health outcomes data
+- **LLMs** — Claude Teams, used internally for drafting, analysis, and research
+
+Each type has different capabilities, different failure modes, and different appropriate uses.
+This lesson covers the third type — large language models — and how they emerged from the
+broader field of natural language processing.
 
 **The evolution of NLP**
 
 Early NLP systems used rules. To detect depression in a clinical note, a developer might write:
 if the note contains "depressed," "hopeless," or "PHQ-9," flag it. This worked until language
 varied in ways the rules did not anticipate.
+
+A patient who describes their symptoms as "feeling empty" or "like I'm going through the
+motions" would not trigger that rule — even though both phrases are clinically significant
+descriptions of depression. The rule must match exactly; it cannot infer meaning. This is
+what makes rule-based systems brittle: they fail silently on any phrasing the developer
+did not explicitly anticipate.
 
 Statistical NLP improved on this by learning patterns from labeled text data rather than coding
 rules manually. Early text classification, sentiment analysis, and named entity recognition
@@ -220,6 +234,7 @@ screening tools.
 | **Examples** | EHR symptom extractors, ICD code mappers, clinical text parsers | Claude, GPT, Gemini | Phi-3, Mistral 7B, BioMedLM |
 | **Strengths** | Fast, predictable, explainable, low cost | General reasoning, instruction following, long context, generation | Fast inference, lower cost, deployable on-premise, fine-tunable for specific domains |
 | **Limitations** | Brittle — breaks on unfamiliar phrasing; no generation capability | High compute cost, cloud dependency, general rather than specialized | Less capable on open-ended tasks; requires fine-tuning investment for best results |
+| **When to use** | Narrow, repetitive extraction tasks at scale where precision matters more than flexibility | Open-ended reasoning, drafting, analysis, research, instruction-following | Fast, specific, domain-constrained tasks where cloud dependency or cost is a constraint |
 
 The symptom detection diagram above shows traditional NLP at work — rules and lexicons mapping
 clinical phrases to standardized codes. It is fast and reliable for that narrow task, but it
@@ -240,18 +255,6 @@ that structured assessments might miss.
 
 **Prior authorization and coding** — automating identification of relevant diagnosis codes
 and clinical justifications from documentation.
-
-**NeuroFlow's position in this ecosystem**
-
-NeuroFlow spans three types of AI in its current product portfolio:
-
-- **Symbolic AI** — the rule-based logic in the BHL and BHIQ platforms that controls assessment delivery, content sequencing, and clinical alerts
-- **Statistical ML** — the BHIQ risk stratification models trained on behavioral health outcomes data
-- **LLMs** — Claude Teams, used internally for staff productivity across BD, product, policy, and clinical operations
-
-Being able to describe those accurately — and to distinguish BHIQ's ML capabilities from
-Claude's generative AI capabilities — is a meaningful differentiator in health system and
-federal partner conversations.
 
 The constant across all AI types: **human oversight remains essential.** A risk score informs
 a clinical decision; it does not make it. A drafted policy brief requires review before
@@ -281,7 +284,7 @@ submission. The role of human judgment does not disappear with AI — it shifts.
                     "AI models are more accurate than clinicians so the concern is misplaced",
                     "The concern only applies to generative AI, not to predictive models like BHIQ",
                     "Regulatory requirements will eventually require AI adoption regardless of provider preference",
-                    "You are raising the right concern — none of these tools are designed to replace clinical judgment. A risk model generates a score that helps you prioritize which patients to reach out to first. The clinical decision remains entirely yours",
+                    "You are raising the right concern, and it is the right question to ask. BHIQ's risk score reflects real clinical signal — it is trained on behavioral health outcomes data and identifies patients who statistically have a higher likelihood of deterioration. But the score informs your judgment; it does not replace it. The clinical decision about what to do remains entirely with the provider.",
                 ],
                 "correct_index": 3,
                 "hint": "What does the risk model actually produce, and who makes the final decision?",
@@ -309,8 +312,20 @@ def render_lesson(lesson_id: int) -> bool:
     # Already complete — still show content, skip quiz
     already_done = is_lesson_complete(track_id, lesson_id)
 
-    # Concept brief
-    st.markdown(lesson["concept"])
+    # Concept — split on HTML tags if present
+    import re as _re
+    concept = lesson["concept"]
+    if "<div " in concept or "<img " in concept:
+        parts = _re.split(r'(<div[^>]*>.*?</div>|<img[^/]*/?>)', concept, flags=_re.DOTALL)
+        for part in parts:
+            if not part.strip():
+                continue
+            if part.lstrip().startswith('<div ') or part.lstrip().startswith('<img '):
+                st.markdown(part, unsafe_allow_html=True)
+            else:
+                st.markdown(part)
+    else:
+        st.markdown(concept)
 
     st.markdown("---")
 

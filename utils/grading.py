@@ -9,10 +9,11 @@ HAIKU_MODEL = "claude-haiku-4-5-20251001"
 
 GRADING_SYSTEM_PROMPT = """You are a grading assistant for the NeuroFlow AI Learning Platform.
 Score the learner's response against the rubric below.
-Return a JSON object with exactly three fields:
+Return a JSON object with exactly four fields:
   "score": integer 0-100
   "pass": boolean (true if score >= 70)
-  "hint": string — one sentence targeting the lowest-scoring criterion. If pass is true, set hint to null. Never reveal the model answer in the hint.
+  "hint": string — one sentence targeting the lowest-scoring criterion when pass is false. Set to null when pass is true.
+  "strengths": string — one sentence describing the strongest aspect of the response when pass is true. Set to null when pass is false. Never reveal the model answer in strengths.
 
 Rubric:
 {rubric}
@@ -44,7 +45,7 @@ def grade_challenge(
     """
     client = _get_client()
     if not client:
-        return {"score": 0, "pass": False, "hint": "API unavailable — check configuration."}
+        return {"score": 0, "pass": False, "hint": "API unavailable — check configuration.", "strengths": None}
 
     system = GRADING_SYSTEM_PROMPT.format(rubric=rubric, model_answer=model_answer)
 
@@ -66,42 +67,12 @@ def grade_challenge(
             "score": int(result.get("score", 0)),
             "pass": bool(result.get("pass", False)),
             "hint": result.get("hint"),
+            "strengths": result.get("strengths"),
         }
     except json.JSONDecodeError:
-        return {"score": 0, "pass": False, "hint": "Grading response could not be parsed. Try again."}
+        return {"score": 0, "pass": False, "hint": "Grading response could not be parsed. Try again.", "strengths": None}
     except Exception as e:
-        return {"score": 0, "pass": False, "hint": f"Grading error: {str(e)[:120]}"}
-
-
-def call_sandbox_with_search(prompt: str) -> tuple[str, bool]:
-    """
-    Send a prompt to Haiku with web search enabled.
-    Returns (response_text, search_was_used).
-    search_was_used is True if Claude actually called the web_search tool.
-    """
-    client = _get_client()
-    if not client:
-        return ("API unavailable — check your Streamlit secrets configuration.", False)
-
-    try:
-        message = client.messages.create(
-            model=HAIKU_MODEL,
-            max_tokens=1024,
-            tools=[{"type": "web_search_20250305", "name": "web_search"}],
-            messages=[{"role": "user", "content": prompt}],
-        )
-        search_used = any(
-            getattr(block, "type", None) == "tool_use"
-            for block in message.content
-        )
-        text_parts = [
-            block.text
-            for block in message.content
-            if getattr(block, "type", None) == "text"
-        ]
-        return ("\n".join(text_parts) or "(No text output)", search_used)
-    except Exception as e:
-        return (f"Error calling model: {str(e)[:200]}", False)
+        return {"score": 0, "pass": False, "hint": f"Grading error: {str(e)[:120]}", "strengths": None}
 
 
 def call_sandbox(prompt: str, system_prompt: str = None) -> str:

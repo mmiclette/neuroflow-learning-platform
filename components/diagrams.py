@@ -825,7 +825,7 @@ def get_diagram_height(diagram_id: str) -> int:
         "connector_ecosystem": 380,
         "project_structure": 260,
         "agent_loop": 420,
-        "ml_pipeline": 260,
+        "ml_pipeline": 290,
         "plugins_by_role": 300,
         "decision_tree": 360,
         "meta_prompting": 290,

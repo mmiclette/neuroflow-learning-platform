@@ -134,7 +134,7 @@ being told in advance what the groups should be.
 penalizing undesired ones. This is how many AI systems that play games or optimize processes
 are trained.
 
-<div style="background:#EBF3FA;border-left:4px solid #478FCC;border-radius:0 6px 6px 0;padding:12px 16px;margin:16px 0;"><strong style="color:#0C447C;">Where supervised ML models fail</strong><br><span style="color:#212121;font-size:13px;">These failure modes apply specifically to supervised learning — models trained on labeled examples to make predictions. Understanding them helps staff set appropriate expectations with partners.</span></div>
+**Where supervised ML models fail** — these apply specifically to supervised learning. Understanding them helps staff set appropriate expectations with partners.
 
 **Overfitting** occurs when a model learns the training data too well — it memorizes specific
 examples rather than general patterns — and performs poorly on new data.
@@ -317,21 +317,7 @@ def render_lesson(lesson_id: int) -> bool:
     # Already complete — still show content, skip quiz
     already_done = is_lesson_complete(track_id, lesson_id)
 
-    # Concept — split on HTML tags if present
-    import re as _re
-    concept = lesson["concept"]
-    if "<div " in concept or "<img " in concept:
-        parts = _re.split(r'(<div[^>]*>.*?</div>|<img[^/]*/?>)', concept, flags=_re.DOTALL)
-        for part in parts:
-            if not part.strip():
-                continue
-            if part.lstrip().startswith('<div ') or part.lstrip().startswith('<img '):
-                import streamlit.components.v1 as _c
-                _c.html(f'<div style="font-family:sans-serif;font-size:14px;">{part}</div>', height=80, scrolling=False)
-            else:
-                st.markdown(part)
-    else:
-        st.markdown(concept)
+    st.markdown(lesson["concept"])
 
     st.markdown("---")
 

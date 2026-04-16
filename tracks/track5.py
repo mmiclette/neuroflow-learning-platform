@@ -212,10 +212,14 @@ the item name, and every field.
         "sandbox_lesson": True,
         "data_challenge": {
             "scenario": (
-                "The table below shows PHQ-9 completion rates by site over 6 months. "
-                "Write a prompt for the Data plugin that produces at least one calculated "
-                "result and one chart. Specify the chart type, sort order, and a benchmark "
-                "or threshold to interpret against.\n\n"
+                "You are a program manager reviewing PHQ-9 completion rates across 10 sites. "
+                "The Data plugin can run calculations and generate charts directly from the "
+                "table below.\n\n"
+                "Write a prompt that asks Claude to analyze this data and produce a visual "
+                "output. Your prompt should request a specific calculation (e.g. an average "
+                "completion rate), name a chart type (e.g. bar chart) and how to sort it "
+                "(e.g. from lowest completion rate to highest), and set a threshold to flag "
+                "sites that need attention (e.g. flag any site below 80%).\n\n"
                 "| Site | Rate |\n"
                 "| Riverside | 71% |\n"
                 "| Oakland | 88% |\n"

@@ -761,7 +761,7 @@ svg .sym-btn:hover > rect{opacity:.88}
     <text x="66" y="228" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">No learning</text>
   </g>
 
-  <text x="190" y="350" text-anchor="middle" font-size="11" fill="#757575" font-family="var(--font-sans,sans-serif)">Tap any layer to learn more</text>
+  <text x="190" y="356" text-anchor="middle" font-size="11" fill="#757575" font-family="var(--font-sans,sans-serif)">Tap any layer to learn more</text>
 </svg>
 </div>
 

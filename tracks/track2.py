@@ -54,9 +54,25 @@ A specific, structured prompt narrows the activation and produces a targeted res
 
 **Context and conversation length affect output quality**
 
-Research consistently shows that LLM reasoning performance degrades as context grows — even well below a model's technical limit. The underlying mechanism is attention dilution: as more tokens fill the context, relevant content in the middle of a conversation receives less model attention than content at the start or end. A 2024 Stanford study found accuracy dropped over 30% when relevant information was buried in the middle of long inputs.
+Claude's context window holds 200,000 tokens — roughly 500 pages of text. Everything in
+the current conversation counts against that limit: your messages, Claude's responses, and
+any uploaded files. Claude can technically hold all of it at once, but performance does not
+stay flat as context grows.
 
-The practical implication for NeuroFlow staff: loading a Project with ten large knowledge files and running long conversations in that context degrades output quality even when the context window limit has not been reached. Keep knowledge files focused and relevant. Start fresh conversations for new tasks rather than extending existing ones. The guidance to keep conversations focused applies for output quality reasons as much as token allocation reasons.
+Research on LLM attention shows that relevant content buried in the middle of a long
+conversation receives less model attention than content at the start or end. A 2024 Stanford
+study found accuracy dropped over 30% when key information was positioned in the middle of
+long inputs. This means a constraint or requirement you stated early in a conversation can
+quietly carry less weight in later responses — even though it is still within the window.
+
+A conversation is getting too long when you notice Claude ignoring earlier instructions,
+producing outputs that contradict context you already provided, or when you find yourself
+scrolling back to re-paste something you already shared. Those are reliable signals to start
+a fresh conversation for the new task.
+
+If you are doing sustained, repeated work on the same topic — not just a long conversation,
+but an ongoing workflow — that is a better fit for a Project than a chat. Track 4 covers
+Projects in detail.
 """,
         "quiz": [
             {

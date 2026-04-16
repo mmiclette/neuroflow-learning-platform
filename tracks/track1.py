@@ -203,19 +203,22 @@ broader field of natural language processing.
 
 **The evolution of NLP**
 
-Early NLP systems used rules. To detect depression in a clinical note, a developer might write:
-if the note contains "depressed," "hopeless," or "PHQ-9," flag it. This worked until language
-varied in ways the rules did not anticipate.
+Early NLP systems were rule-based. To detect depression in a clinical note, a developer might
+define rules such as: if the note contains "depressed," "hopeless," or "PHQ-9," flag it. These
+systems were brittle — any phrasing outside predefined patterns, such as "feeling empty" or
+"going through the motions," would be missed despite being clinically meaningful.
 
-A patient who describes their symptoms as "feeling empty" or "like I'm going through the
-motions" would not trigger that rule — even though both phrases are clinically significant
-descriptions of depression. The rule must match exactly; it cannot infer meaning. This is
-what makes rule-based systems brittle: they fail silently on any phrasing the developer
-did not explicitly anticipate.
+Statistical NLP improved on this by learning patterns from labeled data rather than relying on
+hand-coded rules. These models captured broader linguistic patterns, though they still often
+relied on surface-level representations of text.
 
-Statistical NLP improved on this by learning patterns from labeled text data rather than coding
-rules manually. Early text classification, sentiment analysis, and named entity recognition
-systems used these methods.
+Modern transformer-based models build contextual representations of language, where meaning
+depends on surrounding words. This allows them to generalize across varied phrasing, handle
+longer inputs, and perform a wide range of language tasks with greater flexibility.
+
+That said, users can still attempt to evade detection. On platforms like Reddit, some use
+euphemisms such as "sewer slide" in place of "suicide." While this can bypass simpler systems,
+more advanced models increasingly account for such variations.
 
 Unlike earlier rule-based systems that relied on hand-coded linguistic patterns, or
 statistical models that treated words as isolated counts, transformers build contextual

@@ -379,6 +379,29 @@ def view_track_overview(track_id: int):
             ):
                 go_lesson(track_id, l_id)
 
+    # Certificate row in lesson list when all complete
+    if is_track_complete(track_id):
+        st.markdown("<div style='border-top:1px solid #F0F0F0;'></div>", unsafe_allow_html=True)
+        col1, col2 = st.columns([6, 1])
+        with col1:
+            st.markdown(
+                """
+                <div style="display:flex;align-items:center;padding:12px 0;">
+                  <span style="width:28px;height:28px;border-radius:50%;
+                               background:#E4F5F3;color:#2EA799;font-size:13px;font-weight:600;
+                               display:flex;align-items:center;justify-content:center;
+                               margin-right:14px;flex-shrink:0;">✓</span>
+                  <div>
+                    <span style="font-size:14px;color:#212121;font-weight:400;">Certificate of completion</span>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with col2:
+            if st.button("View", key=f"cert_row_{track_id}", type="primary"):
+                go_certificate(track_id)
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Start / Continue CTA
@@ -486,15 +509,21 @@ def view_lesson(track_id: int, lesson_id: int):
     st.markdown("---")
 
     last = is_last_lesson(track_id, lesson_id)
-    btn_label = "Complete track →" if last else f"Next lesson →"
+    all_done = is_track_complete(track_id)
 
     if lesson_passed or is_lesson_complete(track_id, lesson_id):
-        if st.button(btn_label, type="primary", key=f"next_{track_id}_{lesson_id}"):
-            if last:
+        if last and all_done:
+            if st.button("View certificate →", type="primary", key=f"next_{track_id}_{lesson_id}"):
                 go_certificate(track_id)
-            else:
+        elif last and not all_done:
+            if st.button("Back to track →", type="primary", key=f"next_{track_id}_{lesson_id}"):
+                go_track(track_id)
+            st.caption("Complete all lessons to unlock the certificate.")
+        else:
+            if st.button("Next lesson →", type="primary", key=f"next_{track_id}_{lesson_id}"):
                 go_lesson(track_id, lesson_id + 1)
     else:
+        btn_label = "View certificate →" if (last and all_done) else ("Next lesson →" if not last else "Back to track →")
         st.button(btn_label, disabled=True, key=f"next_dis_{track_id}_{lesson_id}")
         st.caption("Complete the lesson to continue.")
 

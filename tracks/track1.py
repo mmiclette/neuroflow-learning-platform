@@ -323,7 +323,8 @@ def render_lesson(lesson_id: int) -> bool:
             if not part.strip():
                 continue
             if part.lstrip().startswith('<div ') or part.lstrip().startswith('<img '):
-                st.markdown(part, unsafe_allow_html=True)
+                import streamlit.components.v1 as _c
+                _c.html(f'<div style="font-family:sans-serif;font-size:14px;">{part}</div>', height=80, scrolling=False)
             else:
                 st.markdown(part)
     else:

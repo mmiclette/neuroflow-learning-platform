@@ -31,9 +31,11 @@ symbolic AI predictable and auditable — you can always trace an output back to
 that produced it. The limitation is brittleness: if a situation arises that no rule covers,
 the system cannot adapt.
 
+Rules must match exactly to be triggered — this is the core weakness of symbolic AI.
 A patient who describes their symptoms as "feeling empty" or "like I'm going through the
-motions" would not trigger a rule written for "depressed" or "hopeless" — even though both
-phrases are clinically significant. The rule must match exactly; it cannot infer meaning.
+motions" would not trigger a rule written for "depressed" or "hopeless," even though both
+phrases carry real clinical weight. The rule cannot infer meaning; it can only match what
+it was explicitly written to match.
 
 **Statistical machine learning** takes a different approach. Instead of following rules, an
 ML model learns from examples. A developer provides a large dataset of past cases with known

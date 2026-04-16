@@ -103,7 +103,7 @@ Connectors extend Claude's reach — they let Claude pull information from and t
 the tools your team already uses. Plugins extend Claude's capabilities — they give Claude a
 focused skill set and specialized tools for a specific category of work.
 
-> **A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there?**
+<p style="color:#161BAA;font-weight:600;font-size:15px;margin:16px 0;">A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there?</p>
 
 Anthropic builds and maintains plugins. Each one adds domain-specific defaults, specialized
 reasoning patterns, and execution tools that Claude does not have in a standard conversation.
@@ -487,7 +487,20 @@ def render_lesson(lesson_id: int) -> bool:
         return False
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
-    st.markdown(lesson["concept"])
+    # Handle inline HTML in concept
+    import re as _re
+    concept = lesson["concept"]
+    if "<p " in concept or "<div " in concept:
+        parts = _re.split(r'(<(?:p|div)\b[^>]*>.*?</(?:p|div)>)', concept, flags=_re.DOTALL)
+        for part in parts:
+            if not part.strip():
+                continue
+            if part.lstrip().startswith('<p ') or part.lstrip().startswith('<div '):
+                st.markdown(part, unsafe_allow_html=True)
+            else:
+                st.markdown(part)
+    else:
+        st.markdown(concept)
     st.markdown("---")
 
     if already_done:

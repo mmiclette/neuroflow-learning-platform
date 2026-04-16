@@ -712,56 +712,56 @@ svg .sym-btn:hover > rect{opacity:.88}
 <div class="wrap">
 <div class="diagram-row">
 <div class="svg-col">
-<svg width="100%" viewBox="0 0 360 360" role="img">
+<svg width="100%" viewBox="0 0 360 385" role="img">
   <title>AI taxonomy — nested rings</title>
   <desc>Concentric rings inside an AI boundary. Symbolic AI sits as a tappable box in the foreground left, inside the AI ring but outside ML. Inner rings: ML, neural networks, deep learning, generative AI, LLMs.</desc>
 
   <!-- AI outermost ring -->
   <g class="ring" id="r-ai" onclick="show('ai')">
-    <ellipse cx="200" cy="190" rx="155" ry="165" fill="#161B4A" stroke="#2E4799" stroke-width="1.2"/>
-    <text x="200" y="30" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Artificial intelligence</text>
+    <ellipse cx="200" cy="210" rx="155" ry="165" fill="#161B4A" stroke="#2E4799" stroke-width="1.2"/>
+    <text x="200" y="72" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Artificial intelligence</text>
   </g>
 
   <!-- ML ring -->
   <g class="ring" id="r-ml" onclick="show('ml')">
-    <ellipse cx="215" cy="203" rx="116" ry="122" fill="#2E4799" stroke="#478FCC" stroke-width="1"/>
-    <text x="215" y="88" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Machine learning</text>
+    <ellipse cx="215" cy="223" rx="116" ry="122" fill="#2E4799" stroke="#478FCC" stroke-width="1"/>
+    <text x="215" y="122" text-anchor="middle" font-size="13" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Machine learning</text>
   </g>
 
   <!-- Neural networks ring -->
   <g class="ring" id="r-nn" onclick="show('nn')">
-    <ellipse cx="215" cy="212" rx="86" ry="92" fill="#1e5c9e" stroke="#478FCC" stroke-width="1"/>
-    <text x="215" y="127" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Neural networks</text>
+    <ellipse cx="215" cy="232" rx="86" ry="92" fill="#1e5c9e" stroke="#478FCC" stroke-width="1"/>
+    <text x="215" y="160" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Neural networks</text>
   </g>
 
   <!-- Deep learning ring -->
   <g class="ring" id="r-dl" onclick="show('dl')">
-    <ellipse cx="215" cy="221" rx="62" ry="68" fill="#1a7a8a" stroke="#4CB6AC" stroke-width="1"/>
-    <text x="215" y="160" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Deep learning</text>
+    <ellipse cx="215" cy="241" rx="62" ry="68" fill="#1a7a8a" stroke="#4CB6AC" stroke-width="1"/>
+    <text x="215" y="192" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Deep learning</text>
   </g>
 
   <!-- Generative AI ring -->
   <g class="ring" id="r-gen" onclick="show('gen')">
-    <ellipse cx="215" cy="230" rx="43" ry="49" fill="#2a9aaa" stroke="#4CB6AC" stroke-width="0.8"/>
-    <text x="215" y="188" text-anchor="middle" font-size="11" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Generative AI</text>
+    <ellipse cx="215" cy="250" rx="43" ry="49" fill="#2a9aaa" stroke="#4CB6AC" stroke-width="0.8"/>
+    <text x="215" y="217" text-anchor="middle" font-size="11" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Generative AI</text>
   </g>
 
   <!-- LLM innermost ring -->
   <g class="ring" id="r-llm" onclick="show('llm')">
-    <ellipse cx="215" cy="238" rx="28" ry="33" fill="#4CB6AC" stroke="#fff" stroke-width="0.8" stroke-opacity="0.3"/>
-    <text x="215" y="235" text-anchor="middle" font-size="11" font-weight="500" fill="#0a3d35" font-family="var(--font-sans,sans-serif)">LLMs</text>
-    <text x="215" y="249" text-anchor="middle" font-size="9" fill="#085041" font-family="var(--font-sans,sans-serif)">Claude · GPT · Llama</text>
+    <ellipse cx="215" cy="258" rx="28" ry="33" fill="#4CB6AC" stroke="#fff" stroke-width="0.8" stroke-opacity="0.3"/>
+    <text x="215" y="255" text-anchor="middle" font-size="11" font-weight="500" fill="#0a3d35" font-family="var(--font-sans,sans-serif)">LLMs</text>
+    <text x="215" y="269" text-anchor="middle" font-size="9" fill="#085041" font-family="var(--font-sans,sans-serif)">Claude · GPT · Llama</text>
   </g>
 
   <!-- Symbolic AI — drawn LAST so it paints above all rings -->
   <g class="sym-btn" id="r-sym" onclick="show('sym')">
-    <rect x="18" y="158" width="96" height="58" rx="9" fill="#2E4799" stroke="#478FCC" stroke-width="1.5"/>
-    <text x="66" y="178" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Symbolic AI</text>
-    <text x="66" y="194" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">Rule-based</text>
-    <text x="66" y="208" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">No learning</text>
+    <rect x="18" y="178" width="96" height="58" rx="9" fill="#2E4799" stroke="#478FCC" stroke-width="1.5"/>
+    <text x="66" y="198" text-anchor="middle" font-size="12" font-weight="500" fill="#fff" font-family="var(--font-sans,sans-serif)">Symbolic AI</text>
+    <text x="66" y="214" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">Rule-based</text>
+    <text x="66" y="228" text-anchor="middle" font-size="10" fill="#b5d4f4" font-family="var(--font-sans,sans-serif)">No learning</text>
   </g>
 
-  <text x="190" y="350" text-anchor="middle" font-size="11" fill="#757575" font-family="var(--font-sans,sans-serif)">Tap any layer to learn more</text>
+  <text x="190" y="374" text-anchor="middle" font-size="11" fill="#757575" font-family="var(--font-sans,sans-serif)">Tap any layer to learn more</text>
 </svg>
 </div>
 
@@ -793,7 +793,7 @@ const D={
   nn:{title:"Neural networks",body:"<p>Neural networks are ML architectures loosely inspired by the brain. They stack layers of simple computational units that transform inputs step by step. Each layer learns to detect increasingly abstract features.</p><p>NLP (natural language processing) lives here. It is a task domain — language translation, summarization, classification, sentiment analysis — not a separate architectural layer. Most modern NLP runs on deep neural networks.</p>",nfLabel:"",nf:"",ex:"An image classifier uses early layers to detect edges, middle layers to detect shapes, and final layers to recognize specific objects.",bg:"#1e5c9e",border:"#478FCC",titleC:"#fff",bodyC:"#d0e8ff",nfBg:"",nfC:"",exBg:"#0f3a6a",exC:"#b5d4f4"},
   dl:{title:"Deep learning",body:"<p>Deep learning refers to neural networks with many layers — deep enough to learn highly complex patterns. Medical imaging analysis, speech recognition, and translation are all deep learning applications.</p><p>Deep learning is the foundation that large language models are built on. Every LLM is a deep learning model, but most deep learning models are not LLMs.</p>",nfLabel:"",nf:"",ex:"Detecting abnormalities in radiology scans requires deep learning — the patterns are too subtle for hand-written rules or shallow ML models.",bg:"#1a7a8a",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"",nfC:"",exBg:"#0d5060",exC:"#9FE1CB"},
   gen:{title:"Generative AI",body:"<p>Generative AI creates new content rather than classifying inputs or predicting outcomes. The output can be text, images, video, audio, or code depending on what the model was trained on.</p><p>LLMs are one type of generative AI. DALL-E generates images. Sora generates video. These are generative AI systems but not language models.</p>",nfLabel:"",nf:"",ex:"DALL-E generates images from text prompts. It is generative AI but not an LLM — it produces pixels, not language.",bg:"#1a6870",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"",nfC:"",exBg:"#0f4a52",exC:"#9FE1CB"},
-  llm:{title:"Large language models",body:"<p>LLMs are a specific type of generative AI trained on text. They understand language, follow instructions, reason through problems, and generate fluent written output. Every LLM is a generative AI system built on deep learning, but most generative AI systems are not LLMs.</p><p>Claude, GPT-5, Gemini, and Llama are all LLMs. Open-source models like Llama and Mistral are available for anyone to run. Closed-source models like GPT and Claude are accessed via API.</p>",nfLabel:"NeuroFlow — AI features",nf:"LLMs are the foundation of NeuroFlow's clinical decision support work and AI-assisted features. When NeuroFlow surfaces a treatment recommendation or synthesizes a patient summary, an LLM generates that output — operating within guardrails defined by the symbolic AI layer.",ex:"Claude reads your prompt, weighs the relationships between every word using attention, and generates a response one token at a time.",bg:"#085041",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"#04342C",nfC:"#9FE1CB",exBg:"#052e28",exC:"#9FE1CB"}
+  llm:{title:"Large language models",body:"<p>LLMs are a specific type of generative AI trained on text. They understand language, follow instructions, reason through problems, and generate fluent written output. Every LLM is a generative AI system built on deep learning, but most generative AI systems are not LLMs.</p><p>Claude, GPT-5, Gemini, and Llama are all LLMs. Open-source models like Llama and Mistral are available for anyone to run. Closed-source models like GPT and Claude are accessed via API.</p>",nfLabel:"",nf:"",ex:"Claude reads your prompt, weighs the relationships between every word using attention, and generates a response one token at a time.",bg:"#085041",border:"#4CB6AC",titleC:"#fff",bodyC:"#c8ede9",nfBg:"#04342C",nfC:"#9FE1CB",exBg:"#052e28",exC:"#9FE1CB"}
 };
 function show(key){
   const d=D[key];
@@ -833,6 +833,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "model_comparison": 300,
         "hallucination_check": 400,
         "gating": 540,
-        "ai_hierarchy": 600,
+        "ai_hierarchy": 620,
     }
     return heights.get(diagram_id, 300)

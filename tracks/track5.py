@@ -176,7 +176,7 @@ A vague connector prompt produces unfocused retrieval. A vague Data plugin promp
 descriptive prose instead of analysis. The tools provide capability. The prompt determines
 whether that capability produces something useful.
 
-**Using connectors and plugins together** requires Cowork — as of April 2026, Claude Teams does not support running a connector and a plugin simultaneously in the same conversation. If your task needs live data from an external service and execution capabilities like charts or calculations, Cowork is currently the right tool.
+**Using connectors and plugins together** requires Cowork — as of April 2026, Claude Teams chat does not support running a connector and a plugin simultaneously in the same conversation. If your task needs live data from an external service and execution capabilities like charts or calculations, Cowork is currently the right tool.
 
 **Prompting for connectors — four required properties**
 
@@ -226,7 +226,7 @@ the item name, and every field.
                 "with a threshold line at 80%\n\n"
                 "Your prompt should be specific enough that Claude knows exactly what to "
                 "calculate, how to sort the chart, and where to draw the threshold.\n\n"
-                "| Site | Assessments sent | Completion rate |\n"
+                "\n| Site | Assessments sent | Completion rate |\n"
                 "| Riverside | 340 | 71% |\n"
                 "| Oakland | 210 | 88% |\n"
                 "| Sacramento | 480 | 64% |\n"

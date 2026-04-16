@@ -247,6 +247,8 @@ Choosing the right model is about using your allocation wisely. Opus for a gramm
 wastes allocation. Haiku for a 40-page regulatory analysis produces a shallow result. Use
 the lightest model that reliably handles the task.
 
+[[MODEL_COMPARISON_DIAGRAM]]
+
 **Managing context effectively**
 
 Keep conversations focused on one topic. Start a new conversation when you shift tasks.
@@ -515,7 +517,22 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    st.markdown(lesson["concept"])
+    # Handle diagram sentinels embedded in concept
+    concept = lesson["concept"]
+    if "[[MODEL_COMPARISON_DIAGRAM]]" in concept:
+        import streamlit.components.v1 as components
+        from components.diagrams import get_diagram, get_diagram_height
+        parts = concept.split("[[MODEL_COMPARISON_DIAGRAM]]")
+        for i, part in enumerate(parts):
+            if part.strip():
+                st.markdown(part)
+            if i < len(parts) - 1:
+                html = get_diagram("model_comparison")
+                height = get_diagram_height("model_comparison")
+                if html:
+                    components.html(html, height=height, scrolling=False)
+    else:
+        st.markdown(concept)
     st.markdown("---")
 
     if already_done:

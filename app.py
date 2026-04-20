@@ -343,6 +343,18 @@ def view_track_overview(track_id: int):
         unsafe_allow_html=True,
     )
 
+    # Under construction notice for advanced tracks still in development
+    if track_id in (7, 8):
+        st.markdown(
+            '<div style="background:#FFF8E1;border-left:4px solid #F5A623;border-radius:0 6px 6px 0;'
+            'padding:12px 16px;margin:0 0 20px 0;">'
+            '<span style="font-size:16px;">🏗️</span> '
+            '<strong style="color:#7A5500;">Under construction</strong>'
+            '<span style="color:#212121;"> — this track is still being developed and content may change.</span>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
     # Lesson list
     for l_id, lesson_meta in sorted(lessons.items()):
         complete = is_lesson_complete(track_id, l_id)

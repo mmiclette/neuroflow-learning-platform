@@ -28,6 +28,10 @@ TOOL CALL: slack_post_message (channel: all_channels,
 LESSONS = {
     1: {
         "concept": """
+🏗️ **Under construction** — this track is still being developed and content may change.
+
+---
+
 An agentic loop is what happens when you give Claude a task that requires more than one step.
 Instead of producing a response and stopping, Claude reasons, takes an action, receives a
 result, and reasons again. It continues until it determines the task is complete.

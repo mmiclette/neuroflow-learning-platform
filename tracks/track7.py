@@ -23,6 +23,10 @@ Python, some SQL, AWS
 LESSONS = {
     1: {
         "concept": """
+🏗️ **Under construction** — this track is still being developed and content may change.
+
+---
+
 Claude Code is an agentic coding tool. You give it a task in natural language. It reads the
 relevant files in your project, plans the work, proposes changes, and — after your approval —
 executes them.

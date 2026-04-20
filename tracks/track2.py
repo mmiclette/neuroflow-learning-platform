@@ -67,12 +67,21 @@ quietly carry less weight in later responses — even though it is still within 
 
 A conversation is getting too long when you notice Claude ignoring earlier instructions,
 producing outputs that contradict context you already provided, or when you find yourself
-scrolling back to re-paste something you already shared. Those are reliable signals to start
-a fresh conversation for the new task.
+scrolling back to re-paste something you already shared. Those are reliable signals to close
+the conversation and start fresh.
 
-If you are doing sustained, repeated work on the same topic — not just a long conversation,
-but an ongoing workflow — that is a better fit for a Project than a chat. Track 4 covers
-Projects in detail.
+Before you do, ask Claude to draft the opening prompt for the next conversation. This is not
+a summary of what happened. It is a ready-to-use prompt you paste directly into a new chat
+or Project to resume exactly where you left off:
+
+*"Read back through our full conversation from the beginning. Then write an opening prompt
+I can paste into a new conversation to continue this work without losing context. Write it
+as instructions for Claude, covering the goal we are working toward, the decisions and
+constraints already established, relevant background, and the specific task to pick up next."*
+
+If the work is ongoing rather than a single session, that handoff pattern becomes inefficient
+quickly. Sustained work on the same topic belongs in a Project, where context persists
+automatically across every conversation. Track 4 covers Projects in detail.
 """,
         "quiz": [
             {

@@ -19,7 +19,7 @@ DIAGRAMS["context_window"] = """
   <clipPath id="win"><rect x="50" y="60" width="445" height="210" rx="8"/></clipPath>
 </defs>
 <rect x="50" y="12" width="445" height="36" rx="4" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="0.5" stroke-dasharray="4 3"/>
-<text x="272" y="30" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#BDBDBD">Older messages — dropped when context overflows</text>
+<text x="272" y="30" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#616161">Older messages — dropped when context overflows</text>
 <line x1="272" y1="48" x2="272" y2="58" stroke="#BDBDBD" stroke-width="1" marker-end="url(#arrw)"/>
 <rect x="50" y="60" width="445" height="40" clip-path="url(#win)" fill="#E8E9F7"/>
 <rect x="50" y="100" width="445" height="60" clip-path="url(#win)" fill="#EBF3FA"/>

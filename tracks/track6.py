@@ -211,11 +211,27 @@ Renaming is reversible. Deletion is not. Specifying which actions Cowork should 
 autonomously — and which require your approval — prevents irreversible mistakes in large
 batch operations.
 
-**File format note**
+**What files can Cowork work with?**
 
-Cowork reads file content as text. Standard formats — DOCX, PDF, plain text, Markdown —
-work reliably. Files formatted for visual display rather than data extraction can produce
-unreliable results.
+Cowork reads and writes files directly in any folder you grant it access to. The range
+is broad.
+
+For document and presentation formats, Cowork has built-in skills for producing Word
+documents (.docx), PowerPoint presentations (.pptx), spreadsheets (.xlsx), and PDFs.
+These are real, editable files saved to your file system, not text outputs in a chat
+window. Beyond generating these files from scratch, Cowork can also directly edit
+existing Excel and PowerPoint files, modifying content and adding sheets or slides.
+
+For text-based formats, Cowork reads and writes plain text, Markdown (.md), CSV, and
+code files including Python (.py), JavaScript (.js), and others.
+
+Cowork can also convert between formats, such as DOCX to PDF, and extract structured
+data from images like receipt screenshots into a spreadsheet.
+
+One exception worth knowing is scanned PDFs that contain no underlying text layer.
+Cowork reads file content as text, so a PDF that is entirely an image of a scanned
+page will not extract reliably. Standard PDFs, including those exported from Word or
+generated digitally, work fine.
 """,
         "challenge": {
             "scenario": (

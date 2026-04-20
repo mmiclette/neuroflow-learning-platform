@@ -588,16 +588,6 @@ before the next builds on it, when clinical or regulatory language means an earl
 direction compounds downstream, or when a subject matter expert needs to review each stage.
 For internal drafts or low-stakes tasks, a single prompt with a review pass at the end is
 faster and sufficient.
-
-**Tone and framing affect output quality**
-
-Aggressive language actively hurts output quality with current Claude models. Phrases like "CRITICAL!", "YOU MUST", and "NEVER EVER" overtrigger the model — Claude 4 models are significantly more proactive than their predecessors, and instructions written to motivate older models now produce worse results than calm, direct instructions. Anthropic's own documentation for Claude 4.6 specifically warns against anti-laziness prompting that was necessary for earlier models. Staff conditioned to emphasize important instructions this way will get worse outputs without understanding why.
-
-Write instructions as calm, specific directives. "Always use verified data. If none is available, provide ranges and label them as estimates." outperforms "NEVER fabricate data!!!" for the same reason a well-written policy outperforms a shouted rule.
-
-**Positive framing consistently outperforms negation**
-
-Telling a model not to do something forces it to process that concept first — the forbidden behavior becomes active in the context window before the model works around it. "Only use real data" outperforms "don't use mock data." "Respond in prose paragraphs" outperforms "don't use bullet points." Every constraint in a NeuroFlow Project instruction should be rewritten as a positive requirement wherever possible.
 """,
         "quiz": [
             {
@@ -664,6 +654,34 @@ patterns account for most cases:
 
 **The diagnostic question:** If you handed this prompt to a capable new employee with no other context, would they produce the exact deliverable you have in mind? If not, find which component is missing.
 
+
+**A sixth category worth checking: instruction style**
+
+Even when a prompt is specific, well-scoped, and properly sequenced, aggressive framing and
+negation-heavy constraints are two of the most common invisible causes of degraded output.
+
+**Tone and framing affect output quality**
+
+Aggressive language actively hurts output quality with current Claude models. Phrases like
+"CRITICAL!", "YOU MUST", and "NEVER EVER" overtrigger the model — Claude 4 models are
+significantly more proactive than their predecessors, and instructions written to motivate
+older models now produce worse results than calm, direct instructions. Anthropic's own
+documentation for Claude 4.6 specifically warns against anti-laziness prompting that was
+necessary for earlier models. Staff conditioned to emphasize important instructions this way
+will get worse outputs without understanding why.
+
+Write instructions as calm, specific directives. "Always use verified data. If none is
+available, provide ranges and label them as estimates." outperforms "NEVER fabricate data!!!"
+for the same reason a well-written policy outperforms a shouted rule.
+
+**Positive framing consistently outperforms negation**
+
+Telling a model not to do something forces it to process that concept first — the forbidden
+behavior becomes active in the context window before the model works around it. "Only use
+real data" outperforms "don't use mock data." "Respond in prose paragraphs" outperforms
+"don't use bullet points." Every constraint in a NeuroFlow Project instruction should be
+rewritten as a positive requirement wherever possible.
+
 | Weak feedback | Strong feedback |
 |---|---|
 | Make this more concise | Cut to 150 words by removing the second and fourth paragraphs |
@@ -715,6 +733,29 @@ patterns account for most cases:
                 ],
                 "correct_index": 2,
                 "hint": "Effective refinement names the target length and what to keep.",
+            },
+            {
+                "question": (
+                    "Which prompt is more likely to produce a high-quality response, and why?\n\n"
+                    "**Prompt A:**\n"
+                    "WRITE A DETAILED SUMMARY OF THIS ARTICLE. DO NOT MISS ANY IMPORTANT POINTS. "
+                    "MAKE SURE IT IS PERFECT. DO NOT BE LAZY.\n\n"
+                    "**Prompt B:**\n"
+                    "Please provide a clear, concise summary of the article, highlighting the "
+                    "key points and main takeaways."
+                ),
+                "options": [
+                    "Prompt A — the emphasis signals accuracy matters and prevents cutting corners",
+                    "Prompt B — it uses neutral, specific, and cooperative language that gives Claude clear direction without noise",
+                    "Both are equally effective — Claude ignores tone and only processes semantic content",
+                    "Prompt A — stronger instructions produce stronger effort from the model",
+                ],
+                "correct_index": 1,
+                "hint": (
+                    "Aggressive capitalization and criticism like 'DO NOT BE LAZY' add noise "
+                    "without improving clarity. Claude 4 models respond better to calm, precise "
+                    "framing than to emotionally charged or forceful instructions."
+                ),
             },
         ],
     },

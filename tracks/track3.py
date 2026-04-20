@@ -313,23 +313,39 @@ Meta-prompting introduces an intermediate step. You use Claude to construct a we
 first, and then use that prompt to generate the final output. This reduces ambiguity and makes
 the result more reliable.
 
-**A simple example:**
+**A simple example**
 
-- **Direct prompt:** "List value-based care metrics for Medicare Advantage." This is quick, but
-  vague. The response may be generic, uneven in depth, or not aligned to a specific use case.
+You have a meeting tomorrow with a state Medicaid director about renewing a behavioral health
+pilot. You're nervous and not sure what to ask Claude for, so you type:
 
-- **Meta-prompted approach:** "Write a prompt that would instruct Claude to generate a structured
-  overview of value-based care metrics relevant to Medicare Advantage plans. The prompt should
-  define a clear role (e.g., healthcare policy analyst), specify the goal (identifying and
-  explaining key metrics), and require:
-  - Categorization of metrics (e.g., quality, utilization, cost, patient experience)
-  - Inclusion of examples tied to CMS Star Ratings and risk adjustment
-  - Brief explanations of why each metric matters financially and clinically
-  - A structured output format suitable for a 5-minute executive read
-  - Constraints to avoid unnecessary jargon and ensure accuracy"
+*"Help me prepare for a meeting with a state Medicaid director about renewing our behavioral
+health pilot."*
 
-The second version produces a prompt that is explicit about expectations, structure, and audience.
-That clarity carries through to the final output.
+Claude will produce something. But it will not know whether you need talking points, likely
+objections, background on the director's priorities, a one-pager, or all of the above. The
+output will be generic because the prompt didn't tell Claude what "prepared" looks like for you.
+
+Instead, ask Claude to write the prompt:
+
+*"I have a high-stakes meeting tomorrow and I'm not sure what I need. Write a prompt I can use
+to get Claude to help me prepare for a meeting with a state Medicaid director about renewing a
+behavioral health pilot."*
+
+Claude identifies what a useful prep brief actually requires and builds the prompt around it,
+then hands it back to you:
+
+*"You are a strategic communications advisor with experience in state Medicaid policy and
+behavioral health. I have a meeting tomorrow with a state Medicaid director about renewing a
+behavioral health pilot program. Help me prepare by covering: the two or three things a
+Medicaid director typically prioritizes at pilot renewal (cost containment, outcomes data,
+scalability), likely objections I should be ready to address, how I should frame the value of
+continuing the pilot in terms that resonate with state budget and population health goals, and
+what I should avoid leading with. Format this as a prep brief I can read in ten minutes the
+morning of the meeting."*
+
+You didn't need to know what to ask for. Claude figured out what "prepared" means in this
+context and built the prompt around it. That's the point. You can revise or tailor this prompt
+from here.
 
 In practice, meta-prompting is most useful when:
 

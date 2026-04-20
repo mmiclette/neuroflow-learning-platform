@@ -317,6 +317,8 @@ session; the Project becomes the persistent memory.
     },
     4: {
         "concept": """
+Because Claude generates responses by predicting statistically likely text rather than retrieving verified facts, fluent and confident output can still be wrong. Knowing what to do about that is the most important habit to build before using Claude for work that leaves NeuroFlow.
+
 Claude produces statistically likely text. This means it can generate outputs that are
 fluent, confident, and wrong. Understanding where it fails — and what NeuroFlow policy
 requires — protects you and the organization.
@@ -336,6 +338,10 @@ A policy brief that attributes a position to an agency using real agency languag
 topic the agency has never formally addressed.
 
 All three appear with the same confident tone as accurate output.
+
+**A note on math**
+
+The same risk applies to calculations. Claude can perform arithmetic incorrectly and present the result with the same confidence as a correct answer. If Claude produces a number derived from inputs you provided (a percentage, a cost projection, a year-over-year change) verify it independently before it goes into a document. A spreadsheet check takes thirty seconds and catches errors that would otherwise reach a partner or regulator.
 
 **Grounding reduces hallucination risk**
 

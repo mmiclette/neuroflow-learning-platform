@@ -78,7 +78,7 @@ TRACKS = {
                 "api_calls": False,
             },
             4: {
-                "title": "Writing your first effective prompt",
+                "title": "Verifying Claude's output",
                 "type": "graded_challenge",
                 "time_estimate": 10,
                 "has_video": False,

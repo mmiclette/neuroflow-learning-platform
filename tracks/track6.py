@@ -101,19 +101,102 @@ and drafting use cases you need.
     },
     2: {
         "concept": """
+**How to run a Cowork task**
+
+Running a task in Cowork follows the same four steps every time:
+
+1. Open the Cowork tab in Claude Desktop
+2. Grant Cowork access to the folder containing the files you want to work with
+3. Write your task instruction in the input field
+4. Click Run and monitor the activity log as Cowork works through the task
+
+Cowork shows its progress in real time. You can see each action it takes, which makes it
+straightforward to catch a misunderstanding early and stop the task before it goes further.
+
+**Writing effective task instructions**
+
+A good Cowork instruction answers four questions before Cowork starts working.
+
+**What to work with.** Name the folder, the file, or the set of files Cowork should access.
+Do not assume Cowork knows which files are relevant — tell it explicitly.
+
+**What to produce.** Name the output. A reorganized folder, a new file, an updated
+spreadsheet, a summary saved to a specific location. If you do not specify the output format
+or destination, Cowork will choose.
+
+**What to do when something is unclear.** Cowork will encounter files it cannot confidently
+classify, cells it cannot find data for, and situations the instruction did not anticipate.
+Without an explicit rule, it guesses. A rule like "flag anything you cannot confidently handle
+rather than proceeding" protects you from errors that are hard to reverse.
+
+**Which actions require your approval.** Renaming a file is reversible. Deleting one is not.
+Specify what Cowork should do autonomously and what it should pause and confirm before acting on.
+
+**Multi-step tasks and dependencies**
+
+Most real Cowork tasks involve more than one step. When steps have dependencies, the order
+matters. Cowork needs to audit a spreadsheet before it can research gaps in it. It needs to
+confirm what data already exists before it overwrites anything. It needs to retrieve information
+before it can summarize it.
+
+If your instruction does not make the order explicit, Cowork infers it. For simple tasks that
+inference is usually correct. For complex tasks with multiple phases, it is worth being explicit
+about which steps have to complete before the next one begins.
+
+**Using meta-prompting to build a Cowork task**
+
+Writing a Cowork instruction for a multi-step task is harder than it looks. The steps have
+dependencies and if you get the order wrong, Cowork either produces incomplete output or has
+to backtrack. Meta-prompting lets Claude figure out the right sequence for you.
+
+Say your team maintains a spreadsheet tracking behavioral health technology partners — company
+name, solution category, contract status, key contacts, and recent news. It is partially filled
+in, and you want Cowork to research the gaps and update the file. You attach the spreadsheet
+and ask Claude to write the task instruction:
+
+*"I'm attaching a partner tracking spreadsheet. I want Cowork to review it, find the missing
+information online, and fill in the gaps. Write me a step-by-step Cowork task instruction that
+handles this in the right order."*
+
+Claude examines the spreadsheet and builds the instruction around the actual dependencies —
+audit before researching, verify what is already there before overwriting, flag what it cannot
+confirm:
+
+1. Open and read the attached partner tracking spreadsheet. Identify every cell that is empty
+   or marked TBD. Do not overwrite any cell that already contains data.
+2. For each gap, search the web using the company name as your anchor. Pull solution category
+   and key contacts from the company's current website.
+3. For recent news, search for coverage from the last 90 days only. Summarize each result in
+   one sentence and include the source URL in an adjacent note cell.
+4. For contract status, do not guess or infer. If no confirmed information is available from
+   public sources, enter "Not confirmed" rather than leaving the cell blank.
+5. Once all rows are updated, add a column called Last Updated and enter today's date for
+   every row you modified.
+6. Save the file. Do not delete or reorganize any existing rows or columns.
+
+Without the meta-prompt, most people would write something like "review my spreadsheet and
+fill in the gaps." That leaves Cowork to decide the order, the sourcing rules, and what to do
+with ambiguous cells. The meta-prompt surfaces those decisions before the task runs, not after
+something goes wrong.
+
+**Organizing and renaming files — a worked example**
+
+The principles above apply across all Cowork tasks. File organization shows how they come
+together in practice.
+
 Cowork reads the content of files — not just their names or metadata — and uses that content
 to make informed decisions about how to organize them. A rename script looks at a filename and
 applies a pattern. Cowork opens the file, reads what is inside, determines what type of
 document it is, who it involves, and when it was created, and then renames and sorts it
 accordingly.
 
-**Effective Cowork file organization instructions include five elements:**
+Effective file organization instructions apply the same four principles above and also specify
+two additional things: the naming convention to apply with at least two identifying elements,
+and the subfolder structure to create with named categories.
 
-1. Which folder to access
-2. The naming convention to apply, with at least two identifying elements
-3. The subfolder structure to create, with named categories
-4. How to handle ambiguous files — skip, flag, or apply a default prefix
-5. Whether to ask before changes or proceed autonomously
+Without a naming convention that includes multiple identifying elements, two files from the
+same week are indistinguishable. Without named subfolder categories, Cowork creates folder
+structures that make sense to it but may not match how your team looks for things.
 
 **Why the ambiguity rule matters**
 

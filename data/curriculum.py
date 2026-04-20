@@ -324,7 +324,7 @@ TRACKS = {
                 "api_calls": False,
             },
             2: {
-                "title": "Organizing and renaming files with Cowork",
+                "title": "Using Cowork",
                 "type": "graded_challenge",
                 "time_estimate": 10,
                 "has_video": False,

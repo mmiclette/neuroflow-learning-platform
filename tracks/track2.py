@@ -472,6 +472,44 @@ Every capability layer adds to your usage allocation. A focused prompt alone is 
 Connectors add retrieval overhead. Plugins add domain tooling. Deep Research is the most
 intensive. For staff who hit usage limits frequently, simplifying the tool stack is the
 first step.
+
+**Claude in the NeuroFlow workflow**
+
+**The first response is a starting point**
+
+Most new Claude users treat a weak first response as a failure. It is not. It is
+information. Claude responded to exactly what you asked, and if the output missed the
+mark, the output is telling you what the prompt was missing.
+
+The working pattern for any real task looks like this: send a prompt, read the response
+critically, identify the specific gap, and write a targeted follow-up that addresses only
+that gap. Repeat until the output meets the standard. Claude's outputs tend to improve
+significantly with iteration. While the first version might be good, after two or three
+iterations it will typically look much better.
+
+The diagnostic step is what most people skip. Before writing a follow-up, read the output
+and name the problem precisely. The follow-up should then target that problem alone, not
+restate the entire original prompt.
+
+A NeuroFlow example: you ask Claude to draft a value proposition paragraph for a health
+system CFO audience and the output is too clinical and reads like a product spec. The
+diagnosis is wrong audience register, not a bad paragraph. The follow-up is one sentence:
+
+*"Rewrite this for a CFO audience. Lead with cost and risk, not clinical features. No
+technical terminology."*
+
+That is faster and more effective than re-sending the full original prompt with additional
+instructions appended.
+
+This pattern applies to every task. Deep Research outputs that need tighter scope, policy
+briefs that need a different tone, outreach emails that need a harder call to action. The
+skill is reading the output as a signal rather than a result.
+
+If a prompt produces weak outputs repeatedly and targeted follow-ups are not fixing it,
+the cause is either the prompt or the conversation. Try opening a fresh chat and running
+the same prompt from scratch. If the output improves, the conversation accumulated context
+that was interfering. If the output is still weak, the prompt itself is structurally
+broken.
 """,
         "quiz": [
             {

@@ -13,30 +13,29 @@ LESSONS = {
     1: {
         "concept": """
 Claude is a large language model built by Anthropic. Understanding how it processes your
-input explains why some prompts work and others do not — and why verifying outputs is
+input explains why some prompts work and others do not, and why verifying outputs is
 always necessary.
 
 **How Claude generates a response**
 
-Claude does not search a database or retrieve a stored answer. It reads your entire
-input — every word in the conversation up to that point — and generates a response one
-token at a time, predicting the most statistically likely next token given everything
-it has processed.
+Claude does not search a database or retrieve a stored answer. It reads your entire input,
+every word in the conversation up to that point, and generates a response one token at a
+time, predicting the most statistically likely next token given everything it has processed.
 
-Four terms appear throughout this program:
+Four terms appear throughout this program.
 
 **Token** — the unit Claude processes. Roughly equivalent to a word or word fragment.
 "Hello" is one token. "Measurement-based" is likely two. You are billed for tokens
 consumed, which is why heavier models cost more of your usage allocation per conversation.
 
 **Context window** — the total amount of text Claude can hold in its working memory at
-once. Claude's context window is 200,000 tokens — roughly 150,000 words or about 500
-pages of text. Everything in your current conversation counts against this limit. When a
+once. Claude's context window is 200,000 tokens, roughly 150,000 words or about 500 pages
+of text. Everything in your current conversation counts against this limit. When a
 conversation grows very long, earlier content can fall outside the active window and Claude
 loses access to it.
 
-**Corpus** — the large body of text Claude was trained on: books, articles, code, web
-content, up to its training cutoff date. Claude's knowledge comes from this corpus.
+**Corpus** — the large body of text Claude was trained on, including books, articles, code,
+and web content up to its training cutoff date. Claude's knowledge comes from this corpus.
 
 **Hallucination** — when Claude generates text that has the structure and confidence of an
 accurate statement but is partially or entirely fabricated. Hallucinations happen because
@@ -44,6 +43,47 @@ Claude is optimizing for statistically plausible text, not verified facts. A fab
 case study with plausible-sounding statistics is a hallucination. A citation to a real
 journal with invented author names is a hallucination. Both appear with the same confident
 tone as accurate output. Always verify specific claims before using them in external documents.
+
+**How Claude 4 changed: literal instruction following**
+
+Claude 4 models behave differently from earlier versions in one way that affects every task
+you give them. Earlier Claude models would infer your intent and fill in gaps. If you asked
+for a dashboard, Claude would assume you wanted charts, filters, and data tables. If you
+asked for a summary, it would apply its judgment about what a useful summary looks like for
+your context.
+
+Claude 4 takes you literally. If you ask for a dashboard without specifying its components,
+you may get a blank frame with a title. If you ask for a summary without specifying length
+or format, you get whatever Claude judges as technically consistent with the word "summary."
+The output is not wrong by the model's interpretation. It did exactly what you asked,
+nothing more.
+
+Anthropic describes this directly: customers who want Claude to go "above and beyond" now
+need to request that behavior explicitly.
+
+In practice, this means three things.
+
+Gaps in your prompt produce gaps in the output. Claude 3 would often cover for an
+underspecified prompt by doing the reasonable thing. Claude 4 will not. If you want three
+bullets, ask for three bullets. If you want the output to lead with cost implications, say
+so. If you want Claude to flag what it is uncertain about, you have to include that
+instruction.
+
+Your first response is more diagnostic than it used to be. A narrow or incomplete output
+on Claude 4 is almost always telling you what the prompt was missing, not that Claude
+misunderstood you. The diagnostic step before writing a follow-up is now more important,
+not less.
+
+The fix is always more specificity, not more effort. Restating the prompt more forcefully
+or adding phrases like "be thorough" does not change the output. Claude 4 responds to
+precise instructions, not emphasis. "Write a 400-word value proposition for a health system
+CFO that leads with total cost of care reduction and closes with a single call to action"
+will outperform "write a really thorough and complete value proposition" every time.
+
+This shift is also why the RTCFC framework in Track 3 works the way it does. Each component
+closes a gap Claude will no longer fill on its own. Role, Task, Context, Format, and
+Constraints are not optional scaffolding. They are the specification the model now requires
+to produce the output you actually want.
 
 **Why prompt quality determines output quality**
 
@@ -54,7 +94,7 @@ A specific, structured prompt narrows the activation and produces a targeted res
 
 **Context and conversation length affect output quality**
 
-Claude's context window holds 200,000 tokens — roughly 500 pages of text. Everything in
+Claude's context window holds 200,000 tokens, roughly 500 pages of text. Everything in
 the current conversation counts against that limit: your messages, Claude's responses, and
 any uploaded files. Claude can technically hold all of it at once, but performance does not
 stay flat as context grows.
@@ -63,7 +103,7 @@ Research on LLM attention shows that relevant content buried in the middle of a 
 conversation receives less model attention than content at the start or end. A 2024 Stanford
 study found accuracy dropped over 30% when key information was positioned in the middle of
 long inputs. This means a constraint or requirement you stated early in a conversation can
-quietly carry less weight in later responses — even though it is still within the window.
+quietly carry less weight in later responses, even though it is still within the window.
 
 A conversation is getting too long when you notice Claude ignoring earlier instructions,
 producing outputs that contradict context you already provided, or when you find yourself

@@ -301,6 +301,52 @@ is to write something, the steps are probably in the wrong order.
     },
     5: {
         "concept": """
+Claude knows best how it reasons and reads. Meta-prompting is a shift in how you use Claude:
+instead of asking directly for an answer, you ask it to design the instructions that will
+produce a better answer.
+
+Most prompts are underspecified. They leave out assumptions about audience, format, constraints,
+or what "good" looks like. Claude will still respond, but the output can be inconsistent. This
+is especially true for work that needs to be reused, compared, or shared across stakeholders.
+
+Meta-prompting introduces an intermediate step. You use Claude to construct a well-formed prompt
+first, and then use that prompt to generate the final output. This reduces ambiguity and makes
+the result more reliable.
+
+**A simple example:**
+
+- **Direct prompt:** "List value-based care metrics for Medicare Advantage." This is quick, but
+  vague. The response may be generic, uneven in depth, or not aligned to a specific use case.
+
+- **Meta-prompted approach:** "Write a prompt that would instruct Claude to generate a structured
+  overview of value-based care metrics relevant to Medicare Advantage plans. The prompt should
+  define a clear role (e.g., healthcare policy analyst), specify the goal (identifying and
+  explaining key metrics), and require:
+  - Categorization of metrics (e.g., quality, utilization, cost, patient experience)
+  - Inclusion of examples tied to CMS Star Ratings and risk adjustment
+  - Brief explanations of why each metric matters financially and clinically
+  - A structured output format suitable for a 5-minute executive read
+  - Constraints to avoid unnecessary jargon and ensure accuracy"
+
+The second version produces a prompt that is explicit about expectations, structure, and audience.
+That clarity carries through to the final output.
+
+In practice, meta-prompting is most useful when:
+
+- The task has multiple steps or decision points (e.g., evaluating metrics, designing frameworks)
+- The output needs to be consistent across repeated use
+- There are specific audiences or constraints that must be handled correctly
+- You are building something reusable or scalable
+
+It is usually not worth the extra step when:
+
+- The task is simple or one-off
+- You already know exactly how to structure the prompt
+- The overhead of designing the prompt exceeds the benefit
+
+A useful mental model: meta-prompting is an upfront investment in clarity. It becomes more
+valuable as the task becomes more complex, structured, or repeatable.
+
 Meta-prompting means using Claude to help you design better prompts rather than writing
 every instruction from scratch yourself.
 

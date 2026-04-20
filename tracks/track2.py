@@ -125,7 +125,7 @@ the wrong information into the wrong tool creates legal and compliance risk.
 
 Almost everything related to your work. Internal strategy documents, product specifications,
 partner briefs, RFPs, policy drafts, competitive analysis, meeting notes, code, data models,
-presentations, and email drafts are all appropriate. Claude Teams does not train Anthropic's
+presentations, customer agreements, and email drafts are all appropriate. Claude Teams does not train Anthropic's
 models on your conversations and operates under data agreements that protect NeuroFlow's
 proprietary information.
 

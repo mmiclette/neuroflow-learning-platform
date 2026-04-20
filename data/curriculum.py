@@ -88,7 +88,7 @@ TRACKS = {
                 "api_calls": True,
             },
             5: {
-                "title": "Claude in the NeuroFlow workflow",
+                "title": "Beyond Claude chat: Cowork, Code, and extended capabilities",
                 "type": "quiz",
                 "time_estimate": 6,
                 "has_video": False,

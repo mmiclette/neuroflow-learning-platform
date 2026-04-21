@@ -147,9 +147,10 @@ that operate under NeuroFlow's HIPAA agreements.
         "concept": """
 To understand plugins, you need to understand the two components they bundle: skills and connectors.
 
-A skill is a reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task by typing "/" and selecting from the commands your installed plugins provide.
-
-A connector is an authenticated link to an external service that lets Claude retrieve data from or take actions in that system. Connectors inside a plugin come pre-configured for the workflow the plugin is designed to support. A Sales plugin might bundle connectors for your CRM and your email platform. A Legal plugin might include connectors for regulatory databases and document storage.
+| Component | What it does |
+|---|---|
+| **Skill** | A reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task by typing "/" and selecting from the commands your installed plugins provide. |
+| **Connector** | An authenticated link to an external service that lets Claude retrieve data from or take actions in that system. Connectors inside a plugin come pre-configured for the workflow the plugin is designed to support. A Sales plugin might bundle connectors for your CRM and your email platform. A Legal plugin might include connectors for regulatory databases and document storage. |
 
 A plugin bundles a curated set of skills and connectors into a single installable package, configured for a specific role or workflow. Installing a plugin means Claude enters a task already equipped with the reasoning patterns and service integrations that role requires, without you building that context from scratch each time.
 
@@ -165,13 +166,12 @@ One practical tradeoff: Cowork sessions consume significantly more of your usage
 
 **Plugins relevant to NeuroFlow roles**
 
-The Data plugin bundles skills for querying structured data and rendering charts alongside connectors to data sources your workflow depends on. A data analyst producing a ranked chart from a CSV gets execution capabilities that standard chat cannot deliver, without specifying the analytical approach in every prompt.
-
-The Legal plugin bundles regulatory document review skills and compliance research patterns. A policy analyst reviewing a CMS final rule gets specialized reasoning applied automatically. The plugin knows how to read regulatory language, surface relevant provisions, and structure findings without being prompted to do so each time.
-
-The Sales plugin bundles deal coaching, pipeline reasoning, and outreach generation skills alongside CRM connectors. A BD team member drafting a five-part outreach sequence gets structural defaults and sequencing logic that a standard prompt would have to specify manually.
-
-The Engineering plugin bundles code review patterns, architecture decision frameworks, and incident documentation workflows for technical staff.
+| Plugin | What it bundles |
+|---|---|
+| **Data plugin** | Skills for querying structured data and rendering charts alongside connectors to data sources your workflow depends on. A data analyst producing a ranked chart from a CSV gets execution capabilities that standard chat cannot deliver, without specifying the analytical approach in every prompt. |
+| **Legal plugin** | Regulatory document review skills and compliance research patterns. A policy analyst reviewing a CMS final rule gets specialized reasoning applied automatically. The plugin knows how to read regulatory language, surface relevant provisions, and structure findings without being prompted to do so each time. |
+| **Sales plugin** | Deal coaching, pipeline reasoning, and outreach generation skills alongside CRM connectors. A BD team member drafting a five-part outreach sequence gets structural defaults and sequencing logic that a standard prompt would have to specify manually. |
+| **Engineering plugin** | Code review patterns, architecture decision frameworks, and incident documentation workflows for technical staff. |
 
 Anthropic maintains the full plugin library on GitHub and continues adding categories including finance, marketing, HR, design, and operations.
 

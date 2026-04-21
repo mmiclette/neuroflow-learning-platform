@@ -1649,18 +1649,18 @@ DIAGRAMS["plugin_ui_diagram"] = r"""
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    min-height: 100vh;
-    padding: 36px 24px;
+    min-height: 0;
+    padding: 4px 12px 16px;
   }
 
   .wrapper { width: 100%; max-width: 1020px; }
 
   .lesson-label {
     font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--nf-secondary-blue); margin-bottom: 8px;
+    text-transform: uppercase; color: var(--nf-secondary-blue); margin-bottom: 6px;
   }
-  .lesson-title { font-size: 21px; font-weight: 600; color: var(--nf-primary); margin-bottom: 4px; }
-  .lesson-sub { font-size: 13px; color: var(--nf-text-secondary); margin-bottom: 24px; }
+  .lesson-title { font-size: 18px; font-weight: 600; color: var(--nf-primary); margin-bottom: 3px; }
+  .lesson-sub { font-size: 12px; color: var(--nf-text-secondary); margin-bottom: 14px; }
 
   /* Window */
   .window {
@@ -2098,6 +2098,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "meta_prompt_diagram": 660,
         "choosing_tool_cards": 670,
         "style_layers": 500,
-        "plugin_ui_diagram": 940,
+        "plugin_ui_diagram": 820,
     }
     return heights.get(diagram_id, 300)

@@ -198,22 +198,6 @@ Showing Claude what the output should *not* look like is often more efficient th
                 "correct_index": 1,
                 "hint": "For format-consistency tasks, showing Claude the pattern is more reliable than naming the rule.",
             },
-            {
-                "question": (
-                    "You provide three examples to help Claude produce a consistent partner briefing "
-                    "format. All three examples start with 'The partner's primary concern is...' and "
-                    "end with a recommended action. Claude follows that structure exactly, but the "
-                    "quality of the middle sections varies. What does this tell you?"
-                ),
-                "options": [
-                    "The examples are working; they taught the structural pattern. Quality variation in the middle sections means the examples need more variety there",
-                    "Few-shot prompting only controls format, not content quality; you need a different technique",
-                    "The examples are too similar and Claude is picking up unintended patterns throughout",
-                    "Three examples are too many; reduce to one to give Claude more flexibility",
-                ],
-                "correct_index": 0,
-                "hint": "The examples did their job; the issue is in what the examples showed for the middle sections.",
-            },
         ],
     },
     4: {

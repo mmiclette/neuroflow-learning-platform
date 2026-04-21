@@ -207,8 +207,12 @@ def _nav_header(track_id: int = None, lesson_id: int = None):
     """Top navigation bar shown on all non-home pages."""
     col1, col2, col3 = st.columns([1, 4, 1])
     with col1:
-        if st.button("← Home", key="nav_home"):
-            go_home()
+        if track_id and lesson_id:
+            if st.button("← Track", key="nav_back"):
+                go_track(track_id)
+        else:
+            if st.button("← Home", key="nav_home"):
+                go_home()
     with col2:
         if track_id:
             track = get_track(track_id)

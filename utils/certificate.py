@@ -44,14 +44,31 @@ def render_certificate_page(track_id: int, track_title: str, certificate_title: 
         return
 
     completion_date = date.today().strftime("%B %d, %Y")
+
+    # Compute save-as filename from the last whitespace-separated token of the
+    # learner name. Sanitize to an ASCII-safe filename so browsers accept it as
+    # the default Save-as-PDF name.
+    cleaned_name = name.strip()
+    tokens = cleaned_name.split()
+    last_token = tokens[-1] if tokens else cleaned_name
+    safe_last = "".join(ch for ch in last_token if ch.isalnum())
+    if not safe_last:
+        safe_last = "Certificate"
+    save_name = f"{safe_last}_Track{track_id}"
+
     cert_html = _build_certificate_html(
-        learner_name=name.strip(),
+        learner_name=cleaned_name,
         certificate_title=certificate_title,
         completion_date=completion_date,
         track_number=track_id,
+        save_name=save_name,
     )
 
     st.components.v1.html(cert_html, height=560, scrolling=False)
+    st.caption(
+        f'Tip: when the print dialog opens, the suggested filename will be '
+        f'"{save_name}". You can still edit it before saving.'
+    )
 
     # Back to home
     st.markdown("<br>", unsafe_allow_html=True)
@@ -67,12 +84,14 @@ def _build_certificate_html(
     certificate_title: str,
     completion_date: str,
     track_number: int = 0,
+    save_name: str = "Certificate",
 ) -> str:
     return f"""
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
+<title>{save_name}</title>
 <style>
   body {{
     margin: 0;
@@ -166,9 +185,37 @@ def _build_certificate_html(
       Track {track_number} &nbsp;·&nbsp; Issued by NeuroFlow &nbsp;·&nbsp; {completion_date}
     </div>
   </div>
-  <button class="print-btn" onclick="window.print()">
+  <button class="print-btn" id="print-btn">
     Print / Save as PDF
   </button>
+<script>
+  // Set a filename-friendly title on this iframe. Also attempt to set the
+  // parent Streamlit page's title, since some browsers use the top-level
+  // document title for the default PDF filename. Cross-origin access may be
+  // blocked; if so, we silently fall back to the iframe title.
+  (function() {{
+    var saveName = {save_name!r};
+    document.title = saveName;
+    var previousParentTitle = null;
+    try {{
+      previousParentTitle = window.top.document.title;
+    }} catch (e) {{ /* cross-origin blocked */ }}
+
+    document.getElementById('print-btn').addEventListener('click', function() {{
+      try {{ window.top.document.title = saveName; }} catch (e) {{}}
+      window.focus();
+      window.print();
+      // Restore the parent title after the print dialog closes.
+      setTimeout(function() {{
+        try {{
+          if (previousParentTitle !== null) {{
+            window.top.document.title = previousParentTitle;
+          }}
+        }} catch (e) {{}}
+      }}, 2000);
+    }});
+  }})();
+</script>
 </body>
 </html>
 """

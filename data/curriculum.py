@@ -69,7 +69,7 @@ TRACKS = {
                 "api_calls": False,
             },
             3: {
-                "title": "Models, modes, and the Claude ecosystem",
+                "title": "Navigating the Claude Teams interface",
                 "type": "quiz",
                 "time_estimate": 7,
                 "has_video": False,

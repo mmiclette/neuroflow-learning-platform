@@ -876,53 +876,133 @@ faster and sufficient.
     8: {
         "concept": """
 When Claude produces a bad output, the cause is almost always in the prompt. Five failure
-patterns account for most cases:
+patterns account for most cases. Understanding them lets you diagnose the problem precisely
+and write a targeted fix rather than restarting from scratch.
 
-**Too generic** — no specificity in task or context. Fix: add criteria, audience, and an example.
+**The five failure patterns**
 
-**Too complex** — multiple deliverables in one prompt. Fix: break into separate focused prompts.
+**Too generic:** no specificity in task or context. Claude activates a broad range of patterns
+and produces a generic response. Fix: add criteria, audience, and an example.
 
-**Missing key points** — Claude omitted something the prompt did not require. Fix: list what must be present.
+**Too complex:** multiple deliverables in one prompt. Claude attempts all of them and produces
+mediocre results across every task. Fix: break into separate focused prompts. Each prompt
+should have one clear deliverable.
 
-**Wrong length** — output is too long or too short. Fix: specify word count, items, or sections.
+**Missing key points:** Claude omitted something the prompt did not require. Fix: list what
+must be present. Claude 4 will not add content you did not ask for. If something is missing
+from the output, it was missing from the prompt.
 
-**Off-topic or unfocused** — Claude addressed a related but different question. Fix: state the core focus explicitly and add a constraint ruling out adjacent topics.
+**Wrong length:** output is too long or too short. Fix: specify word count, number of items,
+or number of sections explicitly. "A summary" does not tell Claude how long the summary should
+be. "A three-sentence summary" does.
 
-**The diagnostic question:** If you handed this prompt to a capable new employee with no other context, would they produce the exact deliverable you have in mind? If not, find which component is missing.
+**Off-topic or unfocused:** Claude addressed a related but different question. Fix: state the
+core focus explicitly and add a constraint ruling out adjacent topics.
 
+**The diagnostic question**
 
-**A sixth category worth checking: instruction style**
+Before writing a follow-up prompt, read the output and name the problem precisely. The
+follow-up should target that problem alone, not restate the entire original prompt.
 
-Even when a prompt is specific, well-scoped, and properly sequenced, aggressive framing and
-negation-heavy constraints are two of the most common invisible causes of degraded output.
+The diagnostic question that surfaces the gap in almost every case is this: if you handed
+this prompt to a capable new employee with no other context, would they produce the exact
+deliverable you have in mind? If not, find which component is missing and add only that.
 
-**Tone and framing affect output quality**
+**A sixth failure pattern: instruction style**
 
-Aggressive language actively hurts output quality with current Claude models. Phrases like
-"CRITICAL!", "YOU MUST", and "NEVER EVER" overtrigger the model — Claude 4 models are
-significantly more proactive than their predecessors, and instructions written to motivate
-older models now produce worse results than calm, direct instructions. Anthropic's own
-documentation for Claude 4.6 specifically warns against anti-laziness prompting that was
-necessary for earlier models. Staff conditioned to emphasize important instructions this way
+Even when a prompt is specific, well-scoped, and properly sequenced, two invisible causes of
+degraded output appear consistently enough to deserve their own category.
+
+Aggressive framing hurts output quality with current Claude models. Phrases like "CRITICAL!",
+"YOU MUST", and "NEVER EVER" overtrigger the model. Claude 4 models are trained for precise
+instruction following, and instructions written to motivate older models now produce worse
+results than calm, direct instructions. Anthropic's own documentation for Claude 4
+specifically warns against this style of anti-laziness prompting that was necessary for
+earlier models. Staff who developed habits with Claude 3 and carried those habits forward
 will get worse outputs without understanding why.
 
 Write instructions as calm, specific directives. "Always use verified data. If none is
-available, provide ranges and label them as estimates." outperforms "NEVER fabricate data!!!"
+available, provide ranges and label them as estimates" outperforms "NEVER fabricate data!!!"
 for the same reason a well-written policy outperforms a shouted rule.
 
-**Positive framing consistently outperforms negation**
+Positive framing consistently outperforms negation. Telling a model not to do something
+forces it to process that concept before working around it. "Only use real data" outperforms
+"don't use mock data." "Respond in prose paragraphs" outperforms "don't use bullet points."
+Every constraint in a NeuroFlow Project instruction should be rewritten as a positive
+requirement wherever possible.
 
-Telling a model not to do something forces it to process that concept first — the forbidden
-behavior becomes active in the context window before the model works around it. "Only use
-real data" outperforms "don't use mock data." "Respond in prose paragraphs" outperforms
-"don't use bullet points." Every constraint in a NeuroFlow Project instruction should be
-rewritten as a positive requirement wherever possible.
+**The uncertainty instruction**
+
+One of the most reliable ways to reduce hallucination is not catching it after the fact
+during verification. It is preventing it before Claude responds by giving Claude explicit
+permission to say it does not know something.
+
+By default, Claude optimizes for producing a complete and fluent response. When it encounters
+a gap in its knowledge, it will often fill that gap with a plausible-sounding answer rather
+than flagging the uncertainty. This is the mechanism behind fabricated statistics, invented
+citations, and confident but incorrect claims. Claude is not being deceptive. It is doing
+what its training optimized it to do: produce the most statistically plausible next token.
+The uncertainty instruction overrides that default.
+
+Add this instruction to any prompt where specific facts, statistics, citations, or technical
+details matter:
+
+```
+If you are uncertain about any specific fact, statistic,
+or claim, say so explicitly rather than proceeding.
+Do not guess. Flag the gap and I will provide the
+correct information.
+```
+
+For Project instructions where this applies across every conversation in that workspace,
+add it as a standing rule:
+
+```
+If you cannot verify a specific claim from the documents
+provided or your reliable knowledge, flag it explicitly
+rather than filling in the gap. Label uncertain information
+as uncertain.
+```
+
+The distinction between this and the verification guidance in Track 2 is worth being precise
+about. Verification is what you do after Claude responds, checking specific claims before
+they go into an external document. The uncertainty instruction is what you put in the prompt
+to reduce what needs verifying in the first place. Both practices belong in your workflow.
+The uncertainty instruction reduces the volume of claims that require verification.
+Verification catches what gets through anyway.
+
+For NeuroFlow's externally facing work — policy briefs, partner proposals, federal
+submissions, and clinical decision support materials — the combination of both practices is
+not optional. A fabricated statistic that passes review and reaches a regulator or federal
+partner is a credibility problem that no follow-up correction fully repairs.
+
+**Prompt feedback that actually works**
+
+Weak follow-up instructions produce weak revisions. The most common mistake is vague feedback
+that tells Claude something is wrong without telling it what to change.
 
 | Weak feedback | Strong feedback |
 |---|---|
 | Make this more concise | Cut to 150 words by removing the second and fourth paragraphs |
-| This doesn't sound right | Rewrite as a direct Slack message — conversational, no formal language |
+| This doesn't sound right | Rewrite as a direct Slack message: conversational, no formal language |
 | Add more detail | Add a paragraph between sections 2 and 3 explaining how BHIQ integrates with Epic |
+
+The follow-up prompt should name the specific problem, the specific location in the output,
+and the specific change required. If you cannot name all three, read the output again before
+writing the follow-up.
+
+**When to start fresh**
+
+If a prompt produces weak outputs repeatedly and targeted follow-ups are not fixing it, the
+cause is either the prompt or the conversation. Try opening a fresh chat and running the same
+prompt from scratch. If the output improves, the conversation accumulated context that was
+interfering. If the output is still weak, the prompt itself is structurally broken.
+
+Correct in place when Claude read the right context but made a specific wrong choice. Start
+fresh when Claude misunderstood the scope entirely or when the conversation has grown long
+enough that earlier instructions are carrying less weight. Track 2 covers the signals that
+tell you a conversation has become too long and how to hand off context cleanly when that
+happens.
 """,
         "quiz": [
             {
@@ -1063,19 +1143,10 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    # Lesson 2 contains an inline base64 image — split and render with unsafe_allow_html
+    # Render concept — use unsafe_allow_html when HTML elements are present
     concept = lesson["concept"]
-    if "<img " in concept:
-        parts = concept.split("<img ", 1)
-        before = parts[0]
-        rest = parts[1]
-        # Find end of img tag
-        tag_end = rest.find("/>") + 2
-        img_tag = "<img " + rest[:tag_end]
-        after = rest[tag_end:]
-        st.markdown(before)
-        st.markdown(img_tag, unsafe_allow_html=True)
-        st.markdown(after)
+    if "<img " in concept or "<div " in concept:
+        st.markdown(concept, unsafe_allow_html=True)
     else:
         st.markdown(concept)
     st.markdown("---")

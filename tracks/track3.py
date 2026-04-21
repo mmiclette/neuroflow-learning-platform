@@ -930,19 +930,20 @@ happens.
         "quiz": [
             {
                 "question": (
-                    "A team member submitted this prompt: 'Write something about how NeuroFlow "
-                    "helps ACOs and also explain what ACOs are and how MBC fits in and what our "
-                    "ROI looks like.' Claude produced a disorganized response. Which failure "
-                    "pattern does this prompt exhibit?"
+                    "A policy analyst submits this prompt: \"Summarize the VA's behavioral "
+                    "health strategy, explain how NeuroFlow fits into it, identify three "
+                    "competitive risks, and draft an executive summary we can send to the "
+                    "program office.\" Claude produces a response that covers all four areas "
+                    "but handles each one superficially. Which failure pattern caused this?"
                 ),
                 "options": [
-                    "Too generic: no specificity in the task or audience",
-                    "Multiple deliverables in one prompt: each distinct output needs its own focused prompt",
-                    "Too complex: Claude cannot handle healthcare topics in a single prompt",
-                    "Missing constraints: the prompt needs more rules about what to avoid",
+                    "Missing key points: the prompt did not specify what information Claude should draw on, so the output lacked depth across all four areas",
+                    "Wrong length: Claude needed a word count to know how much detail to provide",
+                    "Too complex: four distinct deliverables in one prompt causes Claude to spread effort too thinly across each one",
+                    "Off-topic: Claude addressed adjacent questions rather than the core ask",
                 ],
-                "correct_index": 1,
-                "hint": "Count how many distinct deliverables this prompt is asking for.",
+                "correct_index": 2,
+                "hint": "Count how many distinct deliverables the prompt is asking for and think about what happens when Claude tries to hit all of them at once.",
             },
             {
                 "question": (

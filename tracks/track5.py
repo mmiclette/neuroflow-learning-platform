@@ -105,7 +105,7 @@ that operate under NeuroFlow's HIPAA agreements.
                 ),
                 "options": [
                     "Connect the Snowflake connector so Claude can query the data directly",
-                    "Export a de-identified summary from Snowflake and paste it into Claude Teams for analysis",
+                    "Connect Snowflake, but prompt Claude to not pull in any data at the individual level into the Claude environment",
                     "Do not connect Claude Teams account to Snowflake, because the data contains PHI",
                     "Use the Data plugin, which operates under a separate HIPAA-compliant framework",
                 ],

@@ -688,6 +688,26 @@ view = st.session_state.get("view", "home")
 track_id = st.session_state.get("current_track")
 lesson_id = st.session_state.get("current_lesson")
 
+# If a navigation action just flagged a scroll-to-top, emit a tiny script that
+# scrolls the Streamlit app window back to the top, then clear the flag. This
+# runs before any page renders so it fires once per navigation.
+if st.session_state.pop("scroll_to_top", False):
+    st.components.v1.html(
+        """
+        <script>
+          (function() {
+            var target = window.parent || window;
+            try {
+              target.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            } catch (e) {
+              target.scrollTo(0, 0);
+            }
+          })();
+        </script>
+        """,
+        height=0,
+    )
+
 if view == "home":
     view_home()
 elif view == "track" and track_id:

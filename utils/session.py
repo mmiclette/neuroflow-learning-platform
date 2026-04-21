@@ -40,6 +40,11 @@ def navigate(view: str, track_id: int = None, lesson_id: int = None):
         st.session_state.current_track = track_id
     if lesson_id is not None:
         st.session_state.current_lesson = lesson_id
+    # Signal to the page renderer that the next render should scroll the
+    # browser viewport back to the top. Without this, a learner who finished
+    # a quiz at the bottom of a lesson lands on the next lesson already
+    # scrolled down past its introduction.
+    st.session_state.scroll_to_top = True
     st.rerun()
 
 

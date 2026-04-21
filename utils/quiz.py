@@ -37,6 +37,19 @@ def render_quiz(
 
     qs = st.session_state[state_key]
 
+    # Defensive: validate question data at render time so bad data is caught early
+    # instead of silently producing wrong counts or index errors.
+    if not isinstance(questions, list) or len(questions) == 0:
+        st.error("Quiz has no questions configured.")
+        return False
+    for i, q in enumerate(questions):
+        opts = q.get("options") if isinstance(q, dict) else None
+        ci = q.get("correct_index") if isinstance(q, dict) else None
+        if (not isinstance(opts, list) or len(opts) == 0
+                or not isinstance(ci, int) or not (0 <= ci < len(opts))):
+            st.error(f"Quiz data error on question {i + 1}. Please report this.")
+            return False
+
     st.markdown(f"### {label}")
 
     # -----------------------------------------------------------------------
@@ -79,6 +92,25 @@ def render_quiz(
 
     q = questions[q_idx]
     wrong_count = qs["wrong_count"]
+    total = len(questions)
+
+    # Prominent progress header: counter + progress bar so learners can see the
+    # number advance after each correct answer.
+    progress_pct = int(round((q_idx / total) * 100))
+    st.markdown(
+        f'<div style="display:flex;justify-content:space-between;align-items:center;'
+        f'margin:4px 0 6px 0;">'
+        f'<span style="font-size:14px;font-weight:600;color:#161BAA;">'
+        f'Question {q_idx + 1} of {total}</span>'
+        f'<span style="font-size:12px;color:#757575;">{progress_pct}% complete</span>'
+        f'</div>'
+        f'<div style="background:#E5E7EB;border-radius:4px;height:6px;overflow:hidden;'
+        f'margin-bottom:14px;">'
+        f'<div style="background:#2EA799;height:100%;width:{progress_pct}%;'
+        f'transition:width 0.3s ease;"></div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
     # Wrong-answer counter badge
     if wrong_count > 0:
@@ -88,11 +120,6 @@ def render_quiz(
             unsafe_allow_html=True,
         )
 
-    st.markdown(
-        f'<p style="font-size:13px;color:#757575;margin:0 0 4px 0;">'
-        f"Question {q_idx + 1} of {len(questions)}</p>",
-        unsafe_allow_html=True,
-    )
     st.markdown(f"**{q['question']}**")
 
     radio_key = f"{state_key}_q{q_idx}_radio"

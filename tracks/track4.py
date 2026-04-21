@@ -496,38 +496,45 @@ Preferences degrade silently when your context changes but your settings do not.
     },
     5: {
         "concept": """
-When Claude produces a document, code file, structured table, or any standalone deliverable,
-it renders in a side panel as an artifact. Understanding when Claude creates an artifact —
-and which artifact format to request — determines whether the output is immediately usable.
+**Artifacts and file creation**
 
-**When Claude creates an artifact**
+Claude produces two distinct types of output beyond the chat window: artifacts and files. They look similar at first but behave differently and serve different purposes. Knowing which one you are working with determines how you share it, how you edit it, and what the recipient can do with it.
 
-Claude creates an artifact when the output is a standalone deliverable: a document, a
-spreadsheet, a code file, a presentation, or an interactive web component. Simple
-conversational responses, explanations, and short lists stay in the chat.
+Both features require a settings toggle. Go to Settings > Capabilities and confirm that Code execution and file creation is turned on. Without this, neither artifacts nor downloadable files will appear in your conversations.
+
+**Artifacts**
+
+An artifact is a standalone output that renders in a side panel next to the conversation. Claude creates one when the output is significant, self-contained, and something you are likely to want to edit or reuse. Simple responses, short explanations, and brief lists stay in the chat.
+
+Artifacts cover several output types. Markdown documents render formatted text directly in the panel. HTML pages and React components render as interactive, browser-based experiences. Code artifacts display syntax-highlighted source code meant to be run outside Claude. SVG files render as vector graphics.
+
+All artifacts you have created are accessible from the dedicated artifacts space in the Claude sidebar. You do not need to scroll back through old conversations to find prior work.
+
+**Iterating on artifacts**
+
+Claude performs better when refining an existing artifact than when regenerating it from scratch. Ask Claude to modify a specific section, adjust the tone of a paragraph, or add a column to a table. Targeted edits preserve the parts that already work and avoid introducing new errors elsewhere. If an artifact generates an error, look for the Try fixing with Claude button near the error message. Clicking it sends the error details to Claude automatically.
+
+**Sharing artifacts**
+
+Artifacts can be published and shared via a public link. Recipients do not need a Claude account to view a published artifact. Anyone with a Claude account can remix it, which creates their own copy they can modify independently. This makes artifacts a practical way to share interactive tools, reference documents, or calculators without any hosting or technical setup.
+
+**Files**
+
+Files are actual downloadable documents. When Claude creates a Word document, Excel spreadsheet, PowerPoint presentation, or PDF, it produces a file you can download directly or save to Google Drive. Files open in the corresponding application with no conversion step required.
 
 **Choosing the right format**
 
-The format determines how the recipient can use the output.
+The right question before requesting any output format is: what will the recipient do with this?
 
-**For documents the recipient needs to edit and share** — request a Word document (.docx).
-"Write a word document" triggers document formatting, produces a file the recipient can
-open in Word or Google Docs, and allows direct editing without any conversion step.
+If the recipient needs to edit and share a document, request a Word file. It opens directly in Word or Google Docs and allows immediate editing.
 
-**For structured data** — request a spreadsheet. "Create an Excel spreadsheet" produces a
-.xlsx file with correct column structure, formulas if needed, and formatting.
+If the output is structured data with formulas or column logic, request an Excel spreadsheet. Claude will apply correct column structure and formatting.
 
-**For web-based interactive tools** — request an HTML page or React component. Use this
-when you need something that runs in a browser, like an ROI calculator or a dynamic
-comparison tool. Important: these require hosting to share externally — they cannot be
-emailed as a working interactive experience.
+If the output needs to run in a browser as an interactive experience, request an HTML page or React component. An ROI calculator, a comparison tool, or a dynamic form all fit this category. Note that these require hosting to share externally as a working interactive experience. Publishing the artifact via link is the simplest way to share it without setting up hosting separately.
 
-**For quick reference tables** — inline markdown tables in the chat are faster than
-creating a file. Use files when the recipient needs to edit or distribute the content.
+If the output is reference material that will be read but not edited, an inline markdown table or formatted response in the chat is faster than creating a file.
 
-**The right question before requesting a format:** What will the recipient do with this
-output? Edit it → Word or Excel. View it in a browser → HTML. Run it as code → the
-appropriate code file. Share it via email → Word or PDF.
+If the output needs to be a finished document ready for distribution, request a PDF.
 """,
         "quiz": [
             {

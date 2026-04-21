@@ -114,8 +114,9 @@ that operate under NeuroFlow's HIPAA agreements.
             },
             {
                 "question": (
-                    "A BD team member asks Claude to pull up recent emails from a health system "
-                    "partner before a call. The Gmail connector is active. What does Claude do?"
+                    "A BD team member asks Claude to pull up recent emails from gmail over the "
+                    "past month with a health system partner before a call. The Gmail connector "
+                    "is active. What does Claude do?"
                 ),
                 "options": [
                     "Tells the user to forward the relevant emails into the conversation manually",

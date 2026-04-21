@@ -542,8 +542,9 @@ If the output needs to be a finished document ready for distribution, request a 
         "quiz": [
             {
                 "question": (
-                    "You ask Claude to build a site-by-site completion rate tracker. "
-                    "You watch it start generating an HTML page. What should you do?"
+                    "You ask Claude to build a site-by-site completion rate tracker in a "
+                    "spreadsheet to share externally with program partners. You watch it "
+                    "start generating an HTML page. What should you do?"
                 ),
                 "options": [
                     "Stop the response and tell Claude you need an Excel spreadsheet, specifying the column structure",

@@ -145,52 +145,51 @@ that operate under NeuroFlow's HIPAA agreements.
     },
     2: {
         "concept": """
-Connectors extend Claude's reach — they let Claude pull information from and take actions in
-the tools your team already uses. Plugins extend Claude's capabilities — they give Claude a
-focused skill set and specialized tools for a specific category of work.
+To understand plugins, you need to understand the two components they bundle: skills and connectors.
 
-<p style="color:#161BAA;font-weight:600;font-size:15px;margin:16px 0;">A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there?</p>
+A skill is a reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task by typing "/" and selecting from the commands your installed plugins provide.
 
-Anthropic builds and maintains plugins. Each one adds domain-specific defaults, specialized
-reasoning patterns, and execution tools that Claude does not have in a standard conversation.
+A connector is an authenticated link to an external service that lets Claude retrieve data from or take actions in that system. Connectors inside a plugin come pre-configured for the workflow the plugin is designed to support. A Sales plugin might bundle connectors for your CRM and your email platform. A Legal plugin might include connectors for regulatory databases and document storage.
+
+A plugin bundles a curated set of skills and connectors into a single installable package, configured for a specific role or workflow. Installing a plugin means Claude enters a task already equipped with the reasoning patterns and service integrations that role requires, without you building that context from scratch each time.
+
+This is the difference between connectors and plugins in practice. A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there, and how should it think when it arrives?
+
+**Plugins require Cowork**
+
+Plugins are only available inside Cowork, and Cowork only runs in the Claude Desktop app on macOS or Windows. They are not accessible from claude.ai in a browser or from the mobile app. If you have not installed Claude Desktop, that is the prerequisite before anything else in this lesson applies.
+
+Cowork is a distinct mode from chat. Rather than a back-and-forth conversation, Cowork runs Claude as an autonomous agent that executes multi-step tasks, works with your local files, and coordinates sub-agents in parallel. You access it through the Cowork tab in the desktop app. Plugins live there, not in the chat interface.
+
+One practical tradeoff: Cowork sessions consume significantly more of your usage allocation than standard chat. Multi-step agentic tasks are compute-intensive. Batch related work into single sessions rather than running many small ones.
 
 **Plugins relevant to NeuroFlow roles**
 
-The **Data plugin** lets Claude execute queries against structured data and render charts.
-A data analyst producing a ranked chart from a CSV benefits from this because it provides
-execution capabilities — running calculations and rendering visuals — that standard chat cannot.
+The Data plugin bundles skills for querying structured data and rendering charts alongside connectors to data sources your workflow depends on. A data analyst producing a ranked chart from a CSV gets execution capabilities that standard chat cannot deliver, without specifying the analytical approach in every prompt.
 
-The **Legal plugin** adds document review and regulatory compliance research capabilities.
-A policy analyst reviewing a CMS final rule gets specialized regulatory document reasoning
-applied automatically without specifying it in every prompt.
+The Legal plugin bundles regulatory document review skills and compliance research patterns. A policy analyst reviewing a CMS final rule gets specialized reasoning applied automatically. The plugin knows how to read regulatory language, surface relevant provisions, and structure findings without being prompted to do so each time.
 
-The **Sales plugin** adds deal coaching, pipeline reasoning, and outreach generation. A BD
-team member drafting a five-part outreach sequence benefits from outreach structure defaults
-that a standard prompt would have to specify manually.
+The Sales plugin bundles deal coaching, pipeline reasoning, and outreach generation skills alongside CRM connectors. A BD team member drafting a five-part outreach sequence gets structural defaults and sequencing logic that a standard prompt would have to specify manually.
 
-The **Engineering plugin** adds code review patterns, architecture decision frameworks, and
-incident documentation workflows for technical staff.
+The Engineering plugin bundles code review patterns, architecture decision frameworks, and incident documentation workflows for technical staff.
+
+Anthropic maintains the full plugin library on GitHub and continues adding categories including finance, marketing, HR, design, and operations.
 
 **When to use vs. skip a plugin**
 
-Use a plugin when the task falls squarely within a domain category and you want those
-defaults applied automatically across the session. Do not use a plugin when a well-crafted
-prompt handles the task — a single outreach email drafted with a strong RTCFC prompt does
-not need the Sales plugin. Plugins add token overhead. Use the simplest approach that
-achieves the result.
+Use a plugin when the task falls squarely within a domain category and you want specialized skills and connectors applied automatically across the session. Skip it when a well-crafted prompt handles the task. A single outreach email drafted with a strong prompt does not need the Sales plugin. Plugins add context overhead and increase session compute consumption. Use the simplest approach that achieves the result.
 
-**Using plugins across roles**
+**Using individual skills across roles**
 
-Plugins are often designed for a specific role or field, but you do not need to use the
-full package. Each plugin bundles skills, connectors, and sub-agents together — but
-individual skills surface as slash commands you can trigger on demand. If one or two skills
-from the Sales or Legal plugin are useful to your workflow, you can use those without
-engaging the rest of the plugin.
+Plugins are designed for specific roles, but you do not need to engage the full package. Each plugin's skills surface as individual slash commands you can invoke on demand. If one or two skills from the Legal or Sales plugin are useful to your workflow, trigger those without activating everything else the plugin contains.
 
-If nothing in the existing library fits your task, Plugin Create walks you through building
-something from scratch, or you can start from an existing template and modify it. The
-answer to "what am I trying to do" may already exist inside a plugin built for a different
-role.
+**Building and customizing plugins**
+
+Plugin Create is a built-in plugin that walks you through building a plugin from scratch. You can also start from any Anthropic-built template and modify it. After installing any plugin, open the Customize menu to adjust its skills and connectors to fit how you work.
+
+**Security note**
+
+Plugins may include local MCP servers that run on your computer with the same permissions as any other program you run. Only install plugins from sources you trust.
 """,
         "quiz": [
             {

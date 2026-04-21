@@ -218,7 +218,7 @@ Showing Claude what the output should *not* look like is often more efficient th
     },
     4: {
         "concept": """
-<div style="font-size:1.05em;font-weight:700;color:#161BAA;margin-bottom:12px;">Before covering XML tags, a direct answer to the most important question: you do not need them most of the time.</div>
+<div style="font-size:1.05em;font-weight:700;margin-bottom:12px;">Before covering XML tags, a direct answer to the most important question:<br><span style="color:#161BAA;">you do not need them most of the time.</span></div>
 
 XML tags earn their place in one specific situation: when your prompt contains multiple
 distinct types of content that Claude needs to treat differently. That is when structure

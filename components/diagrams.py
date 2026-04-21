@@ -818,6 +818,24 @@ function show(key){
 """
 
 
+
+# ---------------------------------------------------------------------------
+# Lesson 3.4 — XML tags callout
+# ---------------------------------------------------------------------------
+DIAGRAMS["xml_tags_callout"] = """
+<svg width="100%" viewBox="0 0 680 120" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>XML tags key insight</title>
+<defs>
+  <clipPath id="xmltop"><rect x="10" y="8" width="660" height="104" rx="8"/></clipPath>
+</defs>
+<rect x="10" y="8" width="660" height="104" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="1.5"/>
+<rect x="10" y="8" width="660" height="52" clip-path="url(#xmltop)" fill="#161BAA"/>
+<text x="28" y="28" font-family="sans-serif" font-size="11" fill="rgba(255,255,255,0.72)">Before covering XML tags,</text>
+<text x="28" y="47" font-family="sans-serif" font-size="11.5" font-weight="500" fill="white">a direct answer to the most important question:</text>
+<text x="28" y="88" font-family="sans-serif" font-size="18" font-weight="700" fill="#161BAA">You do not need them most of the time.</text>
+</svg>
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -834,5 +852,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "hallucination_check": 400,
         "gating": 540,
         "ai_hierarchy": 620,
+        "xml_tags_callout": 130,
     }
     return heights.get(diagram_id, 300)

@@ -120,7 +120,15 @@ def render_quiz(
             unsafe_allow_html=True,
         )
 
-    st.markdown(f"**{q['question']}**")
+    # Render the question as bold HTML so bolding spans multiple paragraphs and
+    # so inline tags like <u> render correctly. Preserves line breaks from the
+    # source string by converting them to <br>.
+    q_html = q["question"].replace("\n\n", "<br><br>").replace("\n", "<br>")
+    st.markdown(
+        f'<div style="font-weight:600;font-size:15px;color:#212121;'
+        f'margin:0 0 12px 0;line-height:1.55;">{q_html}</div>',
+        unsafe_allow_html=True,
+    )
 
     radio_key = f"{state_key}_q{q_idx}_radio"
     selected = st.radio(

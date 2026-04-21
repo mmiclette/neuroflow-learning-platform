@@ -977,10 +977,10 @@ happens.
             {
                 "question": (
                     "Which prompt is more likely to produce a high-quality response, and why?\n\n"
-                    "**Prompt A:**\n"
+                    "<u>Prompt A:</u>\n"
                     "WRITE A DETAILED SUMMARY OF THIS ARTICLE. DO NOT MISS ANY IMPORTANT POINTS. "
                     "MAKE SURE IT IS PERFECT. DO NOT BE LAZY.\n\n"
-                    "**Prompt B:**\n"
+                    "<u>Prompt B:</u>\n"
                     "Please provide a clear, concise summary of the article, highlighting the "
                     "key points and main takeaways."
                 ),

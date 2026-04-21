@@ -24,20 +24,20 @@ time, predicting the most statistically likely next token given everything it ha
 
 Four terms appear throughout this program.
 
-**Token** — the unit Claude processes. Roughly equivalent to a word or word fragment.
+**Token:** the unit Claude processes. Roughly equivalent to a word or word fragment.
 "Hello" is one token. "Measurement-based" is likely two. You are billed for tokens
 consumed, which is why heavier models cost more of your usage allocation per conversation.
 
-**Context window** — the total amount of text Claude can hold in its working memory at
+**Context window:** the total amount of text Claude can hold in its working memory at
 once. Claude's context window is 200,000 tokens, roughly 150,000 words or about 500 pages
 of text. Everything in your current conversation counts against this limit. When a
 conversation grows very long, earlier content can fall outside the active window and Claude
 loses access to it.
 
-**Corpus** — the large body of text Claude was trained on, including books, articles, code,
+**Corpus:** the large body of text Claude was trained on, including books, articles, code,
 and web content up to its training cutoff date. Claude's knowledge comes from this corpus.
 
-**Hallucination** — when Claude generates text that has the structure and confidence of an
+**Hallucination:** when Claude generates text that has the structure and confidence of an
 accurate statement but is partially or entirely fabricated. Hallucinations happen because
 Claude is optimizing for statistically plausible text, not verified facts. A fabricated
 case study with plausible-sounding statistics is a hallucination. A citation to a real
@@ -133,7 +133,7 @@ automatically across every conversation. Track 4 covers Projects in detail.
                     "Consults a live knowledge base and summarizes the results",
                 ],
                 "correct_index": 2,
-                "hint": "Claude is a generative model — it produces text one token at a time from what you have given it.",
+                "hint": "Claude is a generative model. It produces text one token at a time from what you have given it.",
             },
             {
                 "question": (
@@ -148,18 +148,18 @@ automatically across every conversation. Track 4 covers Projects in detail.
                     "The model needs to be switched to Opus",
                 ],
                 "correct_index": 1,
-                "hint": "The 200K context window is large but finite — older content can fall outside it.",
+                "hint": "The 200K context window is large but finite; older content can fall outside it.",
             },
             {
                 "question": "Why is it essential to verify specific statistics and citations that Claude produces?",
                 "options": [
                     "Claude deliberately fabricates information to appear helpful",
-                    "Claude generates statistically likely text and can produce plausible-sounding but inaccurate details — including citations to studies that do not exist — because it has no built-in verification step",
+                    "Claude generates statistically likely text and can produce plausible-sounding but inaccurate details (including citations to studies that do not exist) because it has no built-in verification step",
                     "Claude's training data is always outdated",
                     "Statistics are outside Claude's capability regardless of prompt quality",
                 ],
                 "correct_index": 1,
-                "hint": "Claude is optimizing for plausible text, not verified facts — hallucinations look exactly like accurate output.",
+                "hint": "Claude is optimizing for plausible text, not verified facts. Hallucinations look exactly like accurate output.",
             },
         ],
     },
@@ -227,8 +227,8 @@ Claude Teams includes built-in web search, which handles most information gather
 directly. Ask Claude to search the web for publicly available information and it will
 retrieve, summarize, and synthesize findings in the same conversation.
 
-For tasks that require more targeted searching — specific academic databases, regulatory
-archives, or known sources — tools like Perplexity, Google Scholar, or direct web search
+For tasks that require more targeted searching (specific academic databases, regulatory
+archives, or known sources), tools like Perplexity, Google Scholar, or direct web search
 can complement Claude. The typical workflow is to search externally when you need precision
 on a specific source, then bring those findings into Claude Teams for analysis, drafting,
 or synthesis.
@@ -262,7 +262,7 @@ it takes when you bring it in.
                     "Avoiding AI tools for research entirely since accuracy cannot be guaranteed",
                 ],
                 "correct_index": 1,
-                "hint": "Think about where each type of information belongs — external research vs. internal proprietary data.",
+                "hint": "Think about where each type of information belongs: external research vs. internal proprietary data.",
             },
             {
                 "question": "What is the single most important restriction on what can be entered into Claude Teams?",
@@ -278,8 +278,8 @@ it takes when you bring it in.
             {
                 "question": "Who is responsible for a work product created with Claude's help?",
                 "options": [
-                    "I am — Claude assists, but I own and am accountable for everything I submit",
-                    "Claude is — it generated the content",
+                    "I am. Claude assists, but I own and am accountable for everything I submit",
+                    "Claude is. It generated the content",
                 ],
                 "correct_index": 0,
                 "hint": "Claude is a tool. The person who submits the work is responsible for it.",
@@ -291,8 +291,8 @@ it takes when you bring it in.
                     "Is this appropriate to bring into Claude Teams?"
                 ),
                 "options": [
-                    "No — any data derived from patient records is PHI regardless of whether identifiers have been removed",
-                    "Yes — de-identified aggregate data with no individual patient identifiers is not PHI and is appropriate for Claude Teams",
+                    "No: any data derived from patient records is PHI regardless of whether identifiers have been removed",
+                    "Yes: de-identified aggregate data with no individual patient identifiers is not PHI and is appropriate for Claude Teams",
                     "Only if the researcher's manager approves it first",
                     "Only if fewer than 500 patients are represented in the dataset",
                 ],
@@ -309,41 +309,41 @@ frustrations staff encounter.
 
 **Core interface areas**
 
-**Conversations** — each conversation is a self-contained session. Claude has access to
+**Conversations:** each conversation is a self-contained session. Claude has access to
 everything in that conversation but nothing from past conversations unless you are inside
 a Project. Long conversations can improve coherence within a session but consume your
 token allocation faster.
 
-**Projects** — a persistent workspace. You write custom instructions once, upload
+**Projects:** a persistent workspace. You write custom instructions once, upload
 knowledge files, and every conversation inside that Project uses that context
 automatically. Recurring NeuroFlow workflows belong here.
 
-**Memory** — Claude can store facts and preferences about you across conversations
+**Memory:** Claude can store facts and preferences about you across conversations
 globally. Unlike Project knowledge, memory applies everywhere. View, edit, and delete
 memories in Settings and then Memory.
 
-**Tools panel** — controls web search, file analysis, code execution, and connected
+**Tools panel:** controls web search, file analysis, code execution, and connected
 integrations.
 
-**Artifacts** — when Claude produces a document or code file, it renders in a side panel
+**Artifacts:** when Claude produces a document or code file, it renders in a side panel
 for separate editing and download.
 
-**Model selector** — at the bottom of the chat input. One of the most consequential
+**Model selector:** at the bottom of the chat input. One of the most consequential
 settings.
 
 [[MODEL_COMPARISON_DIAGRAM]]
 
 **Understanding models and usage limits**
 
-**Haiku** — fastest and most efficient. Best for simple tasks such as summarizing short
+**Haiku:** fastest and most efficient. Best for simple tasks such as summarizing short
 documents, answering specific questions, and grammar and spelling checks. Uses the least
 allocation per exchange.
 
-**Sonnet** — the default for most work. Handles document analysis, structured writing,
+**Sonnet:** the default for most work. Handles document analysis, structured writing,
 multi-step tasks, and instruction-following reliably. The majority of daily work should
 happen here.
 
-**Opus** — most capable for complex reasoning. Use for tasks requiring judgment across
+**Opus:** most capable for complex reasoning. Use for tasks requiring judgment across
 competing considerations, analysis of lengthy complex documents, or nuanced policy and
 clinical work where quality on the first attempt matters more than speed. Opus consumes
 significantly more allocation than Sonnet.
@@ -451,7 +451,7 @@ conversation becomes the working session. The Project becomes the persistent mem
                     "conversation. The most practical corrective action is:"
                 ),
                 "options": [
-                    "Switch to Opus — it has a larger context window",
+                    "Switch to Opus, since it has a larger context window",
                     "Start a new conversation and copy in only the most relevant context from the prior session",
                     "Repeat all your earlier context in a new message",
                     "Enable web search to help Claude find the information again",
@@ -476,13 +476,13 @@ conversation becomes the working session. The Project becomes the persistent mem
                     "Which model should you use, and why?"
                 ),
                 "options": [
-                    "Opus — it is the most capable and will catch every error",
-                    "Sonnet — it is the default and always the safest choice",
-                    "Haiku — the task is simple and requires no deep reasoning, so using a lighter model preserves your allocation for work that actually needs it",
-                    "It does not matter — all models perform identically on simple tasks",
+                    "Opus: it is the most capable and will catch every error",
+                    "Sonnet: it is the default and always the safest choice",
+                    "Haiku: the task is simple and requires no deep reasoning, so using a lighter model preserves your allocation for work that actually needs it",
+                    "It does not matter: all models perform identically on simple tasks",
                 ],
                 "correct_index": 2,
-                "hint": "Match model capability to task complexity — spending more allocation than needed reduces what is available for harder work.",
+                "hint": "Match model capability to task complexity; spending more allocation than needed reduces what is available for harder work.",
             },
             {
                 "question": (
@@ -492,13 +492,13 @@ conversation becomes the working session. The Project becomes the persistent mem
                     "What is the best next step?"
                 ),
                 "options": [
-                    "Keep using the same conversation — Claude will remember as long as you do not close it",
+                    "Keep using the same conversation, since Claude will remember as long as you do not close it",
                     "Copy and paste your best prompt to the top of every new conversation",
                     "Use the current conversation to build Claude Project instructions, then evaluate future tickets inside that Project",
                     "Switch to Opus, which retains memory across conversations automatically",
                 ],
                 "correct_index": 2,
-                "hint": "Projects persist your context reliably — a long conversation does not.",
+                "hint": "Projects persist your context reliably; a long conversation does not.",
             },
         ],
     },
@@ -507,8 +507,8 @@ conversation becomes the working session. The Project becomes the persistent mem
 Because Claude generates responses by predicting statistically likely text rather than retrieving verified facts, fluent and confident output can still be wrong. Knowing what to do about that is the most important habit to build before using Claude for work that leaves NeuroFlow.
 
 Claude produces statistically likely text. This means it can generate outputs that are
-fluent, confident, and wrong. Understanding where it fails — and what NeuroFlow policy
-requires — protects you and the organization.
+fluent, confident, and wrong. Understanding where it fails, and what NeuroFlow policy
+requires, protects you and the organization.
 
 **What hallucinations look like in practice**
 
@@ -518,7 +518,7 @@ of what a correct answer would look like. Common failure patterns at NeuroFlow:
 A fabricated study in the correct journal, by a plausible author, with a specific and
 believable finding. You cannot distinguish it from a real study without checking.
 
-A specific statistic — "34% reduction in readmission rates" — attached to a program that
+A specific statistic like "34% reduction in readmission rates" attached to a program that
 has never been evaluated. The number sounds reasonable, which is why it passed review.
 
 A policy brief that attributes a position to an agency using real agency language, on a
@@ -532,7 +532,7 @@ The same risk applies to calculations. Claude can perform arithmetic incorrectly
 
 **Grounding reduces hallucination risk**
 
-The most effective mitigation is grounding — giving Claude the source material and
+The most effective mitigation is grounding: giving Claude the source material and
 instructing it to stay within it:
 
 "Use only the information in the attached reports. Do not add claims, statistics, or
@@ -543,8 +543,8 @@ in externally-facing documents.
 
 **The key habit: ask where it came from**
 
-When Claude produces something specific that you did not provide — a precise statistic,
-a named study, a dollar figure — ask for the source before using it. If Claude cannot
+When Claude produces something specific that you did not provide, such as a precise statistic,
+a named study, or a dollar figure, ask for the source before using it. If Claude cannot
 produce a verifiable citation, the claim should be removed or replaced.
 
 **NeuroFlow policy**
@@ -604,7 +604,7 @@ broken.
                     "Only include information you are confident about.",
                 ],
                 "correct_index": 1,
-                "hint": "You need an explicit boundary — vague accuracy instructions do not constrain source material.",
+                "hint": "You need an explicit boundary; vague accuracy instructions do not constrain source material.",
             },
         ],
         "challenge": {
@@ -623,9 +623,9 @@ broken.
                 "detail sufficient for independent external verification.\n\n"
                 "Full marks (score 100): The prompt asks for a full citation, a DOI, a direct "
                 "link, or enough specific identifiers that the study can be located and verified "
-                "independently. Asking for 'the full citation' earns full marks — a complete "
+                "independently. Asking for 'the full citation' earns full marks, since a complete "
                 "citation contains all required identifying elements by convention.\n\n"
-                "Pass (score 70–99): The prompt asks for some but not all traceable details — "
+                "Pass (score 70–99): The prompt asks for some but not all traceable details, "
                 "for example, author names but no DOI, or a link but no other identifiers.\n\n"
                 "Fail (score < 70): The prompt only asks Claude to 'verify', 'confirm', "
                 "'double-check', or 'make sure it is accurate' without requesting traceable "
@@ -647,18 +647,18 @@ broken.
     5: {
         "concept": """
 Claude is one tool in a larger ecosystem. Understanding which surface to use for which
-job — and when to layer in other capabilities — determines how much value staff actually
+job, and when to layer in other capabilities, determines how much value staff actually
 extract from the platform.
 
 **The three primary Claude surfaces**
 
 **Claude chat** is for thinking and drafting. Use it when the task is cognitive: analyzing
 a document, drafting a brief, developing a strategy, working through a problem. Chat is
-interactive — you exchange messages, refine, and iterate. Nothing runs autonomously.
+interactive. You exchange messages, refine, and iterate. Nothing runs autonomously.
 
-**Cowork** is for acting. Use it when the task involves operating on local files autonomously
-— renaming a folder of documents, converting files, synthesizing a report from scattered
-local notes, running a scheduled weekly digest. Cowork reads and writes files on your machine.
+**Cowork** is for acting. Use it when the task involves operating on local files autonomously,
+such as renaming a folder of documents, converting files, synthesizing a report from scattered
+local notes, or running a scheduled weekly digest. Cowork reads and writes files on your machine.
 You define the task; it executes without requiring you to stay in the loop for each step.
 Track 6 covers Cowork in depth.
 
@@ -669,15 +669,15 @@ Track 7 covers Claude Code and is intended for engineering staff.
 
 **Extended capabilities within Claude chat**
 
-**Deep Research** — Claude browses multiple web sources and compiles a structured research
+**Deep Research:** Claude browses multiple web sources and compiles a structured research
 report. Use when you need a landscape assessment, policy survey, or competitive overview.
 Deep Research is the most token-intensive option.
 
-**Connectors** — link Claude to the tools your team already uses. With the HubSpot connector
+**Connectors:** link Claude to the tools your team already uses. With the HubSpot connector
 active, Claude can pull deal notes directly from your CRM. Connectors stay active in a
 conversation until you disable them.
 
-**Plugins** — extend what Claude can do within a session with domain-specific defaults.
+**Plugins:** extend what Claude can do within a session with domain-specific defaults.
 The Data plugin enables executing queries and rendering charts. The Legal plugin adds
 document review reasoning for regulatory work. The Sales plugin adds pipeline reasoning
 and outreach generation patterns.
@@ -696,7 +696,7 @@ first step.
                     "Cowork, and Claude Code?"
                 ),
                 "options": [
-                    "They are interchangeable — use whichever is most familiar",
+                    "They are interchangeable; use whichever is most familiar",
                     "Chat is for thinking and drafting, Cowork is for acting on local files autonomously, Claude Code is for writing and modifying code",
                     "Claude Code is always the most powerful option and should be used whenever possible",
                     "Cowork replaces Claude chat for all tasks once you have the desktop app installed",
@@ -707,7 +707,7 @@ first step.
             {
                 "question": (
                     "A NeuroFlow policy analyst needs to compile a landscape assessment of "
-                    "state Medicaid behavioral health technology programs — covering which "
+                    "state Medicaid behavioral health technology programs, covering which "
                     "states are active, what programs exist, and recent policy trends. "
                     "Which Claude feature is most appropriate?"
                 ),
@@ -718,7 +718,7 @@ first step.
                     "Cowork pointed at a local folder of downloaded policy documents",
                 ],
                 "correct_index": 2,
-                "hint": "This requires synthesizing information from many external sources — which capability is designed for that?",
+                "hint": "This requires synthesizing information from many external sources. Which capability is designed for that?",
             },
             {
                 "question": (
@@ -793,7 +793,7 @@ def render_lesson(lesson_id: int) -> bool:
             label="Knowledge check",
         )
 
-    # Lesson 2.4 — quiz followed by graded challenge
+    # Lesson 2.4: quiz followed by graded challenge
     if lesson.get("quiz") and lesson.get("challenge"):
         quiz_passed = render_quiz(
             track_id=TRACK_ID,

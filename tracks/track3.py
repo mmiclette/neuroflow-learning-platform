@@ -881,23 +881,13 @@ and write a targeted fix rather than restarting from scratch.
 
 **The five failure patterns**
 
-**Too generic:** no specificity in task or context. Claude activates a broad range of patterns
-and produces a generic response. Fix: add criteria, audience, and an example.
-
-**Too complex:** multiple deliverables in one prompt. Claude attempts all of them and produces
-mediocre results across every task. Fix: break into separate focused prompts. Each prompt
-should have one clear deliverable.
-
-**Missing key points:** Claude omitted something the prompt did not require. Fix: list what
-must be present. Claude 4 will not add content you did not ask for. If something is missing
-from the output, it was missing from the prompt.
-
-**Wrong length:** output is too long or too short. Fix: specify word count, number of items,
-or number of sections explicitly. "A summary" does not tell Claude how long the summary should
-be. "A three-sentence summary" does.
-
-**Off-topic or unfocused:** Claude addressed a related but different question. Fix: state the
-core focus explicitly and add a constraint ruling out adjacent topics.
+| Pattern | What happens | Fix |
+|---|---|---|
+| **Too generic** | No specificity in task or context. Claude activates a broad range of patterns and produces a generic response. | Add criteria, audience, and an example. |
+| **Too complex** | Multiple deliverables in one prompt. Claude attempts all of them and produces mediocre results across every task. | Break into separate focused prompts. Each prompt should have one clear deliverable. |
+| **Missing key points** | Claude omitted something the prompt did not require. Claude 4 will not add content you did not ask for — if something is missing from the output, it was missing from the prompt. | List what must be present. |
+| **Wrong length** | Output is too long or too short. "A summary" does not tell Claude how long the summary should be. | Specify word count, number of items, or number of sections explicitly. "A three-sentence summary" does. |
+| **Off-topic or unfocused** | Claude addressed a related but different question. | State the core focus explicitly and add a constraint ruling out adjacent topics. |
 
 **The diagnostic question**
 

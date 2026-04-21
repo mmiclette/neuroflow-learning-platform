@@ -1620,6 +1620,464 @@ body{margin:0;padding:8px 4px;background:transparent;font-family:'DM Sans',-appl
 </body></html>
 """
 
+DIAGRAMS["plugin_ui_diagram"] = r"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cowork Plugin Interface</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --nf-primary: #161B4A;
+    --nf-secondary-blue: #2E4799;
+    --nf-secondary-light: #478FCC;
+    --nf-secondary-teal: #4CB6AC;
+    --nf-accent: #F16061;
+    --nf-text-primary: #212121;
+    --nf-text-secondary: #757575;
+    --nf-divider: #BDBDBD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ECEEF4;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 36px 24px;
+  }
+
+  .wrapper { width: 100%; max-width: 1020px; }
+
+  .lesson-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--nf-secondary-blue); margin-bottom: 8px;
+  }
+  .lesson-title { font-size: 21px; font-weight: 600; color: var(--nf-primary); margin-bottom: 4px; }
+  .lesson-sub { font-size: 13px; color: var(--nf-text-secondary); margin-bottom: 24px; }
+
+  /* Window */
+  .window {
+    background: #1C1C1E;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(22,27,74,0.25);
+  }
+
+  .title-bar {
+    background: #2A2A2C;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    border-bottom: 1px solid #3A3A3C;
+    flex-shrink: 0;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+
+  .window-title { font-size: 13px; font-weight: 600; color: #DDDDE0; margin-left: 12px; }
+
+  /* Two panels */
+  .panels { display: flex; height: 540px; }
+
+  /* Left nav — not scrollable, annotations stay put */
+  .left-nav {
+    width: 220px;
+    background: #242426;
+    border-right: 1px solid #3A3A3C;
+    padding: 10px 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 16px; font-size: 12px; color: #8E8E93; cursor: pointer;
+  }
+  .nav-item:hover { background: #2E2E30; }
+  .nav-divider { height: 1px; background: #3A3A3C; margin: 6px 0; }
+
+  .nav-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 4px;
+  }
+  .nav-section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #636366;
+  }
+  .nav-add-btn {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 1px solid #48484A; display: flex; align-items: center;
+    justify-content: center; color: #636366; font-size: 12px; cursor: pointer;
+  }
+
+  .nav-plugin-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 16px; font-size: 12px; color: #8E8E93; cursor: pointer;
+  }
+  .nav-plugin-row.active {
+    background: rgba(71,143,204,0.15); color: #FFFFFF;
+    border-left: 2px solid var(--nf-secondary-light);
+  }
+  .nav-plugin-row:hover:not(.active) { background: #2E2E30; }
+
+  .nav-sub-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 16px 5px 34px; font-size: 11px; color: #636366; cursor: pointer;
+  }
+  .nav-sub-item:hover { background: #2E2E30; color: #8E8E93; }
+
+  .nav-org-note {
+    font-size: 10px; color: #48484A;
+    padding: 6px 16px; font-style: italic; line-height: 1.5;
+  }
+
+  /* Annotation ring — placed inline, not as overlay */
+  .annotated {
+    position: relative;
+  }
+
+  .anno-ring {
+    position: absolute;
+    border: 2px solid var(--nf-accent);
+    border-radius: 6px;
+    pointer-events: none;
+    animation: blink 2.4s ease-in-out infinite;
+    z-index: 10;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .anno-badge {
+    position: absolute;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--nf-accent); color: white;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(241,96,97,0.5);
+    pointer-events: none;
+    z-index: 11;
+  }
+
+  /* Right detail panel — scrollable */
+  .detail-panel {
+    flex: 1;
+    background: #1C1C1E;
+    overflow-y: auto;
+  }
+
+  .detail-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #3A3A3C;
+    position: relative;
+  }
+
+  .detail-plugin-name { font-size: 20px; font-weight: 600; color: #FFFFFF; }
+
+  .detail-actions { display: flex; align-items: center; gap: 8px; }
+
+  .btn-outline {
+    background: transparent; border: 1px solid #48484A; border-radius: 7px;
+    padding: 5px 13px; font-size: 12px; font-weight: 500; color: #AEAEB2;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+  .btn-solid {
+    background: #2E2E30; border: 1px solid #48484A; border-radius: 7px;
+    padding: 5px 13px; font-size: 12px; font-weight: 500; color: #DDDDE0;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+
+  .toggle-pill {
+    width: 44px; height: 26px; border-radius: 13px;
+    background: var(--nf-secondary-light); position: relative; cursor: pointer;
+  }
+  .toggle-pill-knob {
+    width: 20px; height: 20px; background: white; border-radius: 50%;
+    position: absolute; top: 3px; left: 21px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .detail-meta {
+    display: flex; gap: 28px;
+    padding: 14px 24px; border-bottom: 1px solid #3A3A3C;
+  }
+  .meta-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: #636366; margin-bottom: 3px;
+  }
+  .meta-value { font-size: 12px; color: #AEAEB2; }
+  .meta-value.link { color: var(--nf-secondary-light); }
+
+  .detail-desc-section {
+    padding: 14px 24px; border-bottom: 1px solid #3A3A3C;
+  }
+  .detail-section-title {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: #636366; margin-bottom: 6px;
+  }
+  .detail-desc-text { font-size: 12px; color: #8E8E93; line-height: 1.6; }
+
+  .skills-section { padding: 16px 24px; position: relative; }
+
+  .skills-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+  }
+  .skills-pill {
+    background: #2E2E30; border: 1px solid #48484A; border-radius: 5px;
+    padding: 3px 10px; font-size: 11px; font-weight: 500; color: #DDDDE0;
+  }
+  .skills-invoke-note {
+    font-size: 11px; color: #636366; margin-bottom: 12px; font-style: italic;
+  }
+  .skills-invoke-note code {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--nf-secondary-light);
+    background: rgba(71,143,204,0.1); padding: 1px 5px; border-radius: 3px;
+  }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+  .skill-card {
+    background: #2A2A2C; border: 1px solid #3A3A3C;
+    border-radius: 8px; padding: 11px 13px; cursor: pointer;
+  }
+  .skill-card:hover { border-color: #48484A; background: #2E2E30; }
+  .skill-card-desc {
+    font-size: 11px; color: #AEAEB2; line-height: 1.5; margin-bottom: 8px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .skill-cmd { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--nf-secondary-light); }
+
+  .try-section { padding: 0 24px 24px; }
+  .try-label { font-size: 13px; font-weight: 600; color: #8E8E93; margin-bottom: 8px; }
+  .try-item {
+    padding: 9px 12px; background: #242426; border: 1px solid #3A3A3C;
+    border-radius: 6px; font-size: 12px; color: #8E8E93; margin-bottom: 6px; cursor: pointer;
+  }
+  .try-item:hover { background: #2E2E30; color: #AEAEB2; }
+
+  /* Legend */
+  .legend { display: flex; gap: 12px; margin-top: 20px; }
+
+  .legend-card {
+    flex: 1; background: white; border-radius: 10px; padding: 14px 16px;
+    border-top: 3px solid var(--nf-accent);
+    box-shadow: 0 2px 8px rgba(22,27,74,0.07);
+  }
+  .legend-head { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .legend-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--nf-accent); color: white; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .legend-title { font-size: 13px; font-weight: 600; color: var(--nf-primary); }
+  .legend-desc { font-size: 12px; color: var(--nf-text-secondary); line-height: 1.6; }
+
+  code {
+    font-family: 'DM Mono', monospace; font-size: 10.5px;
+    background: #F0F1F5; color: var(--nf-secondary-blue);
+    padding: 1px 4px; border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="lesson-label">Cowork Interface Guide</div>
+  <div class="lesson-title">Finding and using plugins in Cowork</div>
+  <div class="lesson-sub">Claude Desktop app · Cowork tab · macOS and Windows</div>
+
+  <div class="window">
+
+    <div class="title-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <div class="window-title">Customize</div>
+    </div>
+
+    <div class="panels">
+
+      <!-- Left nav -->
+      <div class="left-nav">
+
+        <div class="nav-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="#8E8E93" stroke-width="1.3"/><path d="M4.5 7h5M4.5 9.5h3" stroke="#8E8E93" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Skills
+        </div>
+        <div class="nav-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="#8E8E93" stroke-width="1.3"/><path d="M7 2V1M7 13v-1M13 7h-1M2 7H1" stroke="#8E8E93" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Connectors
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <!-- ANNOTATION 1: Personal plugins section -->
+        <div class="annotated">
+          <div class="anno-ring" style="top: -2px; left: 2px; right: 2px; bottom: -2px;"></div>
+          <div class="anno-badge" style="top: -10px; left: -2px;">1</div>
+
+          <div class="nav-section-header">
+            <span class="nav-section-label">Personal plugins</span>
+            <div class="nav-add-btn">+</div>
+          </div>
+
+          <div class="nav-plugin-row active">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9l3-3 2.5 2.5L11 4" stroke="#478FCC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Legal
+          </div>
+          <div class="nav-sub-item">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="1" width="9" height="9" rx="1.5" stroke="#636366" stroke-width="1"/></svg>
+            Skills
+          </div>
+          <div class="nav-sub-item">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="#636366" stroke-width="1"/></svg>
+            Connectors
+          </div>
+          <div class="nav-plugin-row">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9l3-3 2.5 2.5L11 4" stroke="#636366" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Data
+          </div>
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <div class="nav-section-header">
+          <span class="nav-section-label">Organization plugins</span>
+          <div class="nav-add-btn">+</div>
+        </div>
+        <div class="nav-org-note">Plugins managed by your org will appear here.</div>
+
+      </div>
+
+      <!-- Detail panel — scrollable, annotations inside elements -->
+      <div class="detail-panel">
+
+        <!-- ANNOTATION 2: active toggle lives inside detail-header -->
+        <div class="detail-header annotated">
+          <div class="detail-plugin-name">Legal</div>
+          <div class="detail-actions">
+            <button class="btn-outline">Update</button>
+            <button class="btn-solid">Customize</button>
+            <!-- ring wraps just the toggle -->
+            <div style="position:relative; display:flex; align-items:center;">
+              <div class="anno-ring" style="top: -5px; left: -5px; right: -5px; bottom: -5px; border-radius: 16px;"></div>
+              <div class="anno-badge" style="top: -14px; right: -8px;">2</div>
+              <div class="toggle-pill"><div class="toggle-pill-knob"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-meta">
+          <div class="meta-item">
+            <div class="meta-label">Source</div>
+            <div class="meta-value">Marketplace <span class="link">(Anthropic & Partners)</span></div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Version</div>
+            <div class="meta-value">1.4.0</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Author</div>
+            <div class="meta-value">Anthropic</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Last updated</div>
+            <div class="meta-value">9 days ago</div>
+          </div>
+        </div>
+
+        <div class="detail-desc-section">
+          <div class="detail-section-title">Description</div>
+          <div class="detail-desc-text">Review regulatory documents, analyze compliance requirements, and research policy provisions. Built for legal and policy teams working with federal rules, contracts, and statutory language.</div>
+        </div>
+
+        <!-- ANNOTATION 3: skills section -->
+        <div class="skills-section annotated">
+          <div class="anno-ring" style="top: -2px; left: 2px; right: 2px; bottom: -2px; border-radius: 8px;"></div>
+          <div class="anno-badge" style="top: -10px; right: 4px;">3</div>
+
+          <div class="skills-header">
+            <div class="skills-pill">Skills</div>
+            <span style="font-size:11px;color:var(--nf-secondary-light);cursor:pointer;">See all</span>
+          </div>
+          <div class="skills-invoke-note">Invoke by typing <code>/</code> in chat, or let Claude use them automatically for relevant tasks.</div>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-card-desc">Scan a federal rule for provisions affecting a specified topic or stakeholder.</div>
+              <div class="skill-cmd">/regulatory-scan</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-card-desc">Map regulatory requirements to compliance obligations and flag gaps.</div>
+              <div class="skill-cmd">/compliance-check</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-card-desc">Summarize key changes between a proposed and final rule.</div>
+              <div class="skill-cmd">/rule-diff</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-card-desc">Analyze a contract for non-standard terms or risk exposures.</div>
+              <div class="skill-cmd">/contract-review</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-card-desc">Research legislative history and committee reports for a named statute.</div>
+              <div class="skill-cmd">/legislative-history</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-card-desc">Draft a public comment structured to address each element of the preamble.</div>
+              <div class="skill-cmd">/public-comment</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="try-section">
+          <div class="try-label">Try asking...</div>
+          <div class="try-item">Scan this CMS final rule for behavioral health reimbursement provisions</div>
+          <div class="try-item">Compare the proposed and final language on network adequacy standards</div>
+          <div class="try-item">Draft a public comment responding to the preamble of this proposed rule</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-card">
+      <div class="legend-head"><div class="legend-num">1</div><div class="legend-title">Personal plugins</div></div>
+      <div class="legend-desc">Installed plugins appear under <code>Personal plugins</code> in the left nav. Click any plugin to open its detail view. Click <code>+</code> to browse the Anthropic catalog and install new ones.</div>
+    </div>
+    <div class="legend-card">
+      <div class="legend-head"><div class="legend-num">2</div><div class="legend-title">Active toggle</div></div>
+      <div class="legend-desc">The blue toggle in the top right of the detail view confirms a plugin is active. Toggle it off to disable the plugin without uninstalling it.</div>
+    </div>
+    <div class="legend-card">
+      <div class="legend-head"><div class="legend-num">3</div><div class="legend-title">Skills and slash commands</div></div>
+      <div class="legend-desc">Each plugin lists its skills as cards with a description and slash command. Type <code>/</code> inside any Cowork task to invoke them, or let Claude call them automatically when relevant.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -1640,5 +2098,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "meta_prompt_diagram": 660,
         "choosing_tool_cards": 670,
         "style_layers": 500,
+        "plugin_ui_diagram": 940,
     }
     return heights.get(diagram_id, 300)

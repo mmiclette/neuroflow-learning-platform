@@ -351,8 +351,7 @@ the item name, and every field.
     },
     4: {
         "concept": """
-> 📌 **Screenshot placeholder — Plugin selector**
-> *Insert annotated screenshot of the Claude Teams interface showing the plugin selection menu, with at least one plugin active. Annotate: (1) where plugins appear in the UI, (2) how to tell a plugin is active, (3) the slash command palette that shows available plugin skills.*
+[[PLUGIN_UI_DIAGRAM]]
 
 
 Plugins, connectors, and well-crafted prompts can each produce outputs that look similar on
@@ -546,21 +545,48 @@ def render_lesson(lesson_id: int) -> bool:
         return False
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
-    # Handle inline HTML in concept
+    # Handle inline HTML and diagram sentinels in concept
     import re as _re
     concept = lesson["concept"]
-    if "<p " in concept or "<div " in concept or "<img " in concept:
-        parts = _re.split(r'(<(?:p|div)\b[^>]*>.*?</(?:p|div)>|<img\b[^>]*/?>)', concept, flags=_re.DOTALL)
-        for part in parts:
-            if not part.strip():
-                continue
-            stripped = part.lstrip()
-            if stripped.startswith('<p ') or stripped.startswith('<div ') or stripped.startswith('<img '):
-                st.markdown(part, unsafe_allow_html=True)
-            else:
-                st.markdown(part)
+
+    # Sentinels map a placeholder token to a diagram id registered in
+    # components.diagrams. Adding a new one here is all it takes to embed
+    # a full HTML component inline at the sentinel's location.
+    _sentinels = {
+        "[[PLUGIN_UI_DIAGRAM]]": "plugin_ui_diagram",
+    }
+
+    def _render_text_segment(text):
+        if not text.strip():
+            return
+        if "<p " in text or "<div " in text or "<img " in text:
+            parts = _re.split(r'(<(?:p|div)\b[^>]*>.*?</(?:p|div)>|<img\b[^>]*/?>)', text, flags=_re.DOTALL)
+            for part in parts:
+                if not part.strip():
+                    continue
+                stripped = part.lstrip()
+                if stripped.startswith('<p ') or stripped.startswith('<div ') or stripped.startswith('<img '):
+                    st.markdown(part, unsafe_allow_html=True)
+                else:
+                    st.markdown(part)
+        else:
+            st.markdown(text)
+
+    _active_sentinel = next((s for s in _sentinels if s in concept), None)
+    if _active_sentinel:
+        import streamlit.components.v1 as components
+        from components.diagrams import get_diagram, get_diagram_height
+        diagram_id = _sentinels[_active_sentinel]
+        segments = concept.split(_active_sentinel)
+        for i, segment in enumerate(segments):
+            _render_text_segment(segment)
+            if i < len(segments) - 1:
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    components.html(html, height=height, scrolling=True)
     else:
-        st.markdown(concept)
+        _render_text_segment(concept)
     st.markdown("---")
 
     if already_done:

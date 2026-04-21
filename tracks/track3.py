@@ -236,17 +236,10 @@ Everything between them belongs to that section. That is the entire concept.
 
 There are two ways to think about what tags do, and both are useful.
 
-**Labeled folders.** If you hand a colleague a stack of papers with no labels, they have
-to guess what each document is and how it relates to the others. If you put each document
-in a labeled folder, they know immediately what they are looking at and how to use it.
-Claude works the same way. Tags tell it what each piece of content is before it reads it,
-so it never has to guess.
-
-**Document sections.** Think about how a well-structured report works. It has an executive
-summary, a findings section, a recommendations section. Each section has a clear label and
-a defined purpose. Tags give your prompt that same structure. Instead of one unbroken block
-of text where instructions, background, source material, and examples blur together, each
-type of content has its own clearly labeled section.
+| Mental model | The analogy | What it means for Claude |
+|---|---|---|
+| **Labeled folders** | Hand a colleague a stack of unlabeled papers and they have to guess what each document is. Put each in a labeled folder and they know immediately. | Tags tell Claude what each piece of content is before it reads it, so it never has to guess. |
+| **Document sections** | A well-structured report has labeled sections — executive summary, findings, recommendations — each with a clear purpose. | Tags give your prompt that same structure, so instructions, background, source material, and examples never blur together in one unbroken block. |
 
 Both analogies describe the same underlying principle. Tags create unambiguous boundaries
 between different types of content so Claude spends its effort on your task rather than on

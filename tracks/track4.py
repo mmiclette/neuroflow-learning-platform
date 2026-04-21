@@ -728,6 +728,8 @@ you publish.
     },
     7: {
         "concept": """
+[[STYLE_LAYERS]]
+
 **Style, tone, and customization**
 
 Style settings let you configure Claude's default output behavior once so you stop repeating the same tone, length, and format instructions in every prompt.
@@ -928,15 +930,23 @@ def render_lesson(lesson_id: int) -> bool:
         else:
             st.markdown(segment)
 
-    if "[[CHOOSING_TOOL_CARDS]]" in concept:
+    # Map of sentinel tokens to the diagram id they should render.
+    diagram_sentinels = {
+        "[[CHOOSING_TOOL_CARDS]]": "choosing_tool_cards",
+        "[[STYLE_LAYERS]]": "style_layers",
+    }
+    active_sentinel = next((s for s in diagram_sentinels if s in concept), None)
+
+    if active_sentinel:
         import streamlit.components.v1 as components
         from components.diagrams import get_diagram, get_diagram_height
-        segments = concept.split("[[CHOOSING_TOOL_CARDS]]")
+        diagram_id = diagram_sentinels[active_sentinel]
+        segments = concept.split(active_sentinel)
         for i, segment in enumerate(segments):
             _render_segment(segment)
             if i < len(segments) - 1:
-                html = get_diagram("choosing_tool_cards")
-                height = get_diagram_height("choosing_tool_cards")
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
                 if html:
                     components.html(html, height=height, scrolling=False)
     else:

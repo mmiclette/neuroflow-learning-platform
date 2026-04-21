@@ -1558,6 +1558,68 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
 </html>
 """
 
+DIAGRAMS["style_layers"] = """<html><head><style>
+body{margin:0;padding:8px 4px;background:transparent;font-family:'DM Sans',-apple-system,'system-ui','Segoe UI',sans-serif;}
+</style></head><body>
+<svg width="100%" viewBox="0 0 680 460" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Four layers of Claude output customization: voice, tone, style, and format</title>
+  <desc>A table showing four customization layers with definitions and examples using NeuroFlow brand colors.</desc>
+
+  <text x="40" y="32" fill="#757575" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Layer</text>
+  <text x="200" y="32" fill="#757575" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">What it controls</text>
+  <text x="474" y="32" fill="#757575" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Example</text>
+
+  <line x1="40" y1="44" x2="640" y2="44" stroke="#BDBDBD" stroke-width="0.5"/>
+  <line x1="40" y1="144" x2="640" y2="144" stroke="#BDBDBD" stroke-width="0.5"/>
+  <line x1="40" y1="244" x2="640" y2="244" stroke="#BDBDBD" stroke-width="0.5"/>
+  <line x1="40" y1="344" x2="640" y2="344" stroke="#BDBDBD" stroke-width="0.5"/>
+  <line x1="40" y1="444" x2="640" y2="444" stroke="#BDBDBD" stroke-width="0.5"/>
+
+  <line x1="460" y1="44" x2="460" y2="444" stroke="#BDBDBD" stroke-width="0.5"/>
+
+  <!-- Row 1: Voice -->
+  <rect x="40" y="60" width="130" height="72" rx="8" fill="#161B4A"/>
+  <text x="105" y="91" text-anchor="middle" dominant-baseline="central" fill="#FFFFFF" style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;">Voice</text>
+  <text x="105" y="112" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.75)" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;">active vs passive</text>
+  <text x="200" y="84" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Whether the actor leads the sentence.</text>
+  <text x="200" y="101" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Active voice is direct and clear.</text>
+  <text x="200" y="118" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Passive voice softens and distances.</text>
+  <text x="474" y="88" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Active: Claude drafts it.</text>
+  <text x="474" y="108" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Passive: It is drafted.</text>
+
+  <!-- Row 2: Tone -->
+  <rect x="40" y="160" width="130" height="72" rx="8" fill="#2E4799"/>
+  <text x="105" y="191" text-anchor="middle" dominant-baseline="central" fill="#FFFFFF" style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;">Tone</text>
+  <text x="105" y="212" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.75)" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;">emotional quality</text>
+  <text x="200" y="184" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">The attitude Claude brings to content.</text>
+  <text x="200" y="201" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Confident, warm, clinical, urgent.</text>
+  <text x="200" y="218" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Same information, different reception.</text>
+  <text x="474" y="188" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Confident: This works.</text>
+  <text x="474" y="208" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Hedged: Worth considering.</text>
+
+  <!-- Row 3: Style -->
+  <rect x="40" y="260" width="130" height="72" rx="8" fill="#478FCC"/>
+  <text x="105" y="291" text-anchor="middle" dominant-baseline="central" fill="#FFFFFF" style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;">Style</text>
+  <text x="105" y="312" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.9)" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;">overall register</text>
+  <text x="200" y="284" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">The level of formality and complexity.</text>
+  <text x="200" y="301" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Formal, conversational, technical.</text>
+  <text x="200" y="318" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Shapes vocabulary and sentence length.</text>
+  <text x="474" y="288" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Formal: We recommend.</text>
+  <text x="474" y="308" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Casual: Here's our take.</text>
+
+  <!-- Row 4: Format -->
+  <rect x="40" y="360" width="130" height="72" rx="8" fill="#4CB6AC"/>
+  <text x="105" y="391" text-anchor="middle" dominant-baseline="central" fill="#FFFFFF" style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;">Format</text>
+  <text x="105" y="412" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.9)" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;">structure and length</text>
+  <text x="200" y="384" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">How the output is laid out on the page.</text>
+  <text x="200" y="401" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Bullets vs paragraphs, headers, length.</text>
+  <text x="200" y="418" fill="#212121" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;">Affects scannability and document feel.</text>
+  <text x="474" y="388" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Paragraphs: full sentences.</text>
+  <text x="474" y="408" fill="#444444" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;font-style:italic;">Structured: bullets only.</text>
+</svg>
+</body></html>
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -1577,5 +1639,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "xml_tags_callout": 130,
         "meta_prompt_diagram": 660,
         "choosing_tool_cards": 670,
+        "style_layers": 500,
     }
     return heights.get(diagram_id, 300)

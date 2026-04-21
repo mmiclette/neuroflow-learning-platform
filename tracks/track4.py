@@ -91,6 +91,8 @@ of new conversations, that background belongs in a Project.
     },
     2: {
         "concept": """
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/GJ5jTgcbRHA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+
 Project instructions are a system prompt applied to every conversation in the Project. Weak
 instructions produce inconsistent outputs regardless of how good individual follow-up prompts
 are. Strong instructions eliminate entire categories of re-prompting.

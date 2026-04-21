@@ -698,22 +698,35 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    # Handle diagram sentinels embedded in concept
+    # Handle diagram sentinels and embedded img tags in concept
     concept = lesson["concept"]
+
+    def render_concept_part(text):
+        import re
+        img_pattern = re.compile(r'(<img [^>]+>)', re.DOTALL)
+        segments = img_pattern.split(text)
+        for seg in segments:
+            if not seg.strip():
+                continue
+            if seg.startswith("<img "):
+                st.markdown(seg, unsafe_allow_html=True)
+            else:
+                st.markdown(seg)
+
     if "[[MODEL_COMPARISON_DIAGRAM]]" in concept:
         import streamlit.components.v1 as components
         from components.diagrams import get_diagram, get_diagram_height
         parts = concept.split("[[MODEL_COMPARISON_DIAGRAM]]")
         for i, part in enumerate(parts):
             if part.strip():
-                st.markdown(part)
+                render_concept_part(part)
             if i < len(parts) - 1:
                 html = get_diagram("model_comparison")
                 height = get_diagram_height("model_comparison")
                 if html:
                     components.html(html, height=height, scrolling=False)
     else:
-        st.markdown(concept)
+        render_concept_part(concept)
     st.markdown("---")
 
     if already_done:

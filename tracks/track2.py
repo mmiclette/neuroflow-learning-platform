@@ -633,9 +633,9 @@ broken.
                 "Award partial credit if the prompt asks for some but not all needed verification details."
             ),
             "model_answer": (
-                "Can you provide the full citation for the JAMA Psychiatry study, "
-                "including a DOI or direct link, so I can verify it independently "
-                "before including it in the brief?"
+                "Provide the full citation for the JAMA Psychiatry study, "
+                "including a DOI or direct link, so I can verify it "
+                "before including it in the brief."
             ),
             "hints": [
                 "Do you know the name of the study referenced in that paragraph?",

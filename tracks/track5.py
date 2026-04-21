@@ -145,16 +145,17 @@ that operate under NeuroFlow's HIPAA agreements.
     },
     2: {
         "concept": """
-To understand plugins, you need to understand the two components they bundle: skills and connectors.
+To understand plugins, you need to understand the three components they bundle: skills, connectors, and MCP servers.
 
 | Component | What it does |
 |---|---|
 | **Skill** | A reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task by typing "/" and selecting from the commands your installed plugins provide. |
 | **Connector** | An authenticated link to an external service that lets Claude retrieve data from or take actions in that system. Connectors inside a plugin come pre-configured for the workflow the plugin is designed to support. A Sales plugin might bundle connectors for your CRM and your email platform. A Legal plugin might include connectors for regulatory databases and document storage. |
+| **MCP server** | The underlying mechanism that makes a connector work. MCP stands for Model Context Protocol, an open standard that defines how Claude communicates with external tools and services. Most connectors run through Anthropic's cloud infrastructure. Some plugins bundle local MCP servers that run directly on your machine instead. The distinction matters for security, which the lesson covers below. |
 
-A plugin bundles a curated set of skills and connectors into a single installable package, configured for a specific role or workflow. Installing a plugin means Claude enters a task already equipped with the reasoning patterns and service integrations that role requires, without you building that context from scratch each time.
+A plugin bundles a curated set of skills, connectors, and in some cases local MCP servers into a single installable package configured for a specific role or workflow. Installing a plugin means Claude enters a task already equipped with the reasoning patterns and service integrations that role requires, without you building that context from scratch each time.
 
-This is the difference between connectors and plugins in practice. A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there, and how should it think when it arrives?
+This is the practical difference between connectors and plugins. A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there, and how should it think when it arrives?
 
 **Plugins require Cowork**
 
@@ -173,7 +174,7 @@ One practical tradeoff: Cowork sessions consume significantly more of your usage
 | **Sales plugin** | Deal coaching, pipeline reasoning, and outreach generation skills alongside CRM connectors. A BD team member drafting a five-part outreach sequence gets structural defaults and sequencing logic that a standard prompt would have to specify manually. |
 | **Engineering plugin** | Code review patterns, architecture decision frameworks, and incident documentation workflows for technical staff. |
 
-Anthropic maintains the full plugin library on GitHub and continues adding categories including finance, marketing, HR, design, and operations.
+Anthropic maintains the full plugin library on GitHub and continues expanding it with categories including finance, marketing, HR, design, and operations.
 
 **When to use vs. skip a plugin**
 
@@ -187,9 +188,17 @@ Plugins are designed for specific roles, but you do not need to engage the full 
 
 Plugin Create is a built-in plugin that walks you through building a plugin from scratch. You can also start from any Anthropic-built template and modify it. After installing any plugin, open the Customize menu to adjust its skills and connectors to fit how you work.
 
+On Team and Enterprise plans, workspace owners can distribute plugins across the organization through plugin marketplaces. Admins can auto-install a plugin for specific groups, make it available for self-service installation, or mark it required. Required plugins cannot be removed by individual users. If NeuroFlow builds internal plugins tailored to its workflows, this is the distribution path for deploying them across the team.
+
+**Where plugins come from**
+
+Anthropic's official plugin library is the primary source and the safest starting point. A broader community ecosystem has developed around Claude plugins, with third-party developers publishing plugins through GitHub repositories and independent directories. These community plugins are real, and some are useful, but they are built and maintained outside of Anthropic's review process.
+
+For NeuroFlow, community plugins require more scrutiny than Anthropic-built ones. The section below explains why. The practical guidance is to start with the Anthropic library, use organization-managed plugins distributed by your admin, and evaluate any third-party plugin carefully before installing it on a device used for work involving patient or clinical data.
+
 **Security note**
 
-Plugins may include local MCP servers that run on your computer with the same permissions as any other program you run. Only install plugins from sources you trust.
+Plugins may include local MCP servers that run directly on your computer rather than through Anthropic's cloud. A local MCP server operates with the same permissions as any other program you run on your machine. A plugin from an untrusted source could use that access in ways you did not intend. This is the specific risk that community plugins introduce. Only install plugins from sources you trust, and treat any plugin that requests local MCP server permissions as requiring explicit review before installation on a work device.
 """,
         "quiz": [
             {

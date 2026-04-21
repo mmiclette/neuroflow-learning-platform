@@ -256,10 +256,10 @@ it takes when you bring it in.
                     "data (no patient identifiers). Which approach is appropriate?"
                 ),
                 "options": [
-                    "Entering NeuroFlow's proprietary outcome data into ChatGPT to compare against published research",
-                    "Using Perplexity or web search to find publicly available research, then bringing those findings into Claude Teams for analysis",
-                    "Only using Claude Teams for all research, never using other tools",
-                    "Avoiding AI tools for research entirely since accuracy cannot be guaranteed",
+                    "Avoiding AI tools for this analysis entirely since accuracy cannot be guaranteed for academic benchmarking",
+                    "Using Perplexity to find related publicly available research, then bringing only those external findings into Claude Teams for analysis alongside BHIQ results",
+                    "Uploading the de-identified BHIQ outcomes data into Perplexity to search for matching published research in one step",
+                    "Using Claude Teams to summarize published research from memory with web search function off, without searching externally, since Claude's training data includes academic literature",
                 ],
                 "correct_index": 1,
                 "hint": "Think about where each type of information belongs: external research vs. internal proprietary data.",

@@ -836,6 +836,95 @@ DIAGRAMS["xml_tags_callout"] = """
 </svg>
 """
 
+
+# ---------------------------------------------------------------------------
+# Lesson 3.6 — Meta-prompt comparison diagram
+# ---------------------------------------------------------------------------
+DIAGRAMS["meta_prompt_diagram"] = """
+<html><head><style>
+body{margin:0;padding:10px 2px 4px;background:transparent;}
+</style></head><body>
+<style>
+*{box-sizing:border-box;}
+body,div,span{font-family:var(--font-sans,sans-serif);}
+.col-hdr{border-radius:8px;padding:10px 14px;font-size:13px;font-weight:500;color:#fff;margin-bottom:12px;}
+.step{border-radius:8px;padding:12px 14px;}
+.step-title{font-size:13px;font-weight:500;color:#212121;margin-bottom:3px;}
+.step-sub{font-size:11px;color:#757575;}
+.step-quote{font-size:11px;color:#4a4a4a;font-style:italic;margin-top:6px;line-height:1.55;}
+.arr{display:flex;justify-content:center;margin:5px 0;}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;color:#fff;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.out-row{display:flex;gap:10px;margin-bottom:11px;align-items:flex-start;}
+.out-text{font-size:12px;color:#C8D4E8;line-height:1.6;}
+</style>
+<div style="padding:4px 0 0;">
+<div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0 18px;margin-bottom:18px;">
+  <div>
+    <div class="col-hdr" style="background:#F16061;">Direct approach</div>
+    <div class="step" style="background:#FEF0F0;border:0.5px solid #F8A9AA;">
+      <div class="step-title">Type a vague request</div>
+      <div class="step-quote">"Help me prepare for a meeting with a state Medicaid director about renewing our behavioral health pilot."</div>
+    </div>
+    <div class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><line x1="5" y1="0" x2="5" y2="11" stroke="#2E4799" stroke-width="1.5" stroke-linecap="round"/><path d="M2 8L5 12L8 8" stroke="#2E4799" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step" style="background:#FEF0F0;border:0.5px solid #F8A9AA;">
+      <div class="step-title">Claude fills in the gaps</div>
+      <div class="step-sub">Scope, format, and goal left undefined</div>
+    </div>
+    <div class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><line x1="5" y1="0" x2="5" y2="11" stroke="#2E4799" stroke-width="1.5" stroke-linecap="round"/><path d="M2 8L5 12L8 8" stroke="#2E4799" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step" style="background:#FEF0F0;border:0.5px solid #F8A9AA;">
+      <div class="step-title">Generic output</div>
+      <div class="step-sub">What "prepared" means was never defined</div>
+    </div>
+  </div>
+  <div style="background:#BDBDBD;"></div>
+  <div>
+    <div class="col-hdr" style="background:#4CB6AC;">Meta-prompt approach</div>
+    <div class="step" style="background:#E8F7F6;border:0.5px solid #9ED8D4;">
+      <div class="step-title">Ask Claude to write the prompt</div>
+      <div class="step-quote">"I have a high-stakes meeting tomorrow and I'm not sure what I need. Write a prompt I can use to prepare for a meeting with a state Medicaid director about renewing a behavioral health pilot."</div>
+    </div>
+    <div class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><line x1="5" y1="0" x2="5" y2="11" stroke="#2E4799" stroke-width="1.5" stroke-linecap="round"/><path d="M2 8L5 12L8 8" stroke="#2E4799" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step" style="background:#E8F7F6;border:0.5px solid #9ED8D4;">
+      <div class="step-title">Claude defines the brief</div>
+      <div class="step-sub">Identifies priorities, objections, framing, and format</div>
+    </div>
+    <div class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><line x1="5" y1="0" x2="5" y2="11" stroke="#2E4799" stroke-width="1.5" stroke-linecap="round"/><path d="M2 8L5 12L8 8" stroke="#2E4799" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step" style="background:#E8F7F6;border:0.5px solid #9ED8D4;">
+      <div class="step-title">Receive a working prompt</div>
+      <div class="step-sub">Structured and targeted — ready to run or refine</div>
+    </div>
+    <div class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><line x1="5" y1="0" x2="5" y2="11" stroke="#2E4799" stroke-width="1.5" stroke-linecap="round"/><path d="M2 8L5 12L8 8" stroke="#2E4799" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step" style="background:#4CB6AC;">
+      <div style="font-size:13px;font-weight:500;color:#fff;">Run or tailor the result</div>
+    </div>
+  </div>
+</div>
+<div style="background:#161B4A;border-radius:10px;padding:18px 20px;margin-bottom:12px;">
+  <div style="font-size:10px;font-weight:500;color:#4CB6AC;letter-spacing:0.07em;margin-bottom:14px;">EXAMPLE — STRUCTURED PROMPT CLAUDE RETURNS</div>
+  <div class="out-row">
+    <span class="badge" style="background:#4CB6AC;">Role</span>
+    <span class="out-text">You are a strategic communications advisor with experience in state Medicaid policy and behavioral health.</span>
+  </div>
+  <div class="out-row">
+    <span class="badge" style="background:#478FCC;">Context</span>
+    <span class="out-text">I have a meeting tomorrow with a state Medicaid director about renewing a behavioral health pilot program.</span>
+  </div>
+  <div class="out-row">
+    <span class="badge" style="background:#F16061;">Task</span>
+    <span class="out-text">Help me prepare by covering: the two or three things a Medicaid director typically prioritizes at pilot renewal (cost containment, outcomes data, scalability), likely objections I should be ready to address, how to frame the value of continuing the pilot in terms that resonate with state budget and population health goals, and what I should avoid leading with.</span>
+  </div>
+  <div class="out-row" style="margin-bottom:0;">
+    <span class="badge" style="background:#2E4799;">Format</span>
+    <span class="out-text">Format this as a prep brief I can read in ten minutes the morning of the meeting.</span>
+  </div>
+</div>
+<div style="background:#2E4799;border-radius:8px;padding:12px 16px;text-align:center;">
+  <span style="font-size:12px;color:#fff;">You didn't need to know what to ask. Claude figured out what "prepared" means for you.</span>
+</div>
+</div>
+</body></html>
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -853,5 +942,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "gating": 540,
         "ai_hierarchy": 620,
         "xml_tags_callout": 130,
+        "meta_prompt_diagram": 490,
     }
     return heights.get(diagram_id, 300)

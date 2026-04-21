@@ -524,39 +524,7 @@ Meta-prompting introduces an intermediate step. You use Claude to construct a we
 first, and then use that prompt to generate the final output. This reduces ambiguity and makes
 the result more reliable.
 
-**A simple example**
-
-You have a meeting tomorrow with a state Medicaid director about renewing a behavioral health
-pilot. You're nervous and not sure what to ask Claude for, so you type:
-
-*"Help me prepare for a meeting with a state Medicaid director about renewing our behavioral
-health pilot."*
-
-Claude will produce something. But it will not know whether you need talking points, likely
-objections, background on the director's priorities, a one-pager, or all of the above. The
-output will be generic because the prompt didn't tell Claude what "prepared" looks like for you.
-
-Instead, ask Claude to write the prompt:
-
-*"I have a high-stakes meeting tomorrow and I'm not sure what I need. Write a prompt I can use
-to get Claude to help me prepare for a meeting with a state Medicaid director about renewing a
-behavioral health pilot."*
-
-Claude identifies what a useful prep brief actually requires and builds the prompt around it,
-then hands it back to you:
-
-*"You are a strategic communications advisor with experience in state Medicaid policy and
-behavioral health. I have a meeting tomorrow with a state Medicaid director about renewing a
-behavioral health pilot program. Help me prepare by covering: the two or three things a
-Medicaid director typically prioritizes at pilot renewal (cost containment, outcomes data,
-scalability), likely objections I should be ready to address, how I should frame the value of
-continuing the pilot in terms that resonate with state budget and population health goals, and
-what I should avoid leading with. Format this as a prep brief I can read in ten minutes the
-morning of the meeting."*
-
-You didn't need to know what to ask for. Claude figured out what "prepared" means in this
-context and built the prompt around it. That's the point. You can revise or tailor this prompt
-from here.
+[[META_PROMPT_DIAGRAM]]
 
 In practice, meta-prompting is most useful when:
 
@@ -612,17 +580,6 @@ Write three versions of this prompt optimized for:
 
 Meta-prompting is most valuable for prompts you will use repeatedly. It is less useful
 for one-off tasks where writing the prompt yourself is faster than explaining what you need.
-
-**Practice: write a meta-prompt**
-
-The best way to understand meta-prompting is to use it. Below is a product feature evaluation
-workflow that a product team would run repeatedly. Your task is to write a meta-prompt
-that asks Claude to produce Project instructions for this workflow.
-
-The workflow should: clarify the user and the problem being solved, identify alternatives
-including doing nothing, estimate impact versus effort, define MVP scope, and propose an
-experiment design to validate the decision.
-
 """,
         "sandbox": {
             "type": "graded",
@@ -1124,9 +1081,26 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    # Render concept — use unsafe_allow_html when HTML elements are present
+    # Render concept — handle sentinels and HTML elements
     concept = lesson["concept"]
-    if "<img " in concept or "<div " in concept:
+    if "[[META_PROMPT_DIAGRAM]]" in concept:
+        import streamlit.components.v1 as components
+        from components.diagrams import get_diagram, get_diagram_height
+        parts = concept.split("[[META_PROMPT_DIAGRAM]]")
+        for i, part in enumerate(parts):
+            if part.strip():
+                if "<img " in part or "<div " in part:
+                    st.markdown(part, unsafe_allow_html=True)
+                else:
+                    st.markdown(part)
+            if i < len(parts) - 1:
+                st.markdown("<br>", unsafe_allow_html=True)
+                html = get_diagram("meta_prompt_diagram")
+                height = get_diagram_height("meta_prompt_diagram")
+                if html:
+                    components.html(html, height=height, scrolling=False)
+                st.markdown("<br>", unsafe_allow_html=True)
+    elif "<img " in concept or "<div " in concept:
         st.markdown(concept, unsafe_allow_html=True)
     else:
         st.markdown(concept)

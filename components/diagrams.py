@@ -957,36 +957,34 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
     font-family: 'DM Sans', sans-serif;
     background: var(--bg-light);
     color: var(--text-primary);
-    min-height: 100vh;
-    padding: 24px 16px;
+    padding: 16px 8px;
   }
 
   .wrapper {
-    max-width: 960px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
   .header {
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
 
   .header h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 26px;
+    font-size: 22px;
     color: var(--navy);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     line-height: 1.2;
   }
 
   .framing {
     background: white;
-    border-left: 4px solid var(--blue-2);
-    border-radius: 0 8px 8px 0;
-    padding: 14px 18px;
-    font-size: 13.5px;
-    line-height: 1.7;
+    border-left: 3px solid var(--blue-2);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    line-height: 1.6;
     color: var(--text-primary);
-    max-width: 720px;
   }
 
   .framing strong {
@@ -995,14 +993,14 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
 
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
   }
 
   .card-wrapper {
     perspective: 1200px;
-    height: 580px;
+    height: 460px;
     cursor: pointer;
     position: relative;
   }
@@ -1039,7 +1037,7 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 28px 24px;
+    padding: 20px 18px;
     color: var(--text-white);
     position: relative;
   }
@@ -1057,19 +1055,19 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
   .card-3 .card-front { background: linear-gradient(145deg, #2a7a74 0%, var(--teal) 100%); }
 
   .card-icon {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     background: rgba(255,255,255,0.15);
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
   }
 
   .card-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     fill: none;
     stroke: white;
     stroke-width: 2;
@@ -1082,31 +1080,31 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
   }
 
   .card-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     opacity: 0.7;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .card-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 26px;
+    font-size: 20px;
     line-height: 1.15;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
   .card-tagline {
-    font-size: 13.5px;
-    line-height: 1.65;
-    opacity: 0.88;
+    font-size: 12px;
+    line-height: 1.55;
+    opacity: 0.9;
     font-weight: 300;
   }
 
   .card-front-footer {
-    margin-top: 24px;
-    padding-top: 20px;
+    margin-top: 14px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
@@ -1144,7 +1142,7 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
   .card-back {
     transform: rotateY(180deg);
     background: white;
-    padding: 20px 20px 0;
+    padding: 14px 14px 0;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--divider);
@@ -1202,27 +1200,27 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
 
   .back-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--navy);
   }
 
   .back-section {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     flex-shrink: 0;
   }
 
   .back-section-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-secondary);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .back-section p {
-    font-size: 12.5px;
-    line-height: 1.65;
+    font-size: 11.5px;
+    line-height: 1.55;
     color: var(--text-primary);
   }
 
@@ -1232,10 +1230,10 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
   }
 
   .back-list li {
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: 11px;
+    line-height: 1.45;
     color: var(--text-primary);
-    padding: 4px 0 4px 16px;
+    padding: 3px 0 3px 14px;
     position: relative;
     border-bottom: 1px solid var(--bg-light);
   }
@@ -1321,12 +1319,12 @@ DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
     filter: brightness(1.04);
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 480px) {
     .cards-grid {
       grid-template-columns: 1fr;
     }
     .card-wrapper {
-      height: 580px;
+      height: 460px;
     }
   }
 </style>
@@ -1578,6 +1576,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "ai_hierarchy": 620,
         "xml_tags_callout": 130,
         "meta_prompt_diagram": 660,
-        "choosing_tool_cards": 800,
+        "choosing_tool_cards": 640,
     }
     return heights.get(diagram_id, 300)

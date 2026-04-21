@@ -434,10 +434,10 @@ Use the lightest combination that achieves the result. Each added layer increase
             },
             {
                 "question": (
-                    "A BD team member is drafting a detailed go-to-market brief for BHIQ targeting "
-                    "ACO REACH participants. They have a product positioning document and three "
-                    "case studies ready to attach. The deliverable is a structured written brief. "
-                    "What is the right approach?\n\n"
+                    "A BD team member is drafting a statement on the value of using BHIQ to target "
+                    "ACO LEAD participants. They have a product positioning document and three "
+                    "case studies attached already. The deliverable is 150 words they will paste "
+                    "into a powerpoint slide. What is the right approach?\n\n"
                     "A) Prompt only\n"
                     "B) Connector\n"
                     "C) Plugin\n"

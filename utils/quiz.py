@@ -33,6 +33,7 @@ def render_quiz(
             "wrong_count": 0,
             "completed": False,
             "last_wrong": False,
+            "last_wrong_index": None,
         }
 
     qs = st.session_state[state_key]
@@ -139,11 +140,22 @@ def render_quiz(
         index=None,
     )
 
-    # Show feedback from previous attempt
+    # Show feedback from previous attempt. If the question defines an
+    # "option_hints" dict mapping a wrong option's index to a tailored hint,
+    # prefer that over the generic "hint" field. This lets an author give
+    # answer-specific feedback while falling back to the default when the
+    # selected option has no dedicated explanation.
     if qs["last_wrong"]:
         msg = "Incorrect — try again."
-        if q.get("hint"):
-            msg += f" Hint: {q['hint']}"
+        hint_text = None
+        last_wrong_idx = qs.get("last_wrong_index")
+        opt_hints = q.get("option_hints")
+        if isinstance(opt_hints, dict) and last_wrong_idx is not None:
+            hint_text = opt_hints.get(last_wrong_idx) or opt_hints.get(str(last_wrong_idx))
+        if not hint_text:
+            hint_text = q.get("hint")
+        if hint_text:
+            msg += f" Hint: {hint_text}"
         st.markdown(
             f'<p style="color:#F16061;font-size:13px;margin:4px 0 8px 0;">{msg}</p>',
             unsafe_allow_html=True,
@@ -163,6 +175,7 @@ def render_quiz(
         correct_option = q["options"][q["correct_index"]]
         if selected == correct_option:
             qs["last_wrong"] = False
+            qs["last_wrong_index"] = None
             qs["current_q"] += 1
             if qs["current_q"] >= len(questions):
                 qs["completed"] = True
@@ -172,6 +185,10 @@ def render_quiz(
         else:
             qs["wrong_count"] += 1
             qs["last_wrong"] = True
+            try:
+                qs["last_wrong_index"] = q["options"].index(selected)
+            except ValueError:
+                qs["last_wrong_index"] = None
             st.rerun()
 
     return False

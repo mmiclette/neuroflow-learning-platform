@@ -129,18 +129,39 @@ that operate under NeuroFlow's HIPAA agreements.
             },
             {
                 "question": (
-                    "After a discovery call, a BD team member wants to log call notes to the "
-                    "Salesforce opportunity record and create a Monday task for the agreed "
-                    "follow-up. What does each connector handle?"
+                    "After a discovery call, a BD team member used Claude to log call notes to "
+                    "the Salesforce opportunity and create a Monday task for the agreed follow-up. "
+                    "The task was created, but several fields were left blank. Why did that happen, "
+                    "and what would the team member need to do differently?"
                 ),
                 "options": [
-                    "Salesforce handles both — it syncs automatically with Monday",
-                    "Salesforce logs the notes and updates the deal record; the Monday connector creates the follow-up task",
-                    "The Gmail connector logs the notes; Monday creates the task",
-                    "One connector handles both actions since they are part of the same workflow",
+                    "Claude doesn't have permission to write to Monday.com fields",
+                    "The BD team member didn't specify the field values in their prompt",
+                    "The Salesforce connector interfered with the Monday connector",
+                    "Monday.com requires an admin to pre-configure field defaults before Claude can populate them",
                 ],
                 "correct_index": 1,
-                "hint": "Each connector handles the service it connects to — there is no cross-service sync.",
+                "hint": (
+                    "The task itself was created, so write access is not the issue. Think about "
+                    "what Claude needs in order to fill in a field value."
+                ),
+                "option_hints": {
+                    0: (
+                        "Permission errors would have prevented the task from being created at all. "
+                        "The task exists, so the connector has write access. Think about what "
+                        "information Claude needs before it can fill in a field."
+                    ),
+                    2: (
+                        "Each connector operates independently on its own platform. One connector "
+                        "completing its action doesn't block or affect the other. Focus on what "
+                        "was missing from the original request."
+                    ),
+                    3: (
+                        "Admin configuration controls what fields exist in Monday, not what values "
+                        "go into them. Claude can populate any writeable field, but only if the "
+                        "user tells it what to put there."
+                    ),
+                },
             },
         ],
     },

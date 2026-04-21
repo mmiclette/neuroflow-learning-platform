@@ -354,38 +354,23 @@ the item name, and every field.
 [[PLUGIN_UI_DIAGRAM]]
 
 
-Plugins, connectors, and well-crafted prompts can each produce outputs that look similar on
-the surface. Knowing which to reach for prevents two equally common mistakes: over-engineering
-a simple task by adding tools it does not need, and under-powering a complex one by leaving
-out the tool that makes it possible.
+**Choosing the right approach**
 
-**The decision framework**
+Prompts, connectors, and plugins can each produce outputs that look similar on the surface. Knowing which to reach for prevents two equally common mistakes: over-engineering a simple task by adding tools it does not need, and under-powering a complex one by leaving out the tool that makes it possible.
 
-**Prompt only** — when all the information is already in the conversation and the output does
-not require execution capabilities beyond generating text. This covers more ground than most
-people expect. Policy briefs, outreach emails, competitive analyses, go-to-market strategies —
-all are prompt-only tasks as long as source material is present and the deliverable is text.
+Connectors and plugins are separate categories that solve different problems. Connectors solve access problems. Plugins solve execution problems. Understanding that distinction makes the decision straightforward.
 
-**Connector** — when the information Claude needs lives in an external service and cannot or
-should not be pasted in. The question is not whether a connector is available — it is whether
-Claude needs to go somewhere to retrieve information or take an action it cannot do from within
-the conversation.
+**Prompt only** — when all source material is already in the conversation and the deliverable is text. This covers more ground than most people expect. Policy briefs, outreach emails, competitive analyses, and go-to-market strategies are all prompt-only tasks as long as the inputs are present and the output is written content.
 
-**Plugin** — when the task requires execution capabilities that standard chat cannot provide
-(Data plugin for calculations and charts), or when domain-specific defaults add enough value
-across a repeated-task session to justify the overhead.
+**Connector** — when the information Claude needs lives in an external system and must be retrieved or acted on directly. Connectors are purpose-built bridges to specific platforms like Salesforce, Google Drive, or Monday.com. The deciding question is not whether a connector exists but whether Claude needs to go somewhere outside the conversation to get information or complete an action.
 
-**Combination** — when the task needs live data from an external service AND execution
-capabilities. A chart analysis session that needs files from Google Drive that are not
-downloaded locally requires the Drive connector to retrieve the files and the Data plugin
-to execute the analysis and render the chart.
+**Plugin** — when the task requires a computational capability Claude does not have in standard chat. The Data plugin handles calculations and charts. Plugins operate on material already present in the conversation. They extend what Claude can do, not where it can go.
+
+**Combination** — when the task requires both external access and execution capability. A competitive analysis session that pulls a report from Google Drive and renders it as a chart needs the Drive connector to retrieve the file and the Data plugin to process and visualize it. The connector solves the access problem. The plugin solves the execution problem.
 
 **The simplicity principle**
 
-Use the lightest combination that achieves the result. Every added capability layer increases
-token overhead and potential points of failure. Connectors add retrieval overhead. Plugins add
-domain tooling. Deep Research is the most intensive. For staff who hit usage limits frequently,
-simplifying the tool stack is the first step.
+Use the lightest combination that achieves the result. Each added layer increases token overhead and potential failure points. For team members who hit usage limits frequently, simplifying the tool stack is the first corrective step.
 """,
         "quiz": [
             {

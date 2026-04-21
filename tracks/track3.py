@@ -790,15 +790,16 @@ faster and sufficient.
             },
             {
                 "question": (
-                    "You set up a gated prompt with three clearly labeled stages. "
-                    "After Stage 1, Claude outputs the gate message, but then immediately "
-                    "continues and writes Stage 2 without waiting. What most likely caused this?"
+                    "You set up a prompt with three clearly labeled stages. You want Claude "
+                    "to pause after each stage and wait for your input before continuing. "
+                    "Claude completes Stage 1 correctly, but then immediately writes Stage 2 "
+                    "without stopping. What most likely caused this?"
                 ),
                 "options": [
-                    "The stages were not numbered correctly",
-                    "Claude does not support multi-stage prompts",
-                    "The prompt had no prescribed gate text or activation keyword, so Claude had nothing stopping it from continuing",
-                    "Stage 2 was too similar to Stage 1 for Claude to understand these were separate tasks; better labeling and clearer distinctions between stages would fix the issue",
+                    "The prompt was too long, causing Claude to treat the entire thing as a single instruction rather than reading the individual stage boundaries",
+                    "Claude does not support multi-stage prompts and will always complete the full task in one response",
+                    "The prompt never told Claude what to do at the end of Stage 1 — there was no instruction to stop, output a specific message, or wait for a signal before continuing, so Claude kept going",
+                    "Stage 2 was too similar to Stage 1 for Claude to recognize them as separate tasks",
                 ],
                 "correct_index": 2,
                 "hint": "The stopping rule and prescribed gate text are what create the pause; without them, Claude reads the stages as instructions to complete, not checkpoints to wait at.",

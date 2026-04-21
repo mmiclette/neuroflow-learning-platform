@@ -688,22 +688,63 @@ view = st.session_state.get("view", "home")
 track_id = st.session_state.get("current_track")
 lesson_id = st.session_state.get("current_lesson")
 
-# If a navigation action just flagged a scroll-to-top, emit a tiny script that
-# scrolls the Streamlit app window back to the top, then clear the flag. This
-# runs before any page renders so it fires once per navigation.
+# If a navigation action just flagged a scroll-to-top, emit a script that
+# scrolls the Streamlit app window back to the top. Because Streamlit renders
+# the app inside nested iframes and also restores scroll position across
+# reruns, we have to:
+#   1. Walk up to the top-level window explicitly.
+#   2. Try scrolling both the window and the Streamlit container elements.
+#   3. Repeat on a short timer so the scroll wins the race against any
+#      Streamlit scroll restoration that runs after our initial call.
+# A cache-busting nonce is included so the iframe content is different on
+# every navigation — otherwise Streamlit's component cache would reuse the
+# old iframe and the inline script would not run again.
 if st.session_state.pop("scroll_to_top", False):
+    import time as _time
+    _nonce = int(_time.time() * 1000)
     st.components.v1.html(
-        """
+        f"""
         <script>
-          (function() {
-            var target = window.parent || window;
-            try {
-              target.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-            } catch (e) {
-              target.scrollTo(0, 0);
-            }
-          })();
+          (function() {{
+            var nonce = {_nonce};
+            function tryScroll(w) {{
+              if (!w) return;
+              try {{ w.scrollTo(0, 0); }} catch (e) {{}}
+              try {{
+                if (w.document && w.document.documentElement) {{
+                  w.document.documentElement.scrollTop = 0;
+                }}
+                if (w.document && w.document.body) {{
+                  w.document.body.scrollTop = 0;
+                }}
+                // Streamlit main content is inside a scrollable container.
+                var selectors = [
+                  'section.main',
+                  '[data-testid="stAppViewContainer"]',
+                  '[data-testid="stMain"]',
+                  'div.main'
+                ];
+                for (var i = 0; i < selectors.length; i++) {{
+                  var el = w.document.querySelector(selectors[i]);
+                  if (el) el.scrollTop = 0;
+                }}
+              }} catch (e) {{ /* cross-origin — ignore */ }}
+            }}
+            function scrollAll() {{
+              tryScroll(window);
+              tryScroll(window.parent);
+              tryScroll(window.top);
+            }}
+            scrollAll();
+            // Streamlit restores scroll position on rerun; keep scrolling to
+            // the top for a short window so we win the race.
+            setTimeout(scrollAll, 50);
+            setTimeout(scrollAll, 150);
+            setTimeout(scrollAll, 350);
+            setTimeout(scrollAll, 700);
+          }})();
         </script>
+        <!-- nonce:{_nonce} -->
         """,
         height=0,
     )

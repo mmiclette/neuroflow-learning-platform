@@ -218,6 +218,226 @@ Showing Claude what the output should *not* look like is often more efficient th
     },
     4: {
         "concept": """
+<div style="font-size:1.05em;font-weight:700;color:#161BAA;margin-bottom:12px;">Before covering XML tags, a direct answer to the most important question: you do not need them most of the time.</div>
+
+XML tags earn their place in one specific situation: when your prompt contains multiple
+distinct types of content that Claude needs to treat differently. That is when structure
+stops being optional and starts affecting output quality.
+
+**What XML tags are**
+
+XML tags are labels you wrap around different parts of your prompt to divide them into
+clearly named sections. They have no special technical requirements. You do not need to
+know anything about coding or web development to use them.
+
+An opening tag looks like this: `<context>`
+
+A closing tag adds a forward slash: `</context>`
+
+Everything between them belongs to that section. That is the entire concept.
+
+There are two ways to think about what tags do, and both are useful.
+
+**Labeled folders.** If you hand a colleague a stack of papers with no labels, they have
+to guess what each document is and how it relates to the others. If you put each document
+in a labeled folder, they know immediately what they are looking at and how to use it.
+Claude works the same way. Tags tell it what each piece of content is before it reads it,
+so it never has to guess.
+
+**Document sections.** Think about how a well-structured report works. It has an executive
+summary, a findings section, a recommendations section. Each section has a clear label and
+a defined purpose. Tags give your prompt that same structure. Instead of one unbroken block
+of text where instructions, background, source material, and examples blur together, each
+type of content has its own clearly labeled section.
+
+Both analogies describe the same underlying principle. Tags create unambiguous boundaries
+between different types of content so Claude spends its effort on your task rather than on
+figuring out what is what.
+
+**When you do not need them**
+
+Single-purpose prompts with no embedded documents or examples. If your prompt contains
+only instructions and a short task, plain prose works fine.
+
+Short follow-up messages inside an active conversation. When context is already established,
+one or two sentences of direction do not need structural labels.
+
+Quick one-off tasks where Claude's default judgment is acceptable. Asking Claude to fix
+grammar in a paragraph, answer a specific factual question, or rewrite a sentence in a
+different tone does not require tags.
+
+**When they help significantly**
+
+**Your prompt includes inline content alongside your instructions.** In Track 2 you learned
+that long pasted content becomes a card, already separated from your typed instructions by
+the interface. Short pasted content that stays inline in the text field does not get that
+automatic separation. When a paragraph from a partner brief, a data point, or a short
+excerpt lands directly in your message, tags create the boundary the interface did not
+create automatically.
+
+Without tags:
+```
+NeuroFlow's BHIQ product reduced behavioral health-related
+inpatient admissions by 23% among high-risk Medicaid members
+in a 2024 pilot. Write a one-sentence value proposition for
+a Medicaid MCO medical director using only this data.
+```
+
+With tags:
+```
+<source>
+NeuroFlow's BHIQ product reduced behavioral health-related
+inpatient admissions by 23% among high-risk Medicaid members
+in a 2024 pilot.
+</source>
+
+<task>
+Write a one-sentence value proposition for a Medicaid MCO
+medical director using only the data above.
+</task>
+```
+
+The content is identical. The tagged version tells Claude exactly where the source material
+stops and the instruction starts.
+
+**Your prompt includes examples alongside the actual task.** In Lesson 3 you learned how
+to ground Claude with examples. Tags are what keep those examples clearly separated from
+the live task. Without them, Claude can blur the boundary between what is a reference
+example and what is the actual assignment.
+
+```
+<examples>
+<example>
+Payer: Medicare Advantage plan focused on reducing total cost of care
+Value prop: BHIQ identifies high-risk members before avoidable utilization,
+enabling earlier intervention and lower total cost.
+</example>
+</examples>
+
+<task>
+Write a value proposition for a commercial insurer launching
+a value-based behavioral health contract.
+</task>
+```
+
+**Your prompt includes typed instructions alongside document cards.** In Track 2 you
+learned to reference cards descriptively in your instructions. Tags structure those typed
+instructions so Claude knows what each part is, even when the documents themselves are
+already separated as cards above.
+
+```
+<task>
+Using the pasted NeuroFlow positioning information as the
+primary source, write a two-paragraph value proposition for
+a health system CFO.
+</task>
+
+<constraints>
+Lead with total cost of care. Maximum 150 words. Do not cite
+statistics not present in the pasted document.
+</constraints>
+```
+
+The cards sit above. Your tagged instructions sit below. The tags clarify what each part
+of your typed instructions is. The descriptive references tell Claude which card each
+instruction refers to.
+
+**Your prompt mixes several distinct components.** Role, context, task, format, and
+constraints can each become their own labeled section when the prompt is long enough that
+their boundaries would otherwise blur together.
+
+**Project instructions that many people will use.** When you write instructions for a
+shared Claude Project, tags make those instructions easier to maintain, easier to read,
+and more reliably followed across different users and conversations.
+
+**Common tags used in practice**
+
+You choose your own tag labels. There are no required names. Use whatever label accurately
+describes the section you are creating.
+
+`<document>` or `<source>` — holds your reading material. Use when short inline content
+needs a clear boundary from your instructions.
+
+`<task>` — holds the assignment. The specific thing you are asking Claude to produce,
+separated from background, examples, and rules.
+
+`<context>` — holds the briefing. Background information Claude needs to do the job well
+but that is not the job itself.
+
+`<instructions>` — holds the rules for how to do the work. Directions, not information.
+Different from `<context>`.
+
+`<examples>` and `<example>` — holds your reference material. Wrap all examples inside
+`<examples>` as the outer section and each individual example inside its own `<example>`
+tag.
+
+`<constraints>` — holds the hard limits. Things Claude must not do: word count ceiling,
+tone requirement, prohibition on citing statistics you have not provided.
+
+`<format>` — holds the blueprint. Use when the structure of the output is detailed enough
+to deserve its own section.
+
+`<o>` — holds a finished example. Shows Claude a completed version of the exact
+deliverable, unlike `<examples>` which gives sample inputs and outputs to learn a pattern.
+
+`<question>` — holds a specific question about a document. Use when asking Claude several
+distinct questions about the same source material.
+
+`<thinking>` — holds Claude's working notes. Use when you want Claude to reason through a
+problem out loud before giving you a final answer.
+
+**A complete example**
+
+```
+<context>
+NeuroFlow is presenting BHIQ to a regional health system.
+The CFO has a background in value-based care for primary
+care but is skeptical of behavioral health measurement.
+The meeting is 30 minutes.
+</context>
+
+<examples>
+<example>
+Payer: Medicare Advantage plan focused on reducing total cost of care
+Value prop: BHIQ identifies high-risk members before avoidable utilization,
+enabling earlier intervention and lower total cost.
+</example>
+</examples>
+
+<task>
+Write a two-paragraph value proposition for this CFO that
+leads with total cost of care reduction and closes with a
+single specific call to action.
+</task>
+
+<constraints>
+No clinical jargon. No mention of specific product features.
+Maximum 150 words total. Do not cite statistics that are not
+present in the pasted positioning document above.
+</constraints>
+```
+
+This prompt contains four distinct types of content. Each lives in its own clearly labeled
+section. Claude reads the label before it reads the content, so it knows immediately
+whether it is looking at background information, a reference example, the assignment, or
+a hard limit.
+
+**The only rule**
+
+Every opening tag needs a matching closing tag. `<context>` opens, `</context>` closes.
+Beyond that, use whatever label accurately describes the section you are creating.
+
+**The practical test**
+
+Before adding tags to a prompt, ask one question: does this prompt contain more than one
+distinct type of content that Claude needs to treat differently? If yes, divide it into
+labeled sections using tags. If no, write in plain prose and move on.
+""",
+        "quiz": [{'question': 'Which of the following shows a correctly formatted XML tag pair?', 'options': ['`<context>` `<<context>>`', '`<context>` `</context>`', '`<context>` `<context/>`', '`<context>` `<\\\\context>`'], 'correct_index': 1, 'hint': 'A closing tag adds a forward slash directly after the opening angle bracket. `<context>` opens; `</context>` closes.'}, {'question': "You have two pasted document cards sitting above your text field. One contains NeuroFlow's BHIQ positioning and one contains a recent case study. Which instruction correctly tells Claude how to use both?", 'options': ['"Using the pasted BHIQ positioning as the primary source and the pasted case study as supporting evidence, write a two-paragraph value proposition for a health system CFO."', '"Compare the two documents above and write a value proposition."', '"Using document one as the primary source and document two as supporting evidence, write a two-paragraph value proposition for a health system CFO."', 'Tags are needed to wrap both cards before Claude can distinguish between the two different cards.'], 'correct_index': 0, 'hint': 'Long pasted content becomes a card with an automatic boundary. Refer to cards descriptively by their content — the interface already handles the separation; tags are not required.'}],
+    },
+
+    5: {
+        "concept": """
 The RTCFC framework gave you a structure for a single prompt. Breaking work into steps is
 how you apply that structure to complex, multi-stage tasks. Each step is its own focused
 prompt — and each prompt can use Role, Task, Context, Format, and Constraints to define
@@ -299,7 +519,7 @@ is to write something, the steps are probably in the wrong order.
             },
         ],
     },
-    5: {
+    6: {
         "concept": """
 Claude knows best how it reasons and reads. Meta-prompting is a shift in how you use Claude:
 instead of asking directly for an answer, you ask it to design the instructions that will
@@ -473,7 +693,7 @@ experiment design to validate the decision.
             },
         ],
     },
-    6: {
+    7: {
         "concept": """
 Chain-of-thought (CoT) prompting is the practice of working through a complex problem in
 deliberate steps rather than asking Claude for a final answer all at once. Reasoning quality
@@ -653,7 +873,7 @@ faster and sufficient.
             },
         ],
     },
-    7: {
+    8: {
         "concept": """
 When Claude produces a bad output, the cause is almost always in the prompt. Five failure
 patterns account for most cases:
@@ -775,7 +995,7 @@ rewritten as a positive requirement wherever possible.
             },
         ],
     },
-    8: {
+    9: {
         "concept": """
 This lesson tests your ability to write a complete RTCFC prompt for a complex, real
 NeuroFlow use case. The rubric evaluates whether your prompt would produce a high-quality

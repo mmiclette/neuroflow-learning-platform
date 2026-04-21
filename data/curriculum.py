@@ -135,6 +135,15 @@ TRACKS = {
                 "api_calls": False,
             },
             4: {
+                "title": "Structuring prompts with XML tags",
+                "type": "quiz",
+                "time_estimate": 8,
+                "has_video": False,
+                "has_diagram": False,
+                "has_sandbox": False,
+                "api_calls": False,
+            },
+            5: {
                 "title": "Prompting in manageable steps",
                 "type": "sandbox",
                 "time_estimate": 10,
@@ -143,7 +152,7 @@ TRACKS = {
                 "has_sandbox": True,
                 "api_calls": True,
             },
-            5: {
+            6: {
                 "title": "Meta-prompting",
                 "type": "sandbox_quiz",
                 "time_estimate": 10,
@@ -153,7 +162,7 @@ TRACKS = {
                 "has_sandbox": True,
                 "api_calls": True,
             },
-            6: {
+            7: {
                 "title": "Chain-of-thought and gating",
                 "type": "quiz",
                 "time_estimate": 8,
@@ -163,7 +172,7 @@ TRACKS = {
                 "has_sandbox": False,
                 "api_calls": False,
             },
-            7: {
+            8: {
                 "title": "Prompt debugging",
                 "type": "quiz",
                 "time_estimate": 7,
@@ -172,7 +181,7 @@ TRACKS = {
                 "has_sandbox": False,
                 "api_calls": False,
             },
-            8: {
+            9: {
                 "title": "Putting it together: a complete prompt",
                 "type": "graded_challenge",
                 "time_estimate": 10,

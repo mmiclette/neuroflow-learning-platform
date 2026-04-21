@@ -342,40 +342,116 @@ across runs because Cowork cannot compensate for missing scope with prior sessio
     },
     4: {
         "concept": """
-Cowork gained computer use capabilities in March 2026 — allowing Claude to directly control
-your macOS desktop using keyboard and mouse input. Combined with the Claude in Chrome
-extension, this enables Claude to operate as a genuine desktop agent across applications
-and the web.
+Two capabilities work together to make Claude a genuine desktop agent: computer use in
+Cowork, which lets Claude control your macOS desktop directly, and the Claude in Chrome
+extension, which extends that control into your browser. Understanding both — how to set
+them up and when to use them — unlocks a category of automation that was not possible with
+earlier AI tools.
 
 **Computer use in Cowork**
 
-Computer use allows Cowork to open applications, navigate browser windows, fill forms, click
-buttons, and complete multi-step workflows on your screen — tasks that previously required
-you to be sitting at your computer executing each step manually.
+Computer use allows Claude to navigate, click buttons, and fill forms directly in Chrome.
+Combined with Cowork’s file access, this means Claude can handle multi-step workflows that
+span both your local files and the web, without you manually switching between applications
+or copying and pasting between windows.
+
+What computer use can do:
+- Open applications and navigate browser windows
+- Fill forms and click buttons on web pages
+- Complete multi-step workflows across multiple tabs
+- Record workflows you demonstrate and repeat them automatically
+- Hand off between web research and local file creation without manual intervention
 
 Practical example:
 ```
 Navigate to our internal Confluence site. Find all pages under the
 Engineering space updated in the last 14 days. For each page, capture
-the title, author, and a one-sentence summary of what changed. Save
-as YYYY-MM-DD_EngineeringDocs_RecentUpdates.md in /Reports.
+the title, author, and a one-sentence summary of what changed. Save as
+YYYY-MM-DD_EngineeringDocs_RecentUpdates.md in /Reports.
+```
+
+**Installing Claude in Chrome**
+
+Claude in Chrome is a browser extension published by Anthropic. It is available on all paid
+Claude plans including Teams. It is only supported on Google Chrome — not other
+Chromium-based browsers or mobile devices.
+
+**Step 1: Enable the connector in Claude Desktop.** Click your initials in the lower left
+corner, select Settings, find the Claude in Chrome connector, and toggle it on.
+
+**Step 2: Install the extension in Chrome.** Visit the Chrome Web Store and search for
+"Claude." Click "Add to Chrome," review permissions, and confirm. Only install the extension
+published by Anthropic — third-party Claude extensions are not official.
+
+**Step 3: Pin and sign in.** Click the puzzle piece icon in your Chrome toolbar, pin the
+Claude extension, grant the necessary permissions, then sign in with your Claude account.
+
+**Step 4: Enable the connector in your conversation.** Claude in Chrome is disabled by
+default and must be enabled manually for each conversation. Open the plus button menu in
+your chat input, select Connectors, and toggle Claude in Chrome on for that session.
+
+**What Claude in Chrome adds beyond standard Cowork**
+
+Without the Chrome extension, Cowork works only with files in folders you have explicitly
+granted access to on your local machine. With Claude in Chrome connected, Claude can
+navigate the web, interact with sites you are already logged into, extract information from
+live pages, and hand that information directly to Cowork for local processing.
+
+Pairing Claude in Chrome with Cowork turns web research into polished content — Chrome
+navigates and gathers while Cowork produces Excel models, comparison decks, and reports
+without any manual copy and paste.
+
+Combined workflow example:
+```
+Use Claude in Chrome to visit the five competitor sites listed in
+/Sales/CompetitorList.txt. For each site, capture current pricing, key
+features, and any recent product announcements. Then use Cowork to
+compile everything into a formatted comparison table saved as
+CompetitorAnalysis_[date].xlsx in /Sales/Research.
 ```
 
 **Security risks: prompt injection through browser content**
 
-When Cowork operates a browser, it reads whatever appears on the page — including content
+When Claude operates a browser, it reads whatever appears on the page — including content
 you did not put there. Malicious actors can embed hidden instructions in web pages designed
-to redirect an agent's behavior. A page might contain invisible text instructing Cowork to
-send data somewhere or take an action outside the original task scope. The agent cannot
-always distinguish between page content and instructions.
+to redirect Claude’s behavior. A page might contain invisible text instructing Claude to
+send data somewhere or take an action outside the original task scope. Claude cannot always
+distinguish between page content and instructions.
 
-Three practices reduce this risk:
-- Limit computer use to trusted, internal websites and applications
-- Review the task log after every computer use session before relying on the output
-- Never grant computer use access to sessions involving sensitive credentials or financial systems
+Anthropic has built defenses and tested extensively, but recommends starting with trusted
+sites, reviewing sensitive actions before Claude executes them, and reporting unexpected
+behavior through the feedback options.
 
-**Note:** Computer use is in research preview — available on macOS only as of April 2026.
-Validate outputs carefully and expect rough edges.
+Two practices are mandatory for NeuroFlow staff:
+
+Review the full task log after every computer use session that involved external websites
+before relying on or acting on the output. This is not optional for sessions that processed
+any non-internal content.
+
+Never use computer use for sessions involving sensitive credentials, financial systems, or
+any content that includes PHI. The same data policy that applies to Claude Teams applies
+here. If the browser session would touch patient-identifiable information, it does not
+belong in a computer use workflow.
+
+**Permissions and "ask before acting" mode**
+
+You can pre-approve actions that Claude can take on websites before you start working.
+Claude will still ask before taking certain irreversible or potentially harmful actions. For
+new workflows, use "ask before acting" mode until you have tested the behavior and are
+confident in what Claude does at each step. Once a workflow is familiar and tested, you can
+allow Claude to execute it with less interruption.
+
+For Team plan users, your admin may have configured settings that affect your experience,
+including whether the extension is enabled for your organization and which websites Claude
+is allowed to access. If you cannot install or enable the extension, contact your NeuroFlow
+Teams admin.
+
+**Current availability**
+
+Computer use and Claude in Chrome are both in beta as of April 2026. Chrome integration
+currently works with Google Chrome and Microsoft Edge. It is not yet supported on Brave,
+Arc, or other Chromium-based browsers. Validate outputs carefully and treat any automated
+action on external sites as requiring your review before you rely on it.
 """,
         "quiz": [
             {

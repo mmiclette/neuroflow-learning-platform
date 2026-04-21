@@ -728,39 +728,62 @@ you publish.
     },
     7: {
         "concept": """
-Style settings configure Claude's default output behavior — tone, length, and format — so
-you do not repeat those instructions in every prompt. Getting style right once saves you
-from adding the same formatting and tone instructions to hundreds of future conversations.
+**Style, tone, and customization**
 
-**What you can configure**
+Style settings let you configure Claude's default output behavior once so you stop repeating the same tone, length, and format instructions in every prompt.
 
-- **Tone** — formal, professional, conversational, direct
-- **Length** — shorter responses, longer and more detailed
-- **Format** — more prose, more lists, more headers, more flowing text
+**Three personalization layers**
 
-**Two scopes**
+Claude offers three ways to set your preferences, each covering a different scope.
 
-**User preferences (global)** — applies to all conversations outside Projects. Set this to
-match your personal working style.
+**Profile preferences** apply to every conversation outside a Project. Set these once to match your personal working style.
 
-**Project instructions (scoped)** — applies only within that Project. Should match the
-output expectations for that specific workflow. A policy Project defaults to formal structured
-prose. A BD Project defaults to concise, benefit-forward language.
+**Styles** control tone, length, and format at the conversation level. Find them in the Search and tools menu at the bottom left of the chat interface. Four presets ship by default:
 
-**Project instructions take precedence over global preferences** inside a Project. Global
-preferences are the default; Project instructions are the override for that specific workflow.
+- **Normal** — the default, balanced response
+- **Concise** — shorter, direct, essentials only
+- **Explanatory** — adds context and teaching
+- **Formal** — polished, professional prose
 
-**Recognizing AI-generated writing patterns**
+You can switch styles at any point mid-conversation. Claude applies your selection to new messages, edits, and retries.
 
-Style customization also helps you avoid the most recognizable patterns in AI-generated
-text. Large language models have stylistic tells that technically literate readers — health
-system executives, federal program officers, congressional staff — recognize on sight.
+**Project instructions** override both profile preferences and styles inside a specific Project. Use these when the output standard needs to be consistent across the whole team, not just your personal sessions.
 
-The most common: overuse of em dashes as connective punctuation. A sentence like "Our
-platform reduces utilization — at scale" uses a dash where no pause belongs. It reads as
-generated text to anyone who encounters it regularly. Setting a constraint like "avoid
-em dashes, use plain sentence structure instead" eliminates this before it reaches
-a reader who will notice.
+**Building a custom style**
+
+When the presets do not fit, build your own two ways.
+
+**Upload a sample.** Paste text or upload a PDF, DOC, or TXT file that represents the tone and format you want. Claude generates a style profile from it. This is the fastest path if you already have NeuroFlow content that reflects the voice you want to match.
+
+**Write the instructions directly.** Vague instructions produce inconsistent results. Be specific. Active voice is one of the highest-value single instructions you can set — without it, Claude defaults to passive constructions that make outputs feel distant and bureaucratic. A style that works well for external-facing NeuroFlow content might read:
+
+```
+Lead with the conclusion. Follow with two or three supporting points.
+Use specific numbers and outcomes over vague language. Keep responses
+under 150 words unless the request requires more. Active voice
+throughout. No bullet points unless the user asks. Avoid hedging language.
+```
+
+**Eliminating AI writing patterns**
+
+Style instructions also let you suppress the most recognizable patterns in AI-generated text. Health system executives, federal program officers, and congressional staff recognize these on sight.
+
+**"Here are several possible approaches..."**
+Opening with a list of options instead of a direct recommendation is one of the clearest signals of generated text. Fix it with: *"Lead with a recommendation, not a list of options."*
+
+**Em dash overuse**
+AI models insert em dashes to create emphasis where none is needed. The result is a clipped, dramatic rhythm that reads as generated rather than written.
+
+Before: "Our platform supports care teams — across health systems and MCOs — by reducing the time between referral and first appointment."
+
+After: "Our platform supports care teams across health systems and MCOs by reducing the time between referral and first appointment."
+
+Fix it with: *"Avoid em dashes. Use plain sentence structure instead."*
+
+**Hedging language**
+Phrases like "it's worth noting" or "this could potentially" soften every claim and weaken external-facing writing. Fix it with: *"Be direct and confident. Avoid hedging unless uncertainty is clinically or factually relevant."*
+
+For a BD team writing to health system buyers or a policy team submitting federal comments, these patterns reduce credibility with the readers whose judgment matters most.
 """,
         "quiz": [
             {

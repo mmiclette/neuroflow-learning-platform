@@ -942,6 +942,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "gating": 540,
         "ai_hierarchy": 620,
         "xml_tags_callout": 130,
-        "meta_prompt_diagram": 490,
+        "meta_prompt_diagram": 660,
     }
     return heights.get(diagram_id, 300)

@@ -288,7 +288,7 @@ submission. The role of human judgment does not disappear with AI; it shifts.
                 "options": [
                     "AI models are more accurate than clinicians so the concern is misplaced",
                     "The concern only applies to generative AI, not to predictive models like BHIQ",
-                    "Regulatory requirements will eventually require AI adoption regardless of provider preference",
+                    "Only generative AI makes decisions, so you have nothing to be concerned with. Our models meet FDA standards and there is no regulation that will impact our work. Legislators have a strong understand of AI use cases, so our models and approaches will never be impacted by regulation at the federal or state level.",
                     "You are raising the right concern, and it is the right question to ask. BHIQ's risk score reflects real clinical signal; it is trained on behavioral health outcomes data and identifies patients who statistically have a higher likelihood of deterioration. But the score informs your judgment; it does not replace it. The clinical decision about what to do remains entirely with the provider.",
                 ],
                 "correct_index": 3,

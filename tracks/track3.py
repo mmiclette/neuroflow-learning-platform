@@ -1027,12 +1027,27 @@ If any of these are missing, add them before submitting.
             ),
             "broken_example": "",
             "rubric": (
-                "Score the prompt against five criteria (20 points each):\n\n"
-                "1. Role names specific domain expertise (value-based care, behavioral health analytics, ACO operations, or similar), not just a job title.\n\n"
-                "2. Task specifies the exact deliverable: a one-page brief for an ACO medical director about BHIQ risk stratification.\n\n"
-                "3. Context names at least one specific audience concern: care gap closure, quality benchmarks, total cost of care, ACO REACH performance, or similar.\n\n"
-                "4. Format specifies at least page length and one structural element (sections, headers, bullets, or word count).\n\n"
-                "5. Constraints name at least one specific prohibition: no clinical jargon, no unsupported statistics, no competitor mentions, or similar."
+                "Score the prompt against five criteria (20 points each). Award full credit "
+                "for a criterion if the learner satisfies it anywhere in the prompt, regardless "
+                "of which RTCFC label they placed it under. Award partial credit (10 points) if "
+                "a criterion is partially met.\n\n"
+                "1. Role: names a domain or function relevant to the task (for example: sales, BD, "
+                "healthcare strategy, value-based care, ACO operations, behavioral health analytics, "
+                "or similar). A plain job title such as 'sales director at NeuroFlow' or "
+                "'policy writer' is sufficient.\n\n"
+                "2. Task: names the deliverable as a one-page (or similarly-sized) brief for an "
+                "ACO medical director about BHIQ risk stratification. Slight paraphrasing is fine.\n\n"
+                "3. Audience concern: mentions at least one of the following, anywhere in the "
+                "prompt — care gaps, closing care gaps, quality benchmarks, quality metrics, "
+                "total cost of care, ACO REACH performance, utilization, or similar ACO priority. "
+                "Phrases like 'help them close care gaps and hit quality benchmarks' satisfy this "
+                "criterion in full even if they appear inside the Task or Context section.\n\n"
+                "4. Format: specifies at least one of page length, word count, number of sections, "
+                "headers, or a specific structural element. A stated word count alone (for example "
+                "'250 words') is sufficient for full credit.\n\n"
+                "5. Constraints: names at least one specific prohibition or requirement — no "
+                "clinical jargon, no unsupported statistics, no competitor mentions, don't reference "
+                "other NeuroFlow products, or similar. Any clearly stated restriction satisfies this."
             ),
             "model_answer": (
                 "[ROLE] You are a healthcare strategy writer with expertise in value-based care, "

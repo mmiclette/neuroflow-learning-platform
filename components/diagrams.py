@@ -2078,6 +2078,433 @@ DIAGRAMS["plugin_ui_diagram"] = r"""
 
 """
 
+DIAGRAMS["metaprompt_cowork"] = r"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta-prompt visualization</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --nf-primary: #161B4A;
+    --nf-secondary-blue: #2E4799;
+    --nf-secondary-light: #478FCC;
+    --nf-secondary-teal: #4CB6AC;
+    --nf-accent: #F16061;
+    --nf-text-primary: #212121;
+    --nf-text-secondary: #757575;
+    --nf-divider: #BDBDBD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ECEEF4;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 36px 24px;
+  }
+
+  .wrapper { width: 100%; max-width: 960px; }
+
+  .lesson-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--nf-secondary-blue); margin-bottom: 8px;
+  }
+  .lesson-title { font-size: 21px; font-weight: 600; color: var(--nf-primary); margin-bottom: 4px; }
+  .lesson-sub { font-size: 13px; color: var(--nf-text-secondary); margin-bottom: 28px; }
+
+  /* ── Prompt display at top ── */
+  .prompt-row {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(22,27,74,0.07);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .prompt-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--nf-secondary-blue), var(--nf-secondary-light));
+    color: white; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .prompt-body { flex: 1; }
+
+  .prompt-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--nf-text-secondary); margin-bottom: 6px;
+  }
+
+  .prompt-text {
+    font-size: 13px; color: var(--nf-text-primary); line-height: 1.6;
+  }
+
+  .prompt-text em {
+    font-style: italic; color: var(--nf-secondary-blue);
+  }
+
+  .attach-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #F0F4FA; border: 1px solid #D0D8EC;
+    border-radius: 6px; padding: 3px 9px;
+    font-size: 11px; color: var(--nf-secondary-blue);
+    margin-top: 8px;
+  }
+
+  /* ── Arrow ── */
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .arrow-line {
+    flex: 1;
+    height: 1px;
+    background: var(--nf-divider);
+  }
+
+  .arrow-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--nf-text-secondary);
+    white-space: nowrap;
+  }
+
+  .arrow-icon {
+    color: var(--nf-secondary-teal);
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ── Side by side ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .panel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(22,27,74,0.09);
+  }
+
+  .panel-header {
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-header.bad {
+    background: #FFF0F0;
+    border-bottom: 2px solid var(--nf-accent);
+  }
+
+  .panel-header.good {
+    background: #EDF7F6;
+    border-bottom: 2px solid var(--nf-secondary-teal);
+  }
+
+  .panel-icon {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+  }
+
+  .panel-icon.bad { background: rgba(241,96,97,0.15); }
+  .panel-icon.good { background: rgba(76,182,172,0.18); }
+
+  .panel-title {
+    font-size: 12px; font-weight: 600;
+  }
+
+  .panel-title.bad { color: var(--nf-accent); }
+  .panel-title.good { color: #2A8C83; }
+
+  .panel-subtitle {
+    font-size: 11px; color: var(--nf-text-secondary); margin-top: 1px;
+  }
+
+  .panel-body { background: white; padding: 16px 18px; }
+
+  /* Bad panel: vague instruction */
+  .vague-instruction {
+    background: #FFF8F8;
+    border: 1px solid #FDDCDC;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--nf-text-primary);
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+
+  .gap-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .gap-item {
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+
+  .gap-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--nf-accent); flex-shrink: 0; margin-top: 5px;
+  }
+
+  .gap-text { font-size: 12px; color: var(--nf-text-secondary); line-height: 1.5; }
+
+  .gap-question {
+    font-size: 11px; font-weight: 600; color: var(--nf-accent);
+    margin-top: 2px;
+  }
+
+  /* Good panel: structured steps */
+  .step-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .step-item {
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--nf-secondary-blue), var(--nf-secondary-teal));
+    color: white; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  .step-body-text { flex: 1; }
+
+  .step-main {
+    font-size: 12px; color: var(--nf-text-primary); line-height: 1.5; font-weight: 500;
+  }
+
+  .step-detail {
+    font-size: 11px; color: var(--nf-text-secondary); line-height: 1.5; margin-top: 2px;
+  }
+
+  .step-tag {
+    display: inline-block;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 1px 6px; border-radius: 3px; margin-top: 4px;
+  }
+
+  .step-tag.order { background: rgba(71,143,204,0.12); color: var(--nf-secondary-blue); }
+  .step-tag.guard { background: rgba(76,182,172,0.12); color: #2A8C83; }
+  .step-tag.source { background: rgba(46,71,153,0.1); color: var(--nf-secondary-blue); }
+  .step-tag.ambig { background: rgba(241,96,97,0.1); color: var(--nf-accent); }
+  .step-tag.output { background: rgba(76,182,172,0.12); color: #2A8C83; }
+
+  /* ── Callout bar at bottom ── */
+  .callout-bar {
+    background: var(--nf-primary);
+    border-radius: 12px;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .callout-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(76,182,172,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .callout-text {
+    flex: 1;
+    font-size: 12px; color: #C8CCDE; line-height: 1.6;
+  }
+
+  .callout-text strong { color: white; }
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="lesson-label">Cowork · Meta-prompting</div>
+  <div class="lesson-title">What meta-prompting does to a task instruction</div>
+  <div class="lesson-sub">Ask Claude to write the Cowork instruction before you run it.</div>
+
+  <!-- The meta-prompt itself -->
+  <div class="prompt-row">
+    <div class="prompt-avatar">M</div>
+    <div class="prompt-body">
+      <div class="prompt-label">You ask Claude</div>
+      <div class="prompt-text">
+        I'm attaching a partner tracking spreadsheet. I want Cowork to review it, find the missing information online, and fill in the gaps.
+        <em>Write me a step-by-step Cowork task instruction that handles this in the right order.</em>
+      </div>
+      <div class="attach-pill">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" stroke="#2E4799" stroke-width="1.2"/><path d="M4 6h4M6 4v4" stroke="#2E4799" stroke-width="1.1" stroke-linecap="round"/></svg>
+        partner-tracking.xlsx
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrow divider -->
+  <div class="arrow-row">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">Claude examines the file and returns</div>
+    <div class="arrow-icon">↓</div>
+    <div class="arrow-line"></div>
+  </div>
+
+  <!-- Side by side -->
+  <div class="comparison">
+
+    <!-- Left: without meta-prompt -->
+    <div class="panel">
+      <div class="panel-header bad">
+        <div class="panel-icon bad">✕</div>
+        <div>
+          <div class="panel-title bad">Without meta-prompting</div>
+          <div class="panel-subtitle">What most people write</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="vague-instruction">"Review my spreadsheet and fill in the gaps."</div>
+        <div class="gap-list">
+          <div class="gap-item">
+            <div class="gap-dot"></div>
+            <div class="gap-text">
+              Cowork decides the order itself.
+              <div class="gap-question">Does it audit first or start searching?</div>
+            </div>
+          </div>
+          <div class="gap-item">
+            <div class="gap-dot"></div>
+            <div class="gap-text">
+              No rule for existing data.
+              <div class="gap-question">Will it overwrite cells that already have values?</div>
+            </div>
+          </div>
+          <div class="gap-item">
+            <div class="gap-dot"></div>
+            <div class="gap-text">
+              No sourcing constraint.
+              <div class="gap-question">How old can the news be? What counts as confirmed?</div>
+            </div>
+          </div>
+          <div class="gap-item">
+            <div class="gap-dot"></div>
+            <div class="gap-text">
+              No ambiguity rule.
+              <div class="gap-question">What happens when it cannot find information?</div>
+            </div>
+          </div>
+          <div class="gap-item">
+            <div class="gap-dot"></div>
+            <div class="gap-text">
+              No output specification.
+              <div class="gap-question">Does it save the file, create a new one, or report in chat?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: with meta-prompt -->
+    <div class="panel">
+      <div class="panel-header good">
+        <div class="panel-icon good">✓</div>
+        <div>
+          <div class="panel-title good">With meta-prompting</div>
+          <div class="panel-subtitle">What Claude produces for you</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body-text">
+              <div class="step-main">Read the spreadsheet. Identify every empty or TBD cell.</div>
+              <div class="step-detail">Do not overwrite any cell that already contains data.</div>
+              <span class="step-tag order">order: audit first</span>
+              <span class="step-tag guard">guard: no overwrite</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body-text">
+              <div class="step-main">For each gap, search the web using the company name as your anchor.</div>
+              <div class="step-detail">Pull solution category and key contacts from the company's current website.</div>
+              <span class="step-tag source">source: current website</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body-text">
+              <div class="step-main">For recent news, use coverage from the last 90 days only.</div>
+              <div class="step-detail">Summarize in one sentence. Add source URL in an adjacent note cell.</div>
+              <span class="step-tag source">source: 90-day window</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body-text">
+              <div class="step-main">For contract status, do not guess or infer.</div>
+              <div class="step-detail">If no confirmed public source exists, enter "Not confirmed" rather than leaving the cell blank.</div>
+              <span class="step-tag ambig">ambiguity rule</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">5</div>
+            <div class="step-body-text">
+              <div class="step-main">Add a Last Updated column. Enter today's date for every modified row.</div>
+              <span class="step-tag output">output spec</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">6</div>
+            <div class="step-body-text">
+              <div class="step-main">Save the file. Do not delete or reorganize any existing rows or columns.</div>
+              <span class="step-tag guard">guard: preserve structure</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Callout bar -->
+  <div class="callout-bar">
+    <div class="callout-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.09 6.26L16 7.27L12.5 10.68L13.18 15.59L9 13.36L4.82 15.59L5.5 10.68L2 7.27L6.91 6.26L9 2Z" stroke="#4CB6AC" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="callout-text">
+      <strong>The meta-prompt surfaces decisions before the task runs, not after something goes wrong.</strong>
+      Every unanswered question in a vague instruction becomes a guess Cowork makes on your behalf.
+      Ordering, sourcing rules, ambiguity handling, and output format all need to be explicit
+      for a task that touches real data in a live file.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -2099,5 +2526,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "choosing_tool_cards": 670,
         "style_layers": 500,
         "plugin_ui_diagram": 820,
+        "metaprompt_cowork": 640,
     }
     return heights.get(diagram_id, 300)

@@ -154,25 +154,7 @@ name, solution category, contract status, key contacts, and recent news. It is p
 in, and you want Cowork to research the gaps and update the file. You attach the spreadsheet
 and ask Claude to write the task instruction:
 
-*"I'm attaching a partner tracking spreadsheet. I want Cowork to review it, find the missing
-information online, and fill in the gaps. Write me a step-by-step Cowork task instruction that
-handles this in the right order."*
-
-Claude examines the spreadsheet and builds the instruction around the actual dependencies —
-audit before researching, verify what is already there before overwriting, flag what it cannot
-confirm:
-
-1. Open and read the attached partner tracking spreadsheet. Identify every cell that is empty
-   or marked TBD. Do not overwrite any cell that already contains data.
-2. For each gap, search the web using the company name as your anchor. Pull solution category
-   and key contacts from the company's current website.
-3. For recent news, search for coverage from the last 90 days only. Summarize each result in
-   one sentence and include the source URL in an adjacent note cell.
-4. For contract status, do not guess or infer. If no confirmed information is available from
-   public sources, enter "Not confirmed" rather than leaving the cell blank.
-5. Once all rows are updated, add a column called Last Updated and enter today's date for
-   every row you modified.
-6. Save the file. Do not delete or reorganize any existing rows or columns.
+[[METAPROMPT_COWORK]]
 
 Without the meta-prompt, most people would write something like "review my spreadsheet and
 fill in the gaps." That leaves Cowork to decide the order, the sourcing rules, and what to do
@@ -667,7 +649,29 @@ def render_lesson(lesson_id: int) -> bool:
         return False
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
-    st.markdown(lesson["concept"])
+
+    # Map sentinel tokens to diagram ids so a lesson concept can embed a full
+    # HTML diagram inline. Segments around the sentinel render as markdown.
+    _sentinels = {
+        "[[METAPROMPT_COWORK]]": "metaprompt_cowork",
+    }
+    concept = lesson["concept"]
+    _active = next((s for s in _sentinels if s in concept), None)
+    if _active:
+        import streamlit.components.v1 as components
+        from components.diagrams import get_diagram, get_diagram_height
+        diagram_id = _sentinels[_active]
+        segments = concept.split(_active)
+        for i, segment in enumerate(segments):
+            if segment.strip():
+                st.markdown(segment)
+            if i < len(segments) - 1:
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    components.html(html, height=height, scrolling=True)
+    else:
+        st.markdown(concept)
     st.markdown("---")
 
     if already_done:

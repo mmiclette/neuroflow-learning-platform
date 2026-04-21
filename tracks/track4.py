@@ -380,34 +380,40 @@ find and install it.
     },
     4: {
         "concept": """
-Claude maintains two types of persistent information about you: memory and user preferences.
-Both reduce friction from re-explaining context, but they work at different scopes and with
-different priority levels.
+**Track 4 · Lesson 4**
+**Memory and user preferences**
+
+Claude maintains two types of persistent information about you: memory and user preferences. Understanding both helps you get consistent, calibrated responses without re-explaining your context at the start of every conversation.
+
+The key distinction is how each one gets built. Memory is observational. Claude generates it automatically by distilling facts from your conversations over time. User preferences are declarative. You write them explicitly to establish standing defaults. Both reduce friction, but they require different kinds of attention from you.
 
 **Memory**
 
-Claude generates memories automatically during regular conversations. When you mention your
-role, describe a project, share a decision, or express a preference, Claude distills that
-into a stored fact and applies it in future sessions without you restating it.
+Claude generates memories automatically during regular conversations. When you mention your role, describe a project, share a decision, or express a preference, Claude distills that into a stored fact and applies it in future sessions without you restating it.
 
-What Claude retains is not a transcript of your conversations. It is a set of distilled
-facts: your job function, the teams and products you work on, and preferences you have
-expressed. Over time this means Claude starts conversations with working knowledge of who
-you are and what you typically need.
+What Claude retains is not a transcript of your conversations. It is a structured set of derived facts covering your job function, the teams and products you work with, and preferences you have expressed. Over time, Claude starts conversations with working knowledge of who you are and what you typically need.
 
-To view, edit, or delete your memories, go to **Settings → Capabilities** in Claude.ai or Claude Desktop, then click "View and edit memory." You can also click your profile icon in the bottom-left corner and select Memory. Review your memories periodically — Claude may capture something imprecisely or retain a fact that is no longer accurate. Memories you delete stop applying immediately.
+To view, edit, or delete your memories, go to Settings → Capabilities in Claude.ai or Claude Desktop, then click "View and edit memory." You can also ask Claude directly in any conversation to update its memory, which is often faster than navigating to settings.
 
-Memory is global — it applies across all conversations and Projects. It takes lower priority
-than Project instructions. If your memory says "use bullet points" but the Project
-instructions say "use prose paragraphs," the Project wins inside that Project.
+*What to look for when reviewing your memories*
+
+Not everything Claude infers will be accurate or current. When you review your memories, delete anything that reflects a resolved project, an outdated role, or a fact Claude inferred incorrectly. Pay attention to overclaiming as well. If Claude stored a vague summary like "works in healthcare," that entry is not specific enough to be useful and should be replaced with something precise.
+
+Also consider what Claude is unlikely to infer on its own. Your seniority, your decision-making authority, how you relate to specific teams or stakeholders, and your typical output formats are all worth adding explicitly if they affect how you want Claude to respond. Claude can observe that you work on federal policy, but it cannot infer that you are the primary author of congressional briefings unless you tell it.
+
+Memory is global. It applies across all conversations and Projects but takes lower priority than Project instructions. If your memory says "use bullet points" but the Project instructions say "use prose paragraphs," the Project setting wins inside that Project.
 
 **User preferences**
 
-User preferences are standing instructions for how Claude should communicate with you by
-default — tone, format, level of technical detail, response length. Unlike memory, which
-Claude generates from conversation, preferences are ones you write explicitly.
+User preferences are standing instructions for how Claude should communicate with you by default, covering tone, format, assumed knowledge level, and response style. Unlike memory, which Claude generates from observation, preferences are the instructions you write intentionally.
 
-To set or update your preferences, go to **Settings → Profile**. A well-configured preference:
+To set or update your preferences, go to Settings → Profile.
+
+*What makes a preference block effective*
+
+A well-written preference block works by eliminating assumptions Claude would otherwise make incorrectly. It names your professional domain so Claude calibrates its vocabulary and framing. It sets formatting defaults so Claude does not default to bullet points or excessive hedging. It establishes your assumed knowledge level so Claude skips over definitions you do not need. Each of those choices removes a category of follow-up prompts across every conversation you have.
+
+A useful starting structure:
 
 ```
 I am [role] at NeuroFlow, a behavioral health technology company.
@@ -417,11 +423,15 @@ unless I ask, and assume I have deep healthcare policy context —
 do not define basic terms.
 ```
 
-This eliminates entire categories of follow-up prompts across every conversation you have.
+The specificity in that example is intentional. "Behavioral health technology company" tells Claude more than "healthcare company." "Deep healthcare policy context" tells Claude more than "I know this field." Vague preferences produce inconsistent results. Specific preferences produce reliable ones.
+
+*When to revise your preferences*
+
+Preferences degrade silently when your context changes but your settings do not. Treat them as a living document. Revise them when your role or focus area shifts, when you notice Claude consistently applying a format or tone you do not want, or when you find yourself correcting the same behavior across multiple conversations. That last pattern is the clearest signal. If you are making the same correction repeatedly, the fix belongs in your preferences, not in the individual chat.
 
 | Setting | Location |
 |---|---|
-| Memory — view, edit, delete | Settings → Memory |
+| Memory — view, edit, delete | Settings → Capabilities |
 | User preferences | Settings → Profile |
 | Project instructions | Project Settings → Instructions |
 """,

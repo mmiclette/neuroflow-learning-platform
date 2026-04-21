@@ -140,9 +140,12 @@ Claude produces a first draft that defines the role, scopes the task, sets outpu
 **Extracting from a productive session.** After a conversation that produced good outputs, prompt Claude to formalize what already worked. Name the knowledge files you intend to add so the instructions tell Claude how to use them:
 
 ```
-Review this conversation and write Project instructions I can paste
-directly into Project Settings. The Project helps the BD team draft
-value proposition emails for health system and payer buyers.
+Review this conversation. Identify the aim of the work, the specific
+deliverables we produced, the audience we were writing for, and any
+patterns in what worked well: tone, structure, level of detail, use
+of evidence. Then write Project instructions I can paste directly into
+Project Settings that would reliably reproduce this quality of output
+for the BD team.
 
 The Project knowledge will include our product positioning doc, a case
 studies library with client outcomes data, and a buyer persona guide.

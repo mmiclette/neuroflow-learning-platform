@@ -93,47 +93,66 @@ of new conversations, that background belongs in a Project.
         "concept": """
 <iframe width="100%" height="380" src="https://www.youtube.com/embed/GJ5jTgcbRHA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
 
-Project instructions are a system prompt applied to every conversation in the Project. Weak
-instructions produce inconsistent outputs regardless of how good individual follow-up prompts
-are. Strong instructions eliminate entire categories of re-prompting.
+Project instructions are a system prompt applied to every conversation in the Project. Weak instructions produce inconsistent outputs regardless of how good individual follow-up prompts are. Strong instructions eliminate entire categories of re-prompting.
 
 **What makes instructions strong**
 
-Strong Project instructions have four elements:
+Strong Project instructions have four elements.
 
-**Role and context** — who Claude is in this Project and what NeuroFlow does. "You are a
-senior BD strategist at NeuroFlow, a behavioral health technology company that serves health
-systems, Medicaid MCOs, and federal agencies including the VA and DoD." This grounds every
-response in the right domain without staff repeating it.
+**Role and context:** who Claude is in this Project and what NeuroFlow does. "You are a senior BD strategist at NeuroFlow, a behavioral health technology company that serves health systems, Medicaid MCOs, and federal agencies including the VA and DoD." This grounds every response in the right domain without staff repeating it.
 
-**Persistent task scope** — what this Project is for and what it produces. "This Project
-helps the BD team draft outreach emails, value propositions, and partner briefings."
+**Persistent task scope:** what this Project is for and what it produces. "This Project helps the BD team draft outreach emails, value propositions, and partner briefings."
 
-**Output standards** — format, length, and style expectations. "Default to concise,
-benefit-forward prose in active voice. Lead with the business outcome. No bullet points
-unless the user asks. No clinical jargon in external-facing outputs."
+**Output standards:** format, length, and style expectations. "Default to concise, benefit-forward prose in active voice. Lead with the business outcome. No bullet points unless the user asks. No clinical jargon in external-facing outputs."
 
-**Constraints** — what Claude should never do in this Project. "Do not use first-person
-plural ('we', 'our'). Do not make claims about outcomes without a source. If a request falls
-outside BD use cases, note that and ask for clarification."
+**Constraints:** what Claude should never do in this Project. "Do not use first-person plural ('we', 'our'). Do not make claims about outcomes without a source. If a request falls outside BD use cases, note that and ask for clarification."
 
 **Using Claude to write your own instructions**
 
-The most practical way to write strong Project instructions for a recurring workflow is to
-use Claude in that conversation to help. After a session that produced good outputs, prompt
-Claude to extract and formalize the working context into instructions:
+This is meta-prompting in practice. You use Claude to write instructions for Claude. Meta-prompting was introduced in Track 2, and Project instructions are one of the most practical places to apply it.
+
+A strong meta-prompt does more than name the task. It tells Claude what knowledge files exist in the Project, what each file contains, and when Claude should draw on it. Without this, Claude cannot reference those files consistently across conversations. The instructions become the bridge between the knowledge files you upload and the outputs the team expects.
+
+Two situations call for this approach.
+
+**Starting from scratch.** If you have not run a session yet, describe the workflow directly. Name the knowledge files you plan to upload and tell Claude what each one is for:
+
+```
+You are helping me build a Claude Project for the BD team at NeuroFlow.
+The Project will draft value proposition emails, partner briefings, and
+meeting prep summaries for health system and Medicaid MCO buyers.
+
+The Project knowledge includes three files. The first is our product
+positioning doc, which defines how NeuroFlow describes its platform,
+differentiators, and target markets. The second is a case studies
+library with outcomes data from existing health system and VA clients.
+The third is a buyer persona guide covering the priorities and objections
+of CMOs, VP of Behavioral Health roles, and Medicaid plan medical directors.
+
+Write Project instructions I can paste directly into Project Settings.
+Include a role definition, the persistent task scope, output standards
+for tone and format, and instructions telling Claude when and how to
+draw on each of the three knowledge files.
+```
+
+Claude produces a first draft that defines the role, scopes the task, sets output standards, and tells Claude to pull from the positioning doc when establishing NeuroFlow's value, from the case studies when claims need support, and from the buyer persona guide when tailoring tone or emphasis to a specific audience. Revise anything that does not match how the team actually works, then paste the result into Project Settings.
+
+**Extracting from a productive session.** After a conversation that produced good outputs, prompt Claude to formalize what already worked. Name the knowledge files you intend to add so the instructions tell Claude how to use them:
 
 ```
 Review this conversation and write Project instructions I can paste
 directly into Project Settings. The Project helps the BD team draft
-value proposition emails for health system buyers. Incorporate the
-product positioning doc and case studies uploaded as knowledge files
-so Claude draws on them when generating outreach.
+value proposition emails for health system and payer buyers.
+
+The Project knowledge will include our product positioning doc, a case
+studies library with client outcomes data, and a buyer persona guide.
+Tell Claude to draw on the positioning doc to establish NeuroFlow's
+differentiation, use the case studies to support any outcome claims,
+and reference the buyer persona guide when the buyer role is specified
+in the request.
 ```
 
-Claude reads the conversation, identifies the implicit role and constraints, and formalizes
-them. The result is instructions that match what already worked — not instructions you have
-to draft from scratch.
+Claude reads the conversation, identifies the implicit role and constraints, and formalizes them. Because you named the knowledge files and described their purpose, the instructions tell Claude exactly when to use each one. The result is a Project where the team does not need to paste documents into every conversation or remind Claude where to look.
 """,
         "challenge": {
             "scenario": (

@@ -531,6 +531,7 @@ appropriate code file. Share it via email → Word or PDF.
     },
     6: {
         "concept": """
+[[CHOOSING_TOOL_CARDS]]
 
 Claude's training data has a cutoff date, and it cannot know about recent policy
 changes, new research, or current program status unless it searches the web or you
@@ -845,18 +846,37 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    # Handle inline HTML (mid-lesson iframes and images)
+    # Handle inline HTML (mid-lesson iframes, images, and flip-card component)
     concept = lesson["concept"]
-    if "<img " in concept or "<iframe " in concept:
-        import re
-        parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', concept, flags=re.DOTALL)
-        for part in parts:
-            if part.startswith("<img ") or part.startswith("<iframe "):
-                st.markdown(part, unsafe_allow_html=True)
-            elif part.strip():
-                st.markdown(part)
+
+    def _render_segment(segment: str):
+        """Render a concept segment, splitting out inline <img>/<iframe> elements."""
+        if not segment.strip():
+            return
+        if "<img " in segment or "<iframe " in segment:
+            import re
+            parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', segment, flags=re.DOTALL)
+            for part in parts:
+                if part.startswith("<img ") or part.startswith("<iframe "):
+                    st.markdown(part, unsafe_allow_html=True)
+                elif part.strip():
+                    st.markdown(part)
+        else:
+            st.markdown(segment)
+
+    if "[[CHOOSING_TOOL_CARDS]]" in concept:
+        import streamlit.components.v1 as components
+        from components.diagrams import get_diagram, get_diagram_height
+        segments = concept.split("[[CHOOSING_TOOL_CARDS]]")
+        for i, segment in enumerate(segments):
+            _render_segment(segment)
+            if i < len(segments) - 1:
+                html = get_diagram("choosing_tool_cards")
+                height = get_diagram_height("choosing_tool_cards")
+                if html:
+                    components.html(html, height=height, scrolling=False)
     else:
-        st.markdown(concept)
+        _render_segment(concept)
     st.markdown("---")
 
     if already_done:

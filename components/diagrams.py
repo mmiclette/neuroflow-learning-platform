@@ -925,6 +925,641 @@ body,div,span{font-family:var(--font-sans,sans-serif);}
 </body></html>
 """
 
+DIAGRAMS["choosing_tool_cards"] = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choosing the Right Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #161B4A;
+    --blue-1: #2E4799;
+    --blue-2: #478FCC;
+    --teal: #4CB6AC;
+    --accent: #F16061;
+    --accent-inactive: #F8A9AA;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --text-white: #FFFFFF;
+    --divider: #BDBDBD;
+    --bg-light: #F4F6FB;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .framing {
+    background: white;
+    border-left: 4px solid var(--blue-2);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    max-width: 720px;
+  }
+
+  .framing strong {
+    color: var(--navy);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  .card-wrapper {
+    perspective: 1200px;
+    height: 580px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .card-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .card-wrapper.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .card-front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 24px;
+    color: var(--text-white);
+    position: relative;
+  }
+
+  .card-front::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card-1 .card-front { background: linear-gradient(145deg, var(--blue-1) 0%, var(--blue-2) 100%); }
+  .card-2 .card-front { background: linear-gradient(145deg, var(--navy) 0%, var(--blue-1) 100%); }
+  .card-3 .card-front { background: linear-gradient(145deg, #2a7a74 0%, var(--teal) 100%); }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .card-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .card-front-content {
+    flex: 1;
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .card-tagline {
+    font-size: 13.5px;
+    line-height: 1.65;
+    opacity: 0.88;
+    font-weight: 300;
+  }
+
+  .card-front-footer {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .flip-hint {
+    font-size: 12px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .flip-hint svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+  }
+
+  .cost-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.18);
+    letter-spacing: 0.04em;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    background: white;
+    padding: 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--divider);
+    overflow: hidden;
+  }
+
+  .card-back-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--divider) transparent;
+  }
+
+  .card-back-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .card-back-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .card-back-scroll::-webkit-scrollbar-thumb {
+    background: var(--divider);
+    border-radius: 4px;
+  }
+
+  .card-back-footer {
+    flex-shrink: 0;
+    padding: 10px 0 14px;
+    background: white;
+    border-top: 1px solid var(--bg-light);
+  }
+
+  .back-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--bg-light);
+    flex-shrink: 0;
+  }
+
+  .back-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-1 .back-dot { background: var(--blue-2); }
+  .card-2 .back-dot { background: var(--blue-1); }
+  .card-3 .back-dot { background: var(--teal); }
+
+  .back-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+  }
+
+  .back-section {
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .back-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .back-section p {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--text-primary);
+  }
+
+  .back-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .back-list li {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    border-bottom: 1px solid var(--bg-light);
+  }
+
+  .back-list li:last-child {
+    border-bottom: none;
+  }
+
+  .back-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .card-1 .back-list.use li::before { background: var(--blue-2); }
+  .card-2 .back-list.use li::before { background: var(--blue-1); }
+  .card-3 .back-list.use li::before { background: var(--teal); }
+
+  .back-list.avoid li::before { background: var(--accent-inactive); }
+
+  .cost-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-bottom: 6px;
+  }
+
+  .cost-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .cost-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .cost-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--divider);
+  }
+
+  .cost-dot.filled { background: var(--navy); }
+
+  .cost-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+
+  .back-flip-back {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .back-flip-back svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: var(--text-secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .card-wrapper:hover .card-front {
+    filter: brightness(1.04);
+  }
+
+  @media (max-width: 700px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .card-wrapper {
+      height: 580px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <h1>Choosing the Right Tool</h1>
+    <div class="framing">
+      <strong>Web Search</strong> and <strong>Research</strong> go outside the conversation to find information you do not have yet.
+      <strong>Adaptive Thinking</strong> stays inside the conversation and reasons more carefully through information you have already provided.
+      The right choice depends on whether your challenge is <em>finding</em> information or <em>thinking through</em> it.
+      <br><br>
+      Click any card to learn more.
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="card-wrapper card-1" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </div>
+            <div class="card-front-content">
+              <div class="card-label">Feature 01</div>
+              <div class="card-title">Web Search</div>
+              <div class="card-tagline">You need a current fact. Claude retrieves it from the web and brings it back into your conversation without you leaving the chat.</div>
+            </div>
+          </div>
+          <div class="card-front-footer">
+            <div class="flip-hint">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              Tap to flip
+            </div>
+            <div class="cost-badge">Light</div>
+          </div>
+        </div>
+        <div class="card-back">
+          <div class="back-header">
+            <div class="back-dot"></div>
+            <div class="back-title">Web Search</div>
+          </div>
+          <div class="card-back-scroll">
+            <div class="back-section">
+              <div class="back-section-label">What it does</div>
+              <p>Retrieves current information from the internet during a standard conversation. Claude searches and brings findings back into your chat. Enable it via the plus button menu and tell Claude explicitly to search.</p>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Use this when</div>
+              <ul class="back-list use">
+                <li>Checking the current status of a CMS program or federal regulation</li>
+                <li>Confirming whether a partner, policy, or organization still exists in its current form</li>
+                <li>Quick fact checks on recent developments before including them in a document</li>
+              </ul>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Do not use when</div>
+              <ul class="back-list avoid">
+                <li>You need synthesis across many sources</li>
+                <li>You already have the documents and need Claude to reason through them</li>
+                <li>One search result would not be sufficient</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-back-footer">
+            <div class="cost-row">
+              <div class="cost-label">Cost</div>
+              <div class="cost-dots">
+                <div class="cost-dot filled"></div>
+                <div class="cost-dot"></div>
+                <div class="cost-dot"></div>
+              </div>
+              <div class="cost-desc">Light</div>
+            </div>
+            <div class="back-flip-back">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+              Tap to flip back
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper card-2" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="card-front-content">
+              <div class="card-label">Feature 02</div>
+              <div class="card-title">Research</div>
+              <div class="card-tagline">You need comprehensive findings from many sources. Claude investigates autonomously and returns a structured, cited report.</div>
+            </div>
+          </div>
+          <div class="card-front-footer">
+            <div class="flip-hint">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              Tap to flip
+            </div>
+            <div class="cost-badge">Heavy</div>
+          </div>
+        </div>
+        <div class="card-back">
+          <div class="back-header">
+            <div class="back-dot"></div>
+            <div class="back-title">Research</div>
+          </div>
+          <div class="card-back-scroll">
+            <div class="back-section">
+              <div class="back-section-label">What it does</div>
+              <p>Runs an autonomous multi-source investigation. Claude searches, evaluates findings, identifies gaps, and compiles a structured citation-backed report. You start with a question and end with sourced findings you did not have before. Access it via the plus button menu.</p>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Use this when</div>
+              <ul class="back-list use">
+                <li>Building a competitive landscape brief on behavioral health technology vendors from scratch</li>
+                <li>Surveying how state Medicaid programs structure value-based behavioral health contracts</li>
+                <li>Gathering comprehensive background on a federal partner before a high-stakes meeting</li>
+              </ul>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Do not use when</div>
+              <ul class="back-list avoid">
+                <li>You already have the documents and the challenge is reasoning through them</li>
+                <li>You need a single current fact</li>
+                <li>One web search would answer the question</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-back-footer">
+            <div class="cost-row">
+              <div class="cost-label">Cost</div>
+              <div class="cost-dots">
+                <div class="cost-dot filled"></div>
+                <div class="cost-dot filled"></div>
+                <div class="cost-dot filled"></div>
+              </div>
+              <div class="cost-desc">Heavy</div>
+            </div>
+            <div class="back-flip-back">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+              Tap to flip back
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper card-3" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>
+            <div class="card-front-content">
+              <div class="card-label">Feature 03</div>
+              <div class="card-title">Adaptive Thinking</div>
+              <div class="card-tagline">You already have the content. Claude reasons through it more carefully before responding. No external search. No new information.</div>
+            </div>
+          </div>
+          <div class="card-front-footer">
+            <div class="flip-hint">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              Tap to flip
+            </div>
+            <div class="cost-badge">Varies</div>
+          </div>
+        </div>
+        <div class="card-back">
+          <div class="back-header">
+            <div class="back-dot"></div>
+            <div class="back-title">Adaptive Thinking</div>
+          </div>
+          <div class="card-back-scroll">
+            <div class="back-section">
+              <div class="back-section-label">What it does</div>
+              <p>Lets Claude reason more carefully through information already in the conversation. It does not search the web or retrieve anything external. Toggle it under the model selector. Enabling it starts a new chat.</p>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Use this when</div>
+              <ul class="back-list use">
+                <li>You have uploaded contracts or RFPs and need Claude to identify key differences or risks</li>
+                <li>You have pasted a complex policy document and need thorough reasoning through its implications</li>
+                <li>You are working through a multi-variable decision where the reasoning chain must be defensible externally</li>
+              </ul>
+            </div>
+            <div class="back-section">
+              <div class="back-section-label">Do not use when</div>
+              <ul class="back-list avoid">
+                <li>You need information Claude does not already have</li>
+                <li>The task is straightforward and does not require deep reasoning</li>
+                <li>Response time matters more than reasoning depth</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-back-footer">
+            <div class="cost-row">
+              <div class="cost-label">Cost</div>
+              <div class="cost-dots">
+                <div class="cost-dot filled"></div>
+                <div class="cost-dot filled"></div>
+                <div class="cost-dot"></div>
+              </div>
+              <div class="cost-desc">Varies with complexity</div>
+            </div>
+            <div class="back-flip-back">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+              Tap to flip back
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function flipCard(card) {
+    card.classList.toggle('flipped');
+  }
+</script>
+</body>
+</html>
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -943,5 +1578,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "ai_hierarchy": 620,
         "xml_tags_callout": 130,
         "meta_prompt_diagram": 660,
+        "choosing_tool_cards": 800,
     }
     return heights.get(diagram_id, 300)

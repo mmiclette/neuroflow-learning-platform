@@ -167,42 +167,65 @@ automatically across every conversation. Track 4 covers Projects in detail.
         "concept": """
 NeuroFlow uses Claude Teams, a managed enterprise instance of Claude operated under
 Anthropic's data policies for business customers. Understanding what can and cannot go
-into Claude Teams matters more than knowing which AI products exist — because putting
+into Claude Teams matters more than knowing which AI products exist, because putting
 the wrong information into the wrong tool creates legal and compliance risk.
 
 **What you can put into Claude Teams**
 
-Almost everything related to your work. Internal strategy documents, product specifications,
-partner briefs, RFPs, policy drafts, competitive analysis, meeting notes, code, data models,
-presentations, customer agreements, and email drafts are all appropriate. Claude Teams does not train Anthropic's
-models on your conversations and operates under data agreements that protect NeuroFlow's
-proprietary information.
+Almost everything related to your daily work. Internal strategy documents, product
+specifications, partner briefs, RFPs, policy drafts, competitive analysis, meeting notes,
+code, data models, presentations, customer agreements, and email drafts are all appropriate.
+Claude Teams does not train Anthropic's models on your conversations and operates under
+data agreements that protect NeuroFlow's proprietary information.
 
 **What you cannot put into Claude Teams**
 
 **Protected Health Information (PHI).** PHI includes any information that could identify a
 specific patient: names, dates of birth, medical record numbers, assessment scores linked
 to an individual, diagnosis information, or any combination of data that would allow someone
-to identify a specific patient. PHI belongs in HIPAA-compliant systems.
+to identify a specific patient. PHI belongs in HIPAA-compliant systems only.
 
-This is a hard line. It does not matter whether you are analyzing aggregate trends or doing
-research — if the data includes individual-level patient identifiers, it does not go into
-Claude Teams. Analyze that data in tools that operate under NeuroFlow's HIPAA agreements.
+This is a hard line. It applies regardless of your role or the purpose of your work. A
+clinical team member analyzing patient outcomes, a data analyst running population reports,
+and a researcher reviewing study findings all face the same rule: if the data includes
+individual-level patient identifiers, it does not go into Claude Teams. Analyze that data
+in tools that operate under NeuroFlow's HIPAA agreements.
+
+**What about de-identified or aggregate data?**
+
+De-identified data and aggregate population data that contain no individual patient
+identifiers are not PHI. Summary statistics, population-level trends, anonymized cohort
+findings, and published research results do not identify specific patients and are
+appropriate to bring into Claude Teams for analysis, drafting, or synthesis.
+
+If you are ever uncertain whether a dataset or document crosses the PHI line, apply the
+practical test below before proceeding.
 
 **The practical test**
 
-Before entering information into Claude Teams, ask one question: does this contain anything
-that could identify a specific patient? If yes, stop. If no, proceed.
+Before entering any information into Claude Teams, ask one question: could this data or
+document identify a specific patient? If yes, stop. If no, proceed.
+
+When in doubt, leave it out and consult your manager or NeuroFlow's compliance team.
 
 **Your responsibility**
 
-All work products you create using Claude are your responsibility to review and confirm. Claude can produce incorrect, outdated, or incomplete information. When it does, that is not a reflection on Claude — it is a signal that your critical review caught something before it caused a problem. You will be held accountable for your work products regardless of how they were produced. Using AI assistance does not transfer professional ownership of the output or reduce your obligation to verify what you submit.
+Every work product you create using Claude is yours to review and confirm before it leaves
+your hands. Claude can produce incorrect, outdated, or incomplete information, and it will
+do so with the same confident tone as accurate output. Catching that before it reaches a
+partner, regulator, or patient is part of your professional responsibility. Using AI
+assistance does not transfer ownership of the output or reduce your obligation to verify
+what you submit.
 
-**What about research?**
+This is not a limitation unique to Claude. It is the standard that applies to any tool
+that assists your work. The expectation is the same whether you used Claude, a junior
+colleague, or your own first draft.
 
-Claude Teams includes built-in web search, which handles most research tasks directly.
-Ask Claude to search the web for publicly available information and it will retrieve,
-summarize, and synthesize findings in the same conversation.
+**Finding information with Claude Teams**
+
+Claude Teams includes built-in web search, which handles most information gathering tasks
+directly. Ask Claude to search the web for publicly available information and it will
+retrieve, summarize, and synthesize findings in the same conversation.
 
 For tasks that require more targeted searching — specific academic databases, regulatory
 archives, or known sources — tools like Perplexity, Google Scholar, or direct web search
@@ -210,8 +233,20 @@ can complement Claude. The typical workflow is to search externally when you nee
 on a specific source, then bring those findings into Claude Teams for analysis, drafting,
 or synthesis.
 
-The key constraint is the same either way: no PHI in the conversation, regardless of
-how the research was gathered.
+External tools are appropriate for this kind of targeted searching as long as two conditions
+are met. First, the tool is not on NeuroFlow's prohibited tools list. Second, only publicly
+available information goes into those tools. Internal strategy, proprietary product details,
+partner information, financial data, and anything else that is not already public should
+never be entered into an external tool that does not operate under NeuroFlow's data
+agreements.
+
+For multi-source landscape work that would otherwise take hours of manual gathering,
+Research mode in Claude Teams automates that process. Track 4 covers Research mode, web
+search, and Adaptive Thinking in detail, including when to use each and how they differ.
+
+The PHI rule applies equally to all of these workflows. No patient-identifiable information
+enters Claude Teams regardless of how the information was originally gathered or what form
+it takes when you bring it in.
 """,
         "quiz": [
             {
@@ -248,6 +283,21 @@ how the research was gathered.
                 ],
                 "correct_index": 0,
                 "hint": "Claude is a tool. The person who submits the work is responsible for it.",
+            },
+            {
+                "question": (
+                    "A NeuroFlow researcher has a dataset showing BHIQ completion rates by age "
+                    "group with no names, dates of birth, or any other patient identifiers. "
+                    "Is this appropriate to bring into Claude Teams?"
+                ),
+                "options": [
+                    "No — any data derived from patient records is PHI regardless of whether identifiers have been removed",
+                    "Yes — de-identified aggregate data with no individual patient identifiers is not PHI and is appropriate for Claude Teams",
+                    "Only if the researcher's manager approves it first",
+                    "Only if fewer than 500 patients are represented in the dataset",
+                ],
+                "correct_index": 1,
+                "hint": "The PHI definition centers on whether specific individuals can be identified, not on whether the data was originally derived from patient records.",
             },
         ],
     },

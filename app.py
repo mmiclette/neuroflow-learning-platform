@@ -170,6 +170,7 @@ st.markdown("""
   .badge-foundation   { background:#E4F5F3; color:#1A6860 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
   .badge-intermediate { background:#EBF3FA; color:#2A5C8A !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
   .badge-advanced     { background:#E7F6F5; color:#2A6E68 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+  .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -189,6 +190,7 @@ def _badge(level: str) -> str:
         "Foundation": "badge-foundation",
         "Intermediate": "badge-intermediate",
         "Advanced": "badge-advanced",
+        "Still Under Development": "badge-wip",
     }.get(level, "badge-foundation")
     return f'<span class="{cls}">{level}</span>'
 

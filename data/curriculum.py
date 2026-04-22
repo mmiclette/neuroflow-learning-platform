@@ -382,8 +382,8 @@ TRACKS = {
     },
     7: {
         "title": "Claude Code",
-        "level": "Advanced",
-        "level_color": "#4CB8AC",
+        "level": "Still Under Development",
+        "level_color": "#B11F1F",
         "certificate_title": "Claude Code",
         "time_estimate": 42,
         "lessons": {
@@ -437,8 +437,8 @@ TRACKS = {
     },
     8: {
         "title": "Agents and MCP",
-        "level": "Advanced",
-        "level_color": "#4CB8AC",
+        "level": "Still Under Development",
+        "level_color": "#B11F1F",
         "certificate_title": "Agents & MCP",
         "time_estimate": 39,
         "lessons": {

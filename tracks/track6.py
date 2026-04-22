@@ -570,15 +570,11 @@ headlines against those formats. Save it as ContentAudit.md.
     },
     6: {
         "concept": """
-Every standalone Cowork session starts fresh. When you open Cowork, select a folder, and
-run a task, Claude has no memory of previous sessions in that folder. Any context,
-preferences, or conclusions from prior sessions must be re-established explicitly — either
-by including them in the task instruction or by maintaining context files in the folder itself.
+**Session memory and Cowork Projects**
 
-Cowork Projects, launched in March 2026, solve this. A Project is a persistent workspace
-inside Claude Desktop that bundles a folder, custom instructions, memory, and scheduled
-tasks into a single named environment. When you run tasks inside a Project, Claude
-accumulates memory across sessions.
+Every standalone Cowork session starts fresh. When you open Cowork, select a folder, and run a task, Claude has no memory of previous sessions in that folder. Any context, preferences, or conclusions from prior sessions must be re-established explicitly, either by including them in the task instruction or by maintaining context files in the folder itself.
+
+Projects in chat and Projects in Cowork share two behaviors: both apply custom instructions to every session, and both build memory across sessions. The differences are what each environment adds on top of that foundation. Chat Projects operate in the browser and work with conversations. Cowork Projects operate on your local file system and work with tasks. They attach a folder directly to the workspace and support scheduled tasks that run automatically on a cadence. Those two capabilities do not exist in chat Projects.
 
 **What a Project adds over a folder-only session**
 
@@ -589,20 +585,13 @@ accumulates memory across sessions.
 | Memory across sessions | No | Yes |
 | Scheduled tasks scoped to this workspace | No | Yes |
 
-**The practical rule:** If a workflow involves more than one session — any recurring task,
-any multi-phase project, any work that builds on prior outputs — create a Project. Selecting
-a folder alone will not carry context forward.
+The practical rule: if a workflow involves more than one session, any recurring task, any multi-phase project, any work that builds on prior outputs, create a Project. Selecting a folder alone will not carry context forward.
 
 **Setting up a Cowork Project**
 
-1. Open the Cowork tab in Claude Desktop
-2. Click Projects in the left sidebar
-3. Click the + icon and name the project, attach a folder, and add standing instructions
-4. Memory is on by default
+Open the Cowork tab in Claude Desktop and click **Projects** in the left sidebar. Click the **+** icon, name the project, attach a folder, and add standing instructions. Memory is on by default.
 
-Once created, every task you run inside the project builds the memory Claude holds for that
-workspace. Memory is scoped — what Claude learns in one project does not carry into other
-projects or standalone sessions.
+Once created, every task you run inside the project builds the memory Claude holds for that workspace. Memory is scoped, so what Claude learns in one project does not carry into other projects or standalone sessions.
 """,
         "quiz": [
             {

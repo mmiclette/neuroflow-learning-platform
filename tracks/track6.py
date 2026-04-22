@@ -264,6 +264,8 @@ generated digitally, work fine.
     },
     3: {
         "concept": """
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/LOjH50biHZI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+
 Cowork supports scheduled tasks — instructions you configure once that run automatically on
 a cadence without manual triggering each time.
 
@@ -660,17 +662,22 @@ def render_lesson(lesson_id: int) -> bool:
     concept = lesson["concept"]
 
     def _render_segment(text):
-        """Render a markdown segment, splitting out inline <img> tags so they
-        are passed through with unsafe_allow_html=True."""
+        """Render a markdown segment, splitting out inline <img> and <iframe>
+        tags so they are passed through with unsafe_allow_html=True."""
         if not text.strip():
             return
-        if "<img " in text:
+        if "<img " in text or "<iframe " in text:
             import re
-            parts = re.split(r'(<img\b[^>]*/?>)', text, flags=re.DOTALL)
+            parts = re.split(
+                r'(<img\b[^>]*/?>|<iframe\b[^>]*>.*?</iframe>)',
+                text,
+                flags=re.DOTALL,
+            )
             for part in parts:
                 if not part.strip():
                     continue
-                if part.lstrip().startswith("<img "):
+                stripped = part.lstrip()
+                if stripped.startswith("<img ") or stripped.startswith("<iframe "):
                     st.markdown(part, unsafe_allow_html=True)
                 else:
                     st.markdown(part)

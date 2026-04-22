@@ -110,9 +110,7 @@ same information sat in the middle, even for models with explicitly long context
 This means a constraint or requirement you stated early in a conversation can quietly carry
 less weight in later responses, even though it is still within the window.
 
-Citation. Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., and
-Liang, P. (2023). Lost in the Middle, How Language Models Use Long Contexts. Transactions
-of the Association for Computational Linguistics, 12, 157 to 173. arXiv:2307.03172.
+<div style="background:#F0F0F2;border-left:3px solid #757575;border-radius:4px;padding:10px 14px;margin:12px 0;font-size:12.5px;color:#3D3D3D;line-height:1.55;"><span style="font-weight:600;color:#212121;">Citation.</span> Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., and Liang, P. (2023). Lost in the Middle, How Language Models Use Long Contexts. <em>Transactions of the Association for Computational Linguistics</em>, 12, 157 to 173. arXiv:2307.03172.</div>
 
 A conversation is getting too long when you notice Claude ignoring earlier instructions,
 producing outputs that contradict context you already provided, or when you find yourself
@@ -123,10 +121,7 @@ Before you do, ask Claude to draft the opening prompt for the next conversation.
 a summary of what happened. It is a ready-to-use prompt you paste directly into a new chat
 or Project to resume exactly where you left off:
 
-*"Read back through our full conversation from the beginning. Then write an opening prompt
-I can paste into a new conversation to continue this work without losing context. Write it
-as instructions for Claude, covering the goal we are working toward, the decisions and
-constraints already established, relevant background, and the specific task to pick up next."*
+<div style="background:#EAF3DE;border-left:3px solid #3B6D11;border-radius:4px;padding:12px 16px;margin:12px 0;font-size:13px;color:#1E2F06;line-height:1.6;font-style:italic;">"Read back through our full conversation from the beginning. Then write an opening prompt I can paste into a new conversation to continue this work without losing context. Write it as instructions for Claude, covering the goal we are working toward, the decisions and constraints already established, relevant background, and the specific task to pick up next."</div>
 
 If the work is ongoing rather than a single session, that handoff pattern becomes inefficient
 quickly. Sustained work on the same topic belongs in a Project, where context persists
@@ -745,12 +740,19 @@ def render_lesson(lesson_id: int) -> bool:
 
     def render_concept_part(text):
         import re
-        img_pattern = re.compile(r'(<img [^>]+>)', re.DOTALL)
-        segments = img_pattern.split(text)
+        # Split the concept on raw-HTML blocks we need to pass through with
+        # unsafe_allow_html=True. Markdown's default renderer would otherwise
+        # either escape them or strip the styling.
+        html_pattern = re.compile(
+            r'(<img [^>]+>|<div\b[^>]*>.*?</div>)',
+            re.DOTALL,
+        )
+        segments = html_pattern.split(text)
         for seg in segments:
             if not seg.strip():
                 continue
-            if seg.startswith("<img "):
+            stripped = seg.lstrip()
+            if stripped.startswith("<img ") or stripped.startswith("<div "):
                 st.markdown(seg, unsafe_allow_html=True)
             else:
                 st.markdown(seg)

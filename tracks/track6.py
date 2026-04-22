@@ -101,6 +101,8 @@ and drafting use cases you need.
     },
     2: {
         "concept": """
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/UAmKyyZ-b9E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+
 **How to run a Cowork task**
 
 Running a task in Cowork follows the same four steps every time:

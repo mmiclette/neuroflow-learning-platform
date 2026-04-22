@@ -191,9 +191,9 @@ protects important documents from being misclassified and buried in the wrong su
 
 **Why the permission rule matters**
 
-Renaming is reversible. Deletion is not. Specifying which actions Cowork should take
-autonomously — and which require your approval — prevents irreversible mistakes in large
-batch operations.
+Renaming is reversible. Deletion is not. Specifying which actions Cowork should take autonomously and which require your approval prevents irreversible mistakes in large batch operations.
+
+Read-only files add a second layer to this. Cowork cannot modify a file your system has locked, but it still needs a rule for what to do when it encounters one. Without one, it may skip the file silently or stop the task entirely. An instruction like "skip read-only files and list them in a summary at the end" keeps the task moving and gives you a clear record of what was not touched.
 
 **What files can Cowork work with?**
 

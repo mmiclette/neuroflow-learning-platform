@@ -266,35 +266,31 @@ generated digitally, work fine.
         "concept": """
 <iframe width="100%" height="380" src="https://www.youtube.com/embed/LOjH50biHZI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
 
-Cowork supports scheduled tasks — instructions you configure once that run automatically on
-a cadence without manual triggering each time.
+Cowork supports scheduled tasks. These are instructions you configure once that run automatically on a cadence without manual triggering each time.
 
 **How to create a scheduled task**
 
-1. In a Cowork session, type `/schedule`
-2. Write the task instruction (same format as any Cowork task)
-3. Set the frequency: daily, weekly, on a specific day and time
-4. Cowork saves and runs it automatically on schedule
+You can create a scheduled task two ways.
+
+First is through the Cowork interface. Click **Scheduled** in the Cowork sidebar, then click **Add task** and configure the instruction, frequency, and timing directly.
+
+The second is inline during a cowork session. Type `/schedule`, write the task instruction, and set the frequency. Cowork saves and runs it automatically on the schedule you define. Both methods support daily, weekly, or specific day-and-time cadences.
 
 **Requirements**
 
-- Computer must be awake when the task runs
-- Claude Desktop app must be open
-- Complex tasks consume more of your usage allocation per run — batch related work
+Your computer must be awake and the Claude Desktop app must be open when the task runs. Complex tasks consume more of your usage allocation per run, so batch related work where possible.
 
-**NeuroFlow example — weekly program status report**
+**NeuroFlow example: Weekly program status report**
 
 ```
-Every Monday at 8:00 AM, access the /EVIDENT/Deliverables folder.
+/schedule Every Monday at 8:00 AM, access the /EVIDENT/Deliverables folder.
 Read all files modified in the past 7 days. Produce a weekly status
 report with four sections: completed milestones, in-progress items,
 upcoming deadlines in the next 30 days, and items flagged for review.
 Save as YYYY-MM-DD_EVIDENT_WeeklyStatus.md in /Reports.
 ```
 
-A well-written scheduled task names the folder, defines the cadence, specifies the output
-structure, and names the save location. Vague instructions produce inconsistent outputs
-across runs because Cowork cannot compensate for missing scope with prior session memory.
+A well-written scheduled task names the folder, defines the cadence, specifies the output structure, and names the save location. Vague instructions produce inconsistent outputs across runs because Cowork cannot compensate for missing scope with prior session memory.
 """,
         "quiz": [
             {

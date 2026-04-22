@@ -226,49 +226,79 @@ Documents: `~/Documents/folder-name`
 Downloads: `~/Downloads/folder-name`
 """,
         "challenge": {
+            "pass_threshold": 75,
             "scenario": (
-                "You are a product manager at NeuroFlow. Over the past two years your team "
-                "ran discovery interviews, collected design feedback, exported Jira tickets, "
-                "and assembled competitive research — all saved to a single folder with no "
-                "consistent naming convention. File names like `notes.docx`, `final_v2.pdf`, "
-                "and `interview copy (3).docx` make the folder nearly unsearchable.\n\n"
-                "**Task:** Write the Cowork task instruction to organize this folder. "
-                "Your instruction must specify the naming convention, subfolder structure, "
-                "ambiguous file handling, and permission behavior."
+                "**Scenario**\n\n"
+                "You are a product manager at NeuroFlow. Your team saved two years of "
+                "discovery interviews, design feedback, Jira exports, and competitive "
+                "research into a single Desktop folder called `nf-discovery-mess` with no "
+                "consistent naming convention.\n\n"
+                "**Task**\n\n"
+                "Write a Cowork instruction to organize `~/Desktop/nf-discovery-mess`. "
+                "Your instruction must include all of the following:\n\n"
+                "1. A naming convention that uses at least two identifying attributes "
+                "(such as content type, project phase, or date) for renaming files\n"
+                "2. A subfolder structure that separates files by at least one category\n"
+                "3. A rule for how Cowork should handle files it cannot confidently classify\n"
+                "4. A rule for how Cowork should handle read-only files\n\n"
+                "*Hint: Meta-prompting is not cheating if it is helpful. Be sure not to "
+                "close this tab if you do.*"
             ),
             "broken_example": "",
             "rubric": (
-                "Score the instruction against four criteria (25 points each):\n\n"
-                "1. Naming convention includes at least two identifying elements — document type, "
-                "source, date, or topic (e.g., DocumentType_Source_YYYY-MM-DD). A single element "
-                "like a date alone does not distinguish two files from the same week.\n\n"
-                "2. Subfolder structure defined with at least two named categories — actual folder "
-                "names like CustomerInterviews, DesignFeedback, JiraExports. 'Organize by type' "
-                "without naming the folders does not earn this criterion.\n\n"
-                "3. Ambiguous file handling specified with a concrete rule — what happens to a file "
-                "Cowork cannot confidently classify? Must name a specific action: add a REVIEW_ "
-                "prefix, place in a REVIEW subfolder, or skip it.\n\n"
-                "4. Permission behavior addressed — specifies what Cowork should do autonomously "
-                "and what requires approval before acting. At minimum, must say whether deletion "
-                "or overwriting requires confirmation."
+                "Score the instruction against four criteria (25 points each). "
+                "A learner passes at 75 or higher, which means at least three of the four "
+                "criteria are clearly met. Full credit (100) requires all four.\n\n"
+                "1. Naming convention (25 pts). The instruction specifies a file naming "
+                "format that combines at least two identifying attributes. Acceptable "
+                "attribute types include content type (interview, design-feedback, "
+                "jira-export, competitive-research), project phase, or a date element. "
+                "Examples that earn full credit for this criterion: 'rename using "
+                "[content-type]_[YYYY-MM-DD]', 'format: ContentType_Phase_Date'. A single "
+                "attribute such as date alone does not earn this criterion.\n\n"
+                "2. Subfolder structure (25 pts). The instruction names at least one "
+                "category of subfolder to create and explains that files should be moved "
+                "into the appropriate subfolder. The scenario describes four content "
+                "types (interviews, design feedback, Jira exports, competitive research), "
+                "so named subfolders drawn from those categories earn full credit. "
+                "'Organize logically' or 'sort into folders' without naming any does NOT "
+                "earn this criterion.\n\n"
+                "3. Ambiguous file handling (25 pts). The instruction gives a concrete, "
+                "specific directive for files Cowork cannot confidently classify. "
+                "Examples that earn full credit: 'move ambiguous files to a subfolder "
+                "called _unsorted', 'prefix unclassifiable files with REVIEW_', 'list "
+                "any unclassifiable files in a summary'. Vague phrases like 'handle as "
+                "needed' or 'deal with them' do NOT earn this criterion.\n\n"
+                "4. Read-only file handling (25 pts). The instruction gives a concrete "
+                "rule for files that are read-only. Examples that earn full credit: "
+                "'skip read-only files and list them in the final summary', 'flag any "
+                "read-only files but do not modify them', 'leave read-only files in "
+                "place and note them at the end'. Omitting this entirely does NOT earn "
+                "this criterion.\n\n"
+                "For the 'hint' field in the JSON response, when pass is false, name the "
+                "specific criteria that were missed or weak in plain language. For "
+                "example: 'Your instruction did not address how Cowork should handle "
+                "read-only files.' or 'Your instruction did not name any subfolders — "
+                "it said to organize logically, but Cowork needs category names.' Do "
+                "not give generic feedback."
             ),
             "model_answer": (
-                "Access the /Product_Discovery folder. Read every file.\n\n"
-                "Rename each file using this format: DocumentType_Source_YYYY-MM-DD\n"
-                "(examples: Interview_MeadowsHealth_2026-03-14, DesignFeedback_UX_2025-11-02, "
-                "JiraExport_Backlog_2025-08-19)\n\n"
-                "Sort files into subfolders: CustomerInterviews, DesignFeedback, JiraExports, "
-                "CompetitiveResearch, StakeholderComms.\n\n"
-                "If you cannot confidently determine the document type and source from the file "
-                "content, add the prefix REVIEW_ to the filename, place it in a REVIEW subfolder, "
-                "and do not attempt to rename or categorize it further.\n\n"
-                "Proceed with renaming and sorting without asking for each file. "
-                "Ask before deleting or overwriting anything."
+                "Organize the folder at ~/Desktop/nf-discovery-mess. Rename every file "
+                "using the format [content-type]_[YYYY-MM-DD]. Use one of these four "
+                "content types in the file name: interview, design-feedback, "
+                "jira-export, or competitive-research. For example, "
+                "interview_2023-06-14.docx or competitive-research_2024-01-03.pdf. "
+                "Create four subfolders inside nf-discovery-mess named interviews, "
+                "design-feedback, jira-exports, and competitive-research, then move "
+                "each file into the appropriate subfolder based on its contents. If "
+                "you cannot confidently classify a file, move it to a subfolder called "
+                "_unsorted and include its original name in a summary when you finish. "
+                "Skip any read-only files and list them in that same summary."
             ),
             "hints": [
-                "A filename with only one element — like a date alone — will not distinguish two interview notes from the same week. What second element makes each file uniquely identifiable six months from now?",
-                "Cowork needs category names to sort into. 'Organize by type' is not enough — name the actual folders. What are the two or three most common document types in this folder?",
-                "Without a rule, Cowork guesses on files it cannot identify. What should happen to a file it cannot confidently classify — and where should it go?",
+                "Check each of the four requirements in the task. Which did your instruction address clearly, and which was left out or vague?",
+                "Look again at the four requirements: naming convention, subfolders, ambiguous files, and read-only files. The missing one is usually read-only handling — that is the piece most first drafts forget.",
+                "Review the full-credit example below carefully before moving on. Notice how every one of the four requirements is handled with a concrete rule, not a vague direction.",
             ],
         },
     },
@@ -711,6 +741,7 @@ def render_lesson(lesson_id: int) -> bool:
             rubric=ch["rubric"], model_answer=ch["model_answer"],
             hints=ch["hints"], input_label="Your Cowork task instruction",
             max_chars=600,
+            pass_threshold=ch.get("pass_threshold", 70),
         )
 
     if lesson.get("quiz"):

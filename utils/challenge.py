@@ -31,6 +31,7 @@ def render_graded_challenge(
     max_chars: int = 500,
     single_attempt: bool = False,
     mark_complete: bool = True,
+    pass_threshold: int = 70,
 ) -> bool:
     """
     Render a graded short-input challenge.
@@ -38,6 +39,9 @@ def render_graded_challenge(
     single_attempt=True: submit once, always advance, show explanation.
     mark_complete=False: do not call complete_lesson on pass — let the
       caller (e.g. a following quiz) own the completion signal.
+    pass_threshold: minimum score to count as a pass (default 70). Lets an
+      individual challenge demand a stricter bar (for example, 75 when full
+      credit requires every one of four criteria).
 
     Returns True when the lesson is passed or auto-advanced.
     """
@@ -90,7 +94,8 @@ def render_graded_challenge(
                     )
                     st.markdown(model_answer)
             else:
-                if result.get("pass"):
+                local_pass = result.get("_passed_local", result.get("pass"))
+                if local_pass:
                     attempt_word = "attempt" if cs["attempts"] == 1 else "attempts"
                     st.success(
                         f"✓ Passed — score {result['score']}/100 "
@@ -106,10 +111,26 @@ def render_graded_challenge(
                             f'<span style="color:#212121;">{result["hint"]}</span></div>',
                             unsafe_allow_html=True,
                         )
-                    with st.expander("Compare with full-credit example"):
-                        st.markdown(model_answer)
+                    st.markdown(
+                        f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                        f'border-radius:4px;padding:10px 14px;margin:8px 0 4px;">'
+                        f'<span style="color:#478FCC;font-weight:500;">Full-credit example:</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                    st.markdown(model_answer)
                 else:
-                    st.info("Review the full-credit example below, then move to the next lesson.")
+                    st.info(
+                        "Attempts used. Review what was missed below and study the "
+                        "full-credit example carefully before moving on."
+                    )
+                    if result.get("hint"):
+                        st.markdown(
+                            f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                            f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
+                            f'<span style="color:#478FCC;font-weight:500;">What was missing:</span> '
+                            f'<span style="color:#212121;">{result["hint"]}</span></div>',
+                            unsafe_allow_html=True,
+                        )
                     st.markdown(
                         f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
                         f'border-radius:4px;padding:10px 14px;margin:8px 0 4px;">'
@@ -134,15 +155,26 @@ def render_graded_challenge(
         attempt_word = "attempt" if attempts_so_far == 1 else "attempts"
         st.caption(f"{attempts_so_far} of 3 {attempt_word} used")
 
-    # Show current hint if a previous attempt failed
-    if cs["last_result"] and not cs["last_result"].get("pass") and not single_attempt:
-        hint_idx = min(attempts_so_far - 1, len(hints) - 1)
-        if hint_idx >= 0 and hints:
+    # Show current hint if a previous attempt failed. Prefer the grader's
+    # tailored "hint" (which targets the specific criterion missed on this
+    # attempt) over the generic static hints list, since dynamic feedback is
+    # more useful than pre-authored hints tied only to attempt number.
+    last = cs.get("last_result")
+    last_passed = bool(last and last.get("_passed_local", last.get("pass")))
+    if last and not last_passed and not single_attempt:
+        dynamic_hint = last.get("hint")
+        hint_text = dynamic_hint
+        if not hint_text:
+            hint_idx = min(attempts_so_far - 1, len(hints) - 1)
+            if hint_idx >= 0 and hints:
+                hint_text = hints[hint_idx]
+        if hint_text:
+            label = "What was missing" if dynamic_hint else "Hint"
             st.markdown(
                 f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
                 f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
-                f'<span style="color:#478FCC;font-weight:500;">Hint:</span> '
-                f'<span style="color:#212121;">{hints[hint_idx]}</span></div>',
+                f'<span style="color:#478FCC;font-weight:500;">{label}:</span> '
+                f'<span style="color:#212121;">{hint_text}</span></div>',
                 unsafe_allow_html=True,
             )
 
@@ -170,6 +202,10 @@ def render_graded_challenge(
         with st.spinner("Grading…"):
             result = grade_challenge(user_input.strip(), rubric, model_answer)
 
+        # Apply the challenge-specific pass threshold. This supersedes the
+        # grader's own pass/fail flag, which uses a fixed 70 baseline.
+        score_val = int(result.get("score", 0) or 0)
+        result["_passed_local"] = score_val >= pass_threshold
         cs["attempts"] += 1
         cs["last_result"] = result
 
@@ -194,7 +230,7 @@ def render_graded_challenge(
                 complete_lesson(track_id, lesson_id)
             st.rerun()
 
-        elif result["pass"]:
+        elif result["_passed_local"]:
             cs["passed"] = True
             cs["completed"] = True
             if mark_complete:

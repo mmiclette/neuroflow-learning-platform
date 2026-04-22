@@ -300,65 +300,65 @@ submission. The role of human judgment does not disappear with AI; it shifts.
     },
     4: {
         "concept": """
-**Clinical AI governance and how NeuroFlow positions itself**
+**4. Clinical AI governance and how NeuroFlow positions itself**
 
 Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
 
-This lesson gives you enough literacy to engage these questions credibly for two or three minutes, route the conversation to the right internal owner before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.
+This lesson gives you enough literacy to engage these questions credibly for 2-3 minutes, route the conversation to legal and compliance before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.
 
 **The categorical distinction**
 
-Regulators treat clinical AI differently depending on what the AI does, who it talks to, and how much clinician judgment sits between the AI's output and the patient. Three categories matter.
+Regulators treat clinical AI differently depending on what the AI does, who it talks to, and how much clinician judgment sits between the AI's output and the patient. Four categories matter.
 
-**Clinical decision support** presents information and recommendations to a licensed clinician who reviews them and makes the final decision. The clinician can see the logic, can override it, and is accountable for the decision. BHIQ, the NLP-based suicide risk detection, and treatment response prediction all fall here.
+**Clinical decision support** presents information and recommendations to a licensed clinician who reviews them and makes the final decision. The clinician can see the logic, can override it, and is accountable for the decision. BHIQ and the NLP-based suicide risk detection both fall here.
 
-**Autonomous clinical AI** takes action without clinician review. FDA typically regulates these systems as medical devices. NeuroFlow does not build or deploy autonomous clinical AI.
+**Autonomous clinical AI** takes action without clinician review. This is the category FDA regulates most heavily. NeuroFlow does not build or deploy autonomous clinical AI.
 
-**Patient-facing AI agents** interact with patients directly rather than through a clinician. Therapeutic chatbots and autonomous symptom triage tools fall here. NeuroFlow does not build, deploy, or distribute patient-facing AI chatbots. No synchronous AI-to-patient communication channel exists in any NeuroFlow product.
+**Patient-facing AI agents** interact with patients directly rather than through a clinician in a therapeutic capacity. Therapeutic chatbots and autonomous symptom triage tools fall here. NeuroFlow does not build, deploy, or distribute patient-facing AI chatbots.
 
-Establishing the category early in a conversation is the single most useful skill for speaking to governance questions. A partner asking "how do you handle AI safety?" is asking a different question depending on whether they think NeuroFlow builds chatbots or CDS.
+**Clinician-designed patient engagement** is the category partners most often conflate with patient-facing AI agents. NeuroFlow's journeys, automated assessment delivery, and content sequencing all sit here. These tools deliver clinician-approved content to patients on schedules and in sequences that licensed clinicians design and own. The AI executes the protocol. The clinician built it. This is not autonomous AI, and it is not a patient-facing AI agent. This category uses two distinct compliance mechanisms, covered in detail below.
 
-**Two federal frameworks worth knowing**
+Establishing the right category early in a conversation is the single most useful skill for speaking to governance questions. A partner asking "how do you handle AI safety?" is asking a different question depending on whether they think NeuroFlow builds chatbots, CDS, or clinician-designed engagement tools.
 
-The **21st Century Cures Act, Section 520(o)(1)(E)**, defines when clinical decision support software is not regulated as a medical device by FDA. The load-bearing criterion is that the clinician must be able to independently review the basis for any recommendation and must retain primary decision-making authority. NeuroFlow's AI products are designed to sit within this **non-device CDS** boundary. When a partner asks whether NeuroFlow's AI is FDA-regulated, the accurate short answer is that it operates as non-device CDS under Section 520(o)(1)(E).
+**Two federal frameworks worth knowing by name**
 
-**HTI-1** is the Office of the National Coordinator's 2024 final rule on decision support transparency. It requires certified health IT developers to disclose source attributes for predictive models, including intended use, input features, output, training data characteristics, validation approach, and known limitations. NeuroFlow's obligations depend on deployment context and certification boundaries. In practice, health system buyers running certified EHRs now ask for DSI source attribute disclosures as standard due diligence. NeuroFlow maintains these materials. Route formal requests to the compliance or legal.
+The **21st Century Cures Act** created a category called **non-device clinical decision support**. The key idea is that when software presents information to a licensed clinician who can review the reasoning and retain decision-making authority, FDA does not regulate it as a medical device. NeuroFlow's AI products are designed, marketed, and deployed within this boundary. When a partner asks whether NeuroFlow's AI is FDA-regulated, the accurate short answer is that it operates as non-device CDS under the Cures Act. If the conversation goes deeper than that, route to legal and compliance.
+
+**HTI-1** is a 2024 federal rule that requires health IT vendors to disclose information about their predictive AI models, including what the model is designed to do, what data it was trained on, how it was validated, and its known limitations. NeuroFlow maintains this documentation. Health system buyers running certified EHRs now ask for it as standard due diligence. Route formal documentation requests to legal and compliance.
 
 **The state law landscape**
 
-State legislatures have focused on two categories of AI. Autonomous chatbots that interact therapeutically with patients, and AI systems that make independent clinical decisions without licensed review. NeuroFlow does neither.
+State legislatures have focused on two kinds of AI they consider high-risk. Autonomous chatbots that interact therapeutically with patients, and AI systems that make independent clinical decisions without licensed review. NeuroFlow builds neither.
 
 The enacted laws divide into four functional categories.
 
 | Category | Representative laws | What the law targets | Applies to NeuroFlow? |
 |---|---|---|---|
-| **Autonomous therapeutic AI** | Illinois HB 1806 (Aug 2025), Nevada AB 406, Texas SB 1188 | AI making independent therapeutic decisions, direct patient therapeutic communication, autonomous treatment plan generation | No. Expressly permits AI for administrative and supplementary support with clinician oversight. |
-| **Disclosure requirements** | Texas TRAIGA (Jan 2026), California AB 3030, California AB 489, Colorado SB 24-205 | Written disclosure to patients when AI is used, prohibition on titles implying healthcare licensure, impact assessments for high-risk AI | Partially. TRAIGA disclosure is a deployer obligation on the healthcare provider, not NeuroFlow. NeuroFlow supports customers with disclosure templates. |
+| **Autonomous therapeutic AI** | Illinois HB 1806 (Aug 2025), Nevada AB 406, Texas SB 1188 | AI making independent therapeutic decisions, direct patient therapeutic communication, autonomous treatment plan generation | No. These laws expressly permit AI for administrative and supplementary support with clinician oversight. |
+| **Disclosure and governance requirements** | Texas TRAIGA (Jan 2026), California AB 3030, California AB 489, Colorado SB 24-205 | Written disclosure to patients when AI is used, prohibitions on AI implying healthcare licensure, impact assessments and governance frameworks for high-risk AI | Partially. Some requirements are deployer obligations on the healthcare provider, not NeuroFlow. NeuroFlow maintains a governance program that aligns with the operational requirements and supports customers with disclosure templates. |
 | **Consumer-facing chatbots** | Utah HB 452, California SB 243, New York S-3008C | Mental health chatbots interacting directly with users | No. NeuroFlow does not operate consumer-facing chatbots. |
 | **Payor AI in coverage decisions** | Arizona, Connecticut, Maryland, Nebraska, Texas | AI as sole basis for denying medical care coverage | No. These govern health insurers, not behavioral health technology platforms. |
 
-**NeuroFlow's national compliance posture**
+**Patient engagement and the two compliance mechanisms**
 
-NeuroFlow's AI governance policy, developed with specialized healthcare AI counsel, adopts the strictest applicable state standard and applies it nationally. Customers in any state work from a single compliance baseline. Key provisions:
+Patient engagement tools are the category most likely to generate confusion in state-law conversations. Terms like "automated," "journeys," and "engagement" can sound like autonomous AI to a legal reviewer unfamiliar with how the platform works. Staff should be able to distinguish two different mechanisms on the NeuroFlow platform, each with its own compliance rationale.
 
-- Offering or marketing any AI system as providing therapy or mental health treatment is prohibited.
-- AI systems may not independently make therapeutic decisions or generate treatment plans without licensed review.
-- No AI system may represent itself as a licensed clinician.
-- Licensed professionals remain fully responsible for all diagnosis and treatment decisions.
-- All AI-generated materials used in care must be reviewed by a clinician before patient communication.
-- AI systems in healthcare contexts are classified as **high-risk** and require documented risk assessments approved by Legal and Information Security before deployment.
-- Continuous performance monitoring and incident response processes are required for all high-risk deployments.
+**Automated assessment delivery.** Sending a validated instrument like the PHQ-9 or GAD-7 is not AI-generated material. It is scheduling and routing infrastructure for validated clinical measurement. Clinicians design the rules that determine when and which assessments a patient receives. Some assessments fire on a schedule. Others trigger based on prior results, such as a longer diagnostic instrument following a positive screening. In both cases, the material being delivered was authored and validated by the broader clinical research community, not generated by AI. The platform delivers it. The clinician designs the logic.
 
-The practical takeaway. Rather than tracking 50 state variations, staff can answer most compliance questions with a single message. NeuroFlow applies the strictest standard nationally, and the platform architecture complies with every enacted law because no enacted law prohibits clinician-facing decision support with human oversight at every stage.
+**Content sequencing with pre-authored materials.** Journeys and similar engagement pathways deliver pre-authored educational and supportive content on clinician-designed logic. The content itself was reviewed and approved at the time of authorship. The protocol determines when each piece fires, to whom, and under what conditions.
+
+When a partner raises concerns about "automated AI" reaching patients, establish which mechanism they are actually asking about. Assessment delivery is measurement infrastructure. Content sequencing is pre-reviewed content on clinician-designed logic. Neither is autonomous AI.
 
 **The four questions partners ask most often**
 
 | Question | Approved framing |
 |---|---|
-| **Is your AI FDA-regulated?** | NeuroFlow's AI operates as non-device clinical decision support under Section 520(o)(1)(E) of the 21st Century Cures Act. Clinicians can independently review the basis for any recommendation and retain primary decision-making authority. |
+| **Is your AI FDA-regulated?** | NeuroFlow's AI operates as non-device clinical decision support under the 21st Century Cures Act. Clinicians can independently review the basis for any recommendation and retain decision-making authority. |
 | **Does your AI make clinical decisions?** | No. NeuroFlow's AI supports clinical decisions made by licensed clinicians. The clinician reviews the output, applies judgment to context the model cannot see, and makes the decision. |
-| **Are you using generative AI with patients?** | No patient-facing chatbots or autonomous conversational agents. The company uses LLMs internally for staff-facing tasks. Some production features use LLMs with constraints like retrieval-augmented generation to execute clinician-designed protocols. A clinician reviews the output before it informs any patient-level decision. |
-| **Can you deploy legally in our state given the new AI laws?** | Yes. Every enacted state law targets autonomous therapeutic AI or independent clinical decision-making. NeuroFlow builds neither. NeuroFlow's governance policy adopts the strictest applicable standard nationally. A formal compliance brief is available. |
+| **Does your AI communicate with patients autonomously?** | No. NeuroFlow does not operate patient-facing chatbots or autonomous conversational agents. Patient engagement uses two distinct mechanisms: automated delivery of validated assessments like the PHQ-9, and sequencing of pre-authored content on clinician-designed logic. Neither involves autonomous AI communicating therapeutically with patients. |
+| **Can you deploy legally in our state given the new AI laws?** | Yes. Every enacted state law that regulates clinical AI directly targets either autonomous therapeutic interaction with patients or AI that makes independent clinical decisions. NeuroFlow does neither. Broader AI governance frameworks apply in some states, and NeuroFlow maintains a governance program designed to comply. For specific state questions, I can connect your legal team with ours. |
+
+These four framings are for verbal partner conversations where staff need to hold the room. Anything beyond these questions, or any request for a written response, belongs with legal and compliance.
 
 **When to escalate**
 
@@ -368,12 +368,11 @@ Staff should not commit NeuroFlow to a written regulatory position, respond form
 - Requests for model cards or technical documentation
 - References to specific regulations or enforcement actions
 - Language suggesting the partner plans to rely on NeuroFlow's answer in their own compliance posture
+- Questions about suicide risk detection specifically, which warrants careful handling regardless of how the question is framed
 
 When any of those signals appear, the response is consistent. "That is a great question for our regulatory team. Let me connect you with the right person so you get a formal, written response that reflects our current posture."
 
 The rate of change in clinical AI governance means specific rules, deadlines, and enforcement priorities shift frequently. The underlying skill, recognizing a governance question, speaking to it at a literate level, and routing it correctly, is stable.
-
-*Related resource: NeuroFlow AI Compliance Brief (April 2026). The authoritative document for partner-facing compliance questions. Route formal requests to NeuroFlow's legal and compliance teams.*
 """,
         "quiz": [
             {

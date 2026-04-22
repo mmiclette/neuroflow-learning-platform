@@ -623,6 +623,8 @@ Every standalone Cowork session starts fresh. When you open Cowork, select a fol
 
 Projects in chat and Projects in Cowork share two behaviors: both apply custom instructions to every session, and both build memory across sessions. The differences are what each environment adds on top of that foundation. Chat Projects operate in the browser and work with conversations. Cowork Projects operate on your local file system and work with tasks. They attach a folder directly to the workspace and support scheduled tasks that run automatically on a cadence. Those two capabilities do not exist in chat Projects.
 
+Cowork memory and claude.ai chat memory are entirely separate systems. The role context, preferences, and project knowledge Claude accumulates through claude.ai chat, including auto-generated memory synthesis and user-directed memory edits, does not carry into Cowork. If you want Claude to know your role, working style, or standing preferences in Cowork, you must establish that context explicitly through Cowork's Global Instructions or through context files in your project folder.
+
 **What a Project adds over a folder-only session**
 
 | Capability | Folder only | Project |
@@ -632,13 +634,13 @@ Projects in chat and Projects in Cowork share two behaviors: both apply custom i
 | Memory across sessions | No | Yes |
 | Scheduled tasks scoped to this workspace | No | Yes |
 
-The practical rule: if a workflow involves more than one session, any recurring task, any multi-phase project, any work that builds on prior outputs, create a Project. Selecting a folder alone will not carry context forward.
+The practical rule: if a workflow involves more than one session, any recurring task, any multi-phase project, or any work that builds on prior outputs, create a Project. Selecting a folder alone will not carry context forward.
 
 **Setting up a Cowork Project**
 
-Open the Cowork tab in Claude Desktop and click **Projects** in the left sidebar. Click the **+** icon, name the project, attach a folder, and add standing instructions. Memory is on by default.
+Open the Cowork tab in Claude Desktop and click Projects in the left sidebar. Click the + icon, name the project, attach a folder, and add standing instructions. Memory is on by default.
 
-Once created, every task you run inside the project builds the memory Claude holds for that workspace. Memory is scoped, so what Claude learns in one project does not carry into other projects or standalone sessions.
+Once created, every task you run inside the project builds the memory Claude holds for that workspace. Memory is scoped to each individual project, so what Claude learns in one project does not carry into other projects, standalone sessions, or your claude.ai chat memory.
 """,
         "quiz": [
             {
@@ -660,18 +662,20 @@ Once created, every task you run inside the project builds the memory Claude hol
             {
                 "question": (
                     "You create a Cowork Project for NeuroFlow's ARPA-H EVIDENT deliverables. "
-                    "After three weeks of work, Claude has accumulated memory about the project "
-                    "team, milestone structure, and document format. You open a different Project "
-                    "for your BD pipeline work. What memory does Claude have in the BD project?"
+                    "After three weeks of work, Claude has accumulated project memory including "
+                    "the team structure, milestone schedule, and document format, stored in that "
+                    "project's local memory files. You open a separate Cowork Project for your "
+                    "business development pipeline work. What memory does Claude have in the BD "
+                    "project?"
                 ),
                 "options": [
-                    "All memory from the EVIDENT project, since it is the same account",
-                    "Only the formatting preferences, not the project-specific content",
-                    "Memory from global settings only, not project-specific memory",
-                    "No memory — Project memory is scoped and does not carry between projects",
+                    "All memory from the EVIDENT project, since both projects share the same account",
+                    "Only formatting preferences, because those are stored in Cowork's Global Instructions and apply to all Cowork sessions",
+                    "Your role and preferences from claude.ai chat memory, but not memory from any Cowork project",
+                    "No memory from the EVIDENT project. Cowork project memory is stored locally per project, does not carry between projects, and is completely separate from claude.ai chat memory.",
                 ],
                 "correct_index": 3,
-                "hint": "Project memory is scoped to prevent different workflows from bleeding into each other.",
+                "hint": "Cowork project memory is scoped to each individual project and is separate from claude.ai chat memory entirely.",
             },
         ],
     },

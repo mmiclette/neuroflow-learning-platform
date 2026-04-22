@@ -475,10 +475,13 @@ Teams admin.
 
 **Current availability**
 
-Computer use and Claude in Chrome are both in beta as of April 2026. Chrome integration
-currently works with Google Chrome and Microsoft Edge. It is not yet supported on Brave,
-Arc, or other Chromium-based browsers. Validate outputs carefully and treat any automated
-action on external sites as requiring your review before you rely on it.
+Computer use and Claude in Chrome were both in beta at the time of the last review of this
+lesson, shown in the footer at the bottom of the page. Chrome integration worked with
+Google Chrome and Microsoft Edge. It was not supported on Brave, Arc, or other
+Chromium-based browsers. Both features change frequently. Before building a workflow that
+depends on either, confirm current availability in the Claude Desktop app and the Chrome
+Web Store. Validate outputs carefully and treat any automated action on external sites as
+requiring your review before you rely on it.
 """,
         "quiz": [
             {

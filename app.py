@@ -195,6 +195,33 @@ def _badge(level: str) -> str:
     return f'<span class="{cls}">{level}</span>'
 
 
+def _render_lesson_footer(track_id: int, lesson_id: int) -> None:
+    """Render the 'Last reviewed / Next review due' footer for a lesson.
+
+    Reads `last_reviewed` (YYYY-MM-DD string) and `review_cadence_days` (int)
+    from the lesson meta in curriculum.py. Falls back to platform defaults
+    when not specified.
+    """
+    from datetime import datetime, timedelta
+    DEFAULT_REVIEWED = "2026-04-22"
+    DEFAULT_CADENCE_DAYS = 90
+    lesson_meta = get_lesson(track_id, lesson_id) or {}
+    reviewed_str = lesson_meta.get("last_reviewed", DEFAULT_REVIEWED)
+    cadence_days = int(lesson_meta.get("review_cadence_days", DEFAULT_CADENCE_DAYS))
+    try:
+        reviewed_date = datetime.strptime(reviewed_str, "%Y-%m-%d").date()
+    except ValueError:
+        reviewed_date = datetime.strptime(DEFAULT_REVIEWED, "%Y-%m-%d").date()
+    next_due = reviewed_date + timedelta(days=cadence_days)
+    st.markdown(
+        f'<p style="font-size:11px;color:#757575;margin:28px 0 0 0;'
+        f'padding-top:14px;border-top:1px solid #E5E7EB;">'
+        f'Last reviewed {reviewed_date.isoformat()}. '
+        f'Next review due {next_due.isoformat()}.</p>',
+        unsafe_allow_html=True,
+    )
+
+
 def _progress_bar(done: int, total: int) -> str:
     pct = int((done / total) * 100) if total else 0
     return (
@@ -544,6 +571,12 @@ def view_lesson(track_id: int, lesson_id: int):
         btn_label = "View certificate →" if (last and all_done) else ("Next lesson →" if not last else "Back to track →")
         st.button(btn_label, disabled=True, key=f"next_dis_{track_id}_{lesson_id}")
         st.caption("Complete the lesson to continue.")
+
+    # ---------- Last reviewed footer ----------
+    # Staff use this to tell whether a lesson reflects the current state of the
+    # platform. Cadence defaults to 90 days for fast-moving features; lessons
+    # can override to 180 days in curriculum.py for stable content.
+    _render_lesson_footer(track_id, lesson_id)
 
 
 def _render_track_lesson(track_id: int, lesson_id: int) -> bool:

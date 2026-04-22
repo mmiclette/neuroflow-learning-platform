@@ -100,10 +100,19 @@ any uploaded files. Claude can technically hold all of it at once, but performan
 stay flat as context grows.
 
 Research on LLM attention shows that relevant content buried in the middle of a long
-conversation receives less model attention than content at the start or end. A 2024 Stanford
-study found accuracy dropped over 30% when key information was positioned in the middle of
-long inputs. This means a constraint or requirement you stated early in a conversation can
-quietly carry less weight in later responses, even though it is still within the window.
+conversation receives less model attention than content at the start or end. Liu and
+colleagues at Stanford, UC Berkeley, and Samaya AI documented this pattern in their 2023
+paper "Lost in the Middle: How Language Models Use Long Contexts," published in the
+Transactions of the Association for Computational Linguistics. They found a U-shaped
+performance curve across multiple models. Accuracy was highest when relevant information
+appeared at the beginning or end of the input context and degraded significantly when the
+same information sat in the middle, even for models with explicitly long context windows.
+This means a constraint or requirement you stated early in a conversation can quietly carry
+less weight in later responses, even though it is still within the window.
+
+Citation. Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., and
+Liang, P. (2023). Lost in the Middle, How Language Models Use Long Contexts. Transactions
+of the Association for Computational Linguistics, 12, 157 to 173. arXiv:2307.03172.
 
 A conversation is getting too long when you notice Claude ignoring earlier instructions,
 producing outputs that contradict context you already provided, or when you find yourself

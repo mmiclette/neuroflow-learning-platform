@@ -19,6 +19,7 @@ TRACKS = {
                 "diagram_id": "ai_hierarchy",
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             2: {
                 "title": "Machine learning and predictive models",
@@ -29,6 +30,7 @@ TRACKS = {
                 "diagram_id": "ml_pipeline",
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             3: {
                 "title": "NLP, large language models, and generative AI in healthcare",
@@ -39,6 +41,7 @@ TRACKS = {
                 "diagram_id": "nlp_clinical",
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
         },
     },
@@ -86,6 +89,7 @@ TRACKS = {
                 "diagram_id": "hallucination_check",
                 "has_sandbox": False,
                 "api_calls": True,
+                "review_cadence_days": 180,
             },
             5: {
                 "title": "Beyond Claude chat: Cowork, Code, and extended capabilities",
@@ -115,6 +119,7 @@ TRACKS = {
                 "diagram_id": "rtcfc",
                 "has_sandbox": True,
                 "api_calls": True,
+                "review_cadence_days": 180,
             },
             2: {
                 "title": "Specificity and output format",
@@ -124,6 +129,7 @@ TRACKS = {
                 "has_diagram": False,
                 "has_sandbox": False,
                 "api_calls": True,
+                "review_cadence_days": 180,
             },
             3: {
                 "title": "Grounding Claude with examples",
@@ -133,6 +139,7 @@ TRACKS = {
                 "has_diagram": False,
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             4: {
                 "title": "Structuring prompts with XML tags",
@@ -143,6 +150,7 @@ TRACKS = {
                 "diagram_id": "xml_tags_callout",
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             5: {
                 "title": "Prompting in manageable steps",
@@ -152,6 +160,7 @@ TRACKS = {
                 "has_diagram": False,
                 "has_sandbox": True,
                 "api_calls": True,
+                "review_cadence_days": 180,
             },
             6: {
                 "title": "Meta-prompting",
@@ -162,6 +171,7 @@ TRACKS = {
                 "diagram_id": "meta_prompting",
                 "has_sandbox": True,
                 "api_calls": True,
+                "review_cadence_days": 180,
             },
             7: {
                 "title": "Chain-of-thought and gating",
@@ -172,6 +182,7 @@ TRACKS = {
                 "diagram_id": "gating",
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             8: {
                 "title": "Prompt debugging",
@@ -181,6 +192,7 @@ TRACKS = {
                 "has_diagram": False,
                 "has_sandbox": False,
                 "api_calls": False,
+                "review_cadence_days": 180,
             },
             9: {
                 "title": "Putting it together: a complete prompt",

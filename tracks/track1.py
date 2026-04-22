@@ -60,8 +60,10 @@ type of generative AI, but not all generative AI systems are language models.
 
 **Large language models (LLMs)** are a specific type of generative AI trained on text. They
 understand language, follow instructions, reason through problems, and generate fluent written
-output. Claude, GPT-5, Gemini, and Llama are all LLMs. Every LLM is a generative AI system
-built on deep learning, but most generative AI systems are not LLMs.
+output. Claude, GPT-5, Gemini, and Llama are all LLMs. Claude is an LLM, which is a specific
+kind of generative AI trained on text. Other generative AI systems work with different
+modalities. DALL-E produces images. Sora produces video. The category label describes what the
+model generates, not how capable it is.
 
 This distinction matters for NeuroFlow staff when explaining what Claude can and cannot do
 (Claude is an LLM and cannot generate images or video natively), and when discussing AI with

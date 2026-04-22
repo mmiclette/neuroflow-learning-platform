@@ -302,8 +302,6 @@ submission. The role of human judgment does not disappear with AI; it shifts.
         "concept": """
 <iframe width="100%" height="380" src="https://www.youtube.com/embed/ltBE6nrZ-io" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
 
-**4. Clinical AI governance and how NeuroFlow positions itself**
-
 Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
 
 This lesson gives you enough literacy to engage these questions credibly for 2-3 minutes, route the conversation to legal and compliance before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.

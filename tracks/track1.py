@@ -300,6 +300,8 @@ submission. The role of human judgment does not disappear with AI; it shifts.
     },
     4: {
         "concept": """
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/ltBE6nrZ-io" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+
 **4. Clinical AI governance and how NeuroFlow positions itself**
 
 Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
@@ -475,7 +477,26 @@ def render_lesson(lesson_id: int) -> bool:
     # Already complete: still show content, skip quiz
     already_done = is_lesson_complete(track_id, lesson_id)
 
-    st.markdown(lesson["concept"])
+    # Split out inline <iframe> and <img> tags so they render as HTML rather
+    # than being shown as raw markup.
+    concept = lesson["concept"]
+    if "<iframe " in concept or "<img " in concept:
+        import re
+        parts = re.split(
+            r'(<iframe\b[^>]*>.*?</iframe>|<img\b[^>]*/?>)',
+            concept,
+            flags=re.DOTALL,
+        )
+        for part in parts:
+            if not part.strip():
+                continue
+            stripped = part.lstrip()
+            if stripped.startswith("<iframe ") or stripped.startswith("<img "):
+                st.markdown(part, unsafe_allow_html=True)
+            else:
+                st.markdown(part)
+    else:
+        st.markdown(concept)
 
     st.markdown("---")
 

@@ -216,6 +216,14 @@ One exception worth knowing is scanned PDFs that contain no underlying text laye
 Cowork reads file content as text, so a PDF that is entirely an image of a scanned
 page will not extract reliably. Standard PDFs, including those exported from Word or
 generated digitally, work fine.
+
+**Folder paths in Cowork**
+
+When your prompt references a folder, use the full path so Cowork knows exactly where to act. The `~` represents your home directory. A few common examples:
+
+Desktop: `~/Desktop/folder-name`
+Documents: `~/Documents/folder-name`
+Downloads: `~/Downloads/folder-name`
 """,
         "challenge": {
             "scenario": (

@@ -298,6 +298,163 @@ submission. The role of human judgment does not disappear with AI; it shifts.
             },
         ],
     },
+    4: {
+        "concept": """
+**Clinical AI governance and how NeuroFlow positions itself**
+
+Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
+
+This lesson gives you enough literacy to engage these questions credibly for two or three minutes, route the conversation to the right internal owner before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.
+
+**The categorical distinction**
+
+Regulators treat clinical AI differently depending on what the AI does, who it talks to, and how much clinician judgment sits between the AI's output and the patient. Three categories matter.
+
+**Clinical decision support** presents information and recommendations to a licensed clinician who reviews them and makes the final decision. The clinician can see the logic, can override it, and is accountable for the decision. BHIQ, the NLP-based suicide risk detection, and treatment response prediction all fall here.
+
+**Autonomous clinical AI** takes action without clinician review. FDA typically regulates these systems as medical devices. NeuroFlow does not build or deploy autonomous clinical AI.
+
+**Patient-facing AI agents** interact with patients directly rather than through a clinician. Therapeutic chatbots and autonomous symptom triage tools fall here. NeuroFlow does not build, deploy, or distribute patient-facing AI chatbots. No synchronous AI-to-patient communication channel exists in any NeuroFlow product.
+
+Establishing the category early in a conversation is the single most useful skill for speaking to governance questions. A partner asking "how do you handle AI safety?" is asking a different question depending on whether they think NeuroFlow builds chatbots or CDS.
+
+**Two federal frameworks worth knowing**
+
+The **21st Century Cures Act, Section 520(o)(1)(E)**, defines when clinical decision support software is not regulated as a medical device by FDA. The load-bearing criterion is that the clinician must be able to independently review the basis for any recommendation and must retain primary decision-making authority. NeuroFlow's AI products are designed to sit within this **non-device CDS** boundary. When a partner asks whether NeuroFlow's AI is FDA-regulated, the accurate short answer is that it operates as non-device CDS under Section 520(o)(1)(E).
+
+**HTI-1** is the Office of the National Coordinator's 2024 final rule on decision support transparency. It requires certified health IT developers to disclose source attributes for predictive models, including intended use, input features, output, training data characteristics, validation approach, and known limitations. NeuroFlow's obligations depend on deployment context and certification boundaries. In practice, health system buyers running certified EHRs now ask for DSI source attribute disclosures as standard due diligence. NeuroFlow maintains these materials. Route formal requests to the compliance or legal.
+
+**The state law landscape**
+
+State legislatures have focused on two categories of AI. Autonomous chatbots that interact therapeutically with patients, and AI systems that make independent clinical decisions without licensed review. NeuroFlow does neither.
+
+The enacted laws divide into four functional categories.
+
+| Category | Representative laws | What the law targets | Applies to NeuroFlow? |
+|---|---|---|---|
+| **Autonomous therapeutic AI** | Illinois HB 1806 (Aug 2025), Nevada AB 406, Texas SB 1188 | AI making independent therapeutic decisions, direct patient therapeutic communication, autonomous treatment plan generation | No. Expressly permits AI for administrative and supplementary support with clinician oversight. |
+| **Disclosure requirements** | Texas TRAIGA (Jan 2026), California AB 3030, California AB 489, Colorado SB 24-205 | Written disclosure to patients when AI is used, prohibition on titles implying healthcare licensure, impact assessments for high-risk AI | Partially. TRAIGA disclosure is a deployer obligation on the healthcare provider, not NeuroFlow. NeuroFlow supports customers with disclosure templates. |
+| **Consumer-facing chatbots** | Utah HB 452, California SB 243, New York S-3008C | Mental health chatbots interacting directly with users | No. NeuroFlow does not operate consumer-facing chatbots. |
+| **Payor AI in coverage decisions** | Arizona, Connecticut, Maryland, Nebraska, Texas | AI as sole basis for denying medical care coverage | No. These govern health insurers, not behavioral health technology platforms. |
+
+**NeuroFlow's national compliance posture**
+
+NeuroFlow's AI governance policy, developed with specialized healthcare AI counsel, adopts the strictest applicable state standard and applies it nationally. Customers in any state work from a single compliance baseline. Key provisions:
+
+- Offering or marketing any AI system as providing therapy or mental health treatment is prohibited.
+- AI systems may not independently make therapeutic decisions or generate treatment plans without licensed review.
+- No AI system may represent itself as a licensed clinician.
+- Licensed professionals remain fully responsible for all diagnosis and treatment decisions.
+- All AI-generated materials used in care must be reviewed by a clinician before patient communication.
+- AI systems in healthcare contexts are classified as **high-risk** and require documented risk assessments approved by Legal and Information Security before deployment.
+- Continuous performance monitoring and incident response processes are required for all high-risk deployments.
+
+The practical takeaway. Rather than tracking 50 state variations, staff can answer most compliance questions with a single message. NeuroFlow applies the strictest standard nationally, and the platform architecture complies with every enacted law because no enacted law prohibits clinician-facing decision support with human oversight at every stage.
+
+**The four questions partners ask most often**
+
+| Question | Approved framing |
+|---|---|
+| **Is your AI FDA-regulated?** | NeuroFlow's AI operates as non-device clinical decision support under Section 520(o)(1)(E) of the 21st Century Cures Act. Clinicians can independently review the basis for any recommendation and retain primary decision-making authority. |
+| **Does your AI make clinical decisions?** | No. NeuroFlow's AI supports clinical decisions made by licensed clinicians. The clinician reviews the output, applies judgment to context the model cannot see, and makes the decision. |
+| **Are you using generative AI with patients?** | No patient-facing chatbots or autonomous conversational agents. The company uses LLMs internally for staff-facing tasks. Some production features use LLMs with constraints like retrieval-augmented generation to execute clinician-designed protocols. A clinician reviews the output before it informs any patient-level decision. |
+| **Can you deploy legally in our state given the new AI laws?** | Yes. Every enacted state law targets autonomous therapeutic AI or independent clinical decision-making. NeuroFlow builds neither. NeuroFlow's governance policy adopts the strictest applicable standard nationally. A formal compliance brief is available. |
+
+**When to escalate**
+
+Staff should not commit NeuroFlow to a written regulatory position, respond formally to a due diligence questionnaire, or make representations about FDA posture, HTI-1 compliance, or state AI law compliance without routing to NeuroFlow's legal and compliance teams. The following signals mean the conversation has crossed from general literacy into formal positioning:
+
+- Written questionnaires or compliance attestations
+- Requests for model cards or technical documentation
+- References to specific regulations or enforcement actions
+- Language suggesting the partner plans to rely on NeuroFlow's answer in their own compliance posture
+
+When any of those signals appear, the response is consistent. "That is a great question for our regulatory team. Let me connect you with the right person so you get a formal, written response that reflects our current posture."
+
+The rate of change in clinical AI governance means specific rules, deadlines, and enforcement priorities shift frequently. The underlying skill, recognizing a governance question, speaking to it at a literate level, and routing it correctly, is stable.
+
+*Related resource: NeuroFlow AI Compliance Brief (April 2026). The authoritative document for partner-facing compliance questions. Route formal requests to NeuroFlow's legal and compliance teams.*
+""",
+        "quiz": [
+            {
+                "question": (
+                    "A health system CIO asks during a BD call: \"We're getting pressure "
+                    "from our legal team about the new state AI laws. Can we still deploy "
+                    "NeuroFlow in Illinois and Texas?\"\n\n"
+                    "Which response reflects the most accurate framing?"
+                ),
+                "options": [
+                    "Let me connect you with our regulatory team. State AI laws are complex and I don't want to misrepresent our position.",
+                    "Yes, and here is why. NeuroFlow operates as clinical decision support. Our AI does not include chatbots and does not deliver treatment autonomously. Every enacted state law targets autonomous therapeutic AI or independent clinical decision-making, and NeuroFlow builds neither. I can connect your legal team with our regulatory team to walk through their specific questions. Let me know if there is anything else we can provide to assist with your team's legal and compliance concerns.",
+                    "Yes, and here is the framework. NeuroFlow is exempt from those state AI laws because our headquarters is in Pennsylvania. States can only regulate business enterprises in states in which those organizations are headquartered. I can send your legal team's review on this and connect you with our regulatory team if they want to discuss our exemption in these states.",
+                    "Yes. Illinois HB 1806 and Texas SB 1188 both include carve-outs for administrative AI use, and NeuroFlow qualifies under those carve-outs. Our platform handles administrative and supplementary tasks like documentation support and data analysis, which the statutes expressly permit. I can connect your legal team with our regulatory team if they want to discuss the specific statutory language.",
+                ],
+                "correct_index": 1,
+                "hint": (
+                    "Staff should be able to hold this conversation for two to three "
+                    "minutes with a confident, accurate answer before routing. Lead with "
+                    "the facts that resolve the concern, then offer to route."
+                ),
+                "option_hints": {
+                    0: (
+                        "This escalates too quickly. Staff should be able to hold this "
+                        "conversation for two to three minutes before routing. A "
+                        "confident, accurate answer first keeps the partner's trust."
+                    ),
+                    2: (
+                        "State AI laws regulate conduct affecting state residents, not "
+                        "the company's headquarters location. This framing is factually "
+                        "wrong and the partner's legal team will catch it."
+                    ),
+                    3: (
+                        "NeuroFlow does not qualify under administrative carve-outs. The "
+                        "platform is clinical decision support, which is its own "
+                        "permitted category under these laws. Framing it as "
+                        "administrative understates what the platform actually does."
+                    ),
+                },
+            },
+            {
+                "question": (
+                    "A partner sends an email with the following line: \"Please complete "
+                    "the attached AI due diligence questionnaire and return it by Friday. "
+                    "We plan to use your responses as part of our internal risk "
+                    "assessment.\"\n\n"
+                    "What is the correct next step?"
+                ),
+                "options": [
+                    "Complete the questionnaire using the four approved framings from the lesson. The framings are designed to cover the most common governance questions.",
+                    "Decline to respond. Due diligence questionnaires create legal exposure that NeuroFlow does not accept from partners.",
+                    "Route the request to NeuroFlow's legal and compliance teams before responding. Written questionnaires and language indicating the partner will rely on NeuroFlow's responses are both signals that the conversation requires formal positioning.",
+                    "Respond in writing with a high-level summary and offer to connect the partner with NeuroFlow's regulatory team for follow-up questions.",
+                ],
+                "correct_index": 2,
+                "hint": (
+                    "The lesson lists specific signals that mean a conversation has "
+                    "crossed into formal positioning. Which signals are present in this "
+                    "email?"
+                ),
+                "option_hints": {
+                    0: (
+                        "The approved framings are for verbal partner conversations, not "
+                        "written compliance attestations. Once a framing moves into "
+                        "writing, legal and compliance review is required."
+                    ),
+                    1: (
+                        "NeuroFlow does respond to due diligence questionnaires through "
+                        "legal and compliance. Refusing to engage damages the partner "
+                        "relationship. Route up instead of refusing."
+                    ),
+                    3: (
+                        "A written summary, even at a high level, still commits NeuroFlow "
+                        "to a position the partner can reference in their risk "
+                        "assessment. Route first, then let legal and compliance decide "
+                        "what goes in writing."
+                    ),
+                },
+            },
+        ],
+    },
 }
 
 

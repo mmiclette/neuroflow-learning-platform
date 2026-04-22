@@ -8,7 +8,7 @@ TRACKS = {
         "level": "Foundation",
         "level_color": "#2EA799",
         "certificate_title": "AI Fundamentals",
-        "time_estimate": 24,
+        "time_estimate": 34,
         "lessons": {
             1: {
                 "title": "Types of AI: what they are and how they differ",
@@ -42,6 +42,17 @@ TRACKS = {
                 "has_sandbox": False,
                 "api_calls": False,
                 "review_cadence_days": 180,
+            },
+            4: {
+                "title": "Clinical AI governance and how NeuroFlow positions itself",
+                "type": "quiz",
+                "time_estimate": 10,
+                "has_video": False,
+                "has_diagram": False,
+                "has_sandbox": False,
+                "api_calls": False,
+                # Governance rules change frequently; keep the default 90-day
+                # review cadence so staff see a recent review date on this page.
             },
         },
     },

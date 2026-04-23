@@ -2505,6 +2505,177 @@ DIAGRAMS["metaprompt_cowork"] = r"""
 
 """
 
+DIAGRAMS["phi_decision"] = r"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Teams PHI decision · NeuroFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nf-primary: #161B4A;
+    --nf-sec-blue: #2E4799;
+    --nf-teal: #4CB6AC;
+    --nf-accent: #F16061;
+    --nf-ink: #1A1B2E;
+    --nf-bg-1: #FBFBFD;
+    --nf-bg-2: #F1F3F9;
+    --nf-card: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(ellipse 1000px 500px at 15% 0%, rgba(46, 71, 153, 0.08), transparent 60%),
+      radial-gradient(ellipse 800px 400px at 100% 100%, rgba(76, 182, 172, 0.09), transparent 60%),
+      linear-gradient(180deg, var(--nf-bg-1) 0%, var(--nf-bg-2) 100%);
+    color: var(--nf-ink);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 820px;
+    background: var(--nf-card);
+    border-radius: 24px;
+    padding: 56px 64px;
+    box-shadow:
+      0 1px 2px rgba(22, 27, 74, 0.04),
+      0 2px 8px rgba(22, 27, 74, 0.04),
+      0 28px 56px -20px rgba(22, 27, 74, 0.14);
+    border: 1px solid rgba(22, 27, 74, 0.05);
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .diagram-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .diagram-wrap svg {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .diagram-wrap svg text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  @media (max-width: 680px) {
+    .poster { padding: 36px 24px; border-radius: 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dtitle ddesc">
+        <title id="dtitle">Two-gate decision for Claude Teams</title>
+        <desc id="ddesc">Work content enters at the top. Gate one asks whether it is patient data. If no, it routes to Claude Teams. If yes, gate two asks whether it contains individual-level identifiers. If no, it routes to Claude Teams as de-identified data. If yes, it routes to HIPAA-compliant systems only.</desc>
+
+        <defs>
+          <marker id="arrhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M2 2 L8 5 L2 8" fill="none" stroke="context-stroke" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <filter id="cardshadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#161B4A" flood-opacity="0.08"/>
+          </filter>
+          <filter id="endshadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#161B4A" flood-opacity="0.20"/>
+          </filter>
+        </defs>
+
+        <!-- Entry -->
+        <g>
+          <rect x="140" y="22" width="200" height="52" rx="12" fill="#FFFFFF" stroke="#161B4A" stroke-width="1.25" filter="url(#cardshadow)"/>
+          <text x="240" y="54" text-anchor="middle" font-size="14" font-weight="500" fill="#161B4A">Work content</text>
+        </g>
+        <line x1="240" y1="74" x2="240" y2="104" stroke="#2E4799" stroke-width="1.25" marker-end="url(#arrhead)"/>
+
+        <!-- Gate 01 -->
+        <g>
+          <rect x="100" y="108" width="280" height="56" rx="12" fill="#FFFFFF" stroke="#2E4799" stroke-width="1.25" filter="url(#cardshadow)"/>
+          <text x="116" y="128" font-size="10" font-weight="700" letter-spacing="1.5" fill="#F16061">01</text>
+          <text x="240" y="146" text-anchor="middle" font-size="15" font-weight="500" fill="#161B4A">Is this patient data?</text>
+        </g>
+
+        <!-- Gate 01 → Claude Teams A (longer arrow, label has room) -->
+        <line x1="380" y1="136" x2="465" y2="136" stroke="#2E4799" stroke-width="1.25" marker-end="url(#arrhead)"/>
+        <text x="422" y="129" text-anchor="middle" font-size="11" font-style="italic" fill="#8E90A3">no</text>
+
+        <!-- Gate 01 → Gate 02 -->
+        <line x1="240" y1="164" x2="240" y2="214" stroke="#2E4799" stroke-width="1.25" marker-end="url(#arrhead)"/>
+        <text x="253" y="192" font-size="11" font-style="italic" fill="#8E90A3">yes</text>
+
+        <!-- Gate 02 -->
+        <g>
+          <rect x="90" y="218" width="300" height="56" rx="12" fill="#FFFFFF" stroke="#2E4799" stroke-width="1.25" filter="url(#cardshadow)"/>
+          <text x="106" y="238" font-size="10" font-weight="700" letter-spacing="1.5" fill="#F16061">02</text>
+          <text x="240" y="256" text-anchor="middle" font-size="15" font-weight="500" fill="#161B4A">Individual-level identifiers?</text>
+        </g>
+
+        <!-- Gate 02 → Claude Teams B (longer arrow fixes crunched label) -->
+        <line x1="390" y1="246" x2="465" y2="246" stroke="#2E4799" stroke-width="1.25" marker-end="url(#arrhead)"/>
+        <text x="427" y="239" text-anchor="middle" font-size="11" font-style="italic" fill="#8E90A3">no</text>
+
+        <!-- Gate 02 → HIPAA -->
+        <line x1="240" y1="274" x2="240" y2="324" stroke="#2E4799" stroke-width="1.25" marker-end="url(#arrhead)"/>
+        <text x="253" y="302" font-size="11" font-style="italic" fill="#8E90A3">yes</text>
+
+        <!-- Claude Teams A (Internal) -->
+        <g filter="url(#endshadow)">
+          <rect x="470" y="108" width="210" height="56" rx="12" fill="#4CB6AC"/>
+          <path d="M488 132 L494 138 L504 126" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="518" y="130" font-size="14" font-weight="600" fill="#FFFFFF">Claude Teams</text>
+          <text x="518" y="148" font-size="12" font-weight="400" fill="#FFFFFF" opacity="0.92">Internal work content</text>
+        </g>
+
+        <!-- Claude Teams B (De-identified) -->
+        <g filter="url(#endshadow)">
+          <rect x="470" y="218" width="210" height="56" rx="12" fill="#4CB6AC"/>
+          <path d="M488 242 L494 248 L504 236" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="518" y="240" font-size="14" font-weight="600" fill="#FFFFFF">Claude Teams</text>
+          <text x="518" y="258" font-size="12" font-weight="400" fill="#FFFFFF" opacity="0.92">De-identified data</text>
+        </g>
+
+        <!-- HIPAA (widened so the "y" descender clears the right edge) -->
+        <g filter="url(#endshadow)">
+          <rect x="120" y="328" width="240" height="62" rx="12" fill="#F16061"/>
+          <g transform="translate(-16, 0)">
+            <path d="M158 354 C158 348 162 344 168 344 L170 344 L170 342 C170 338 173 335 177 335 C181 335 184 338 184 342 L184 344 L186 344 C192 344 196 348 196 354 L196 362 C196 365 194 367 191 367 L163 367 C160 367 158 365 158 362 Z" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+            <text x="210" y="356" font-size="14" font-weight="600" fill="#FFFFFF">HIPAA systems only</text>
+            <text x="210" y="374" font-size="12" font-weight="400" fill="#FFFFFF" opacity="0.92">Required for any PHI</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
+
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -2527,5 +2698,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "style_layers": 500,
         "plugin_ui_diagram": 820,
         "metaprompt_cowork": 640,
+        "phi_decision": 520,
     }
     return heights.get(diagram_id, 300)

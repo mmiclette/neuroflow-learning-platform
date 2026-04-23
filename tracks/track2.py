@@ -169,6 +169,8 @@ automatically across every conversation. Track 4 covers Projects in detail.
     },
     2: {
         "concept": """
+[[PHI_DECISION_DIAGRAM]]
+
 NeuroFlow uses Claude Teams, a managed enterprise instance of Claude operated under
 Anthropic's data policies for business customers. Understanding what can and cannot go
 into Claude Teams matters more than knowing which AI products exist, because putting
@@ -757,16 +759,25 @@ def render_lesson(lesson_id: int) -> bool:
             else:
                 st.markdown(seg)
 
-    if "[[MODEL_COMPARISON_DIAGRAM]]" in concept:
+    # Sentinel tokens that embed a full HTML diagram inline at the sentinel's
+    # location. Adding a new diagram only requires registering it in
+    # components.diagrams and mapping its sentinel here.
+    _diagram_sentinels = {
+        "[[MODEL_COMPARISON_DIAGRAM]]": "model_comparison",
+        "[[PHI_DECISION_DIAGRAM]]": "phi_decision",
+    }
+    _active_sentinel = next((s for s in _diagram_sentinels if s in concept), None)
+    if _active_sentinel:
         import streamlit.components.v1 as components
         from components.diagrams import get_diagram, get_diagram_height
-        parts = concept.split("[[MODEL_COMPARISON_DIAGRAM]]")
+        diagram_id = _diagram_sentinels[_active_sentinel]
+        parts = concept.split(_active_sentinel)
         for i, part in enumerate(parts):
             if part.strip():
                 render_concept_part(part)
             if i < len(parts) - 1:
-                html = get_diagram("model_comparison")
-                height = get_diagram_height("model_comparison")
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
                 if html:
                     components.html(html, height=height, scrolling=False)
     else:

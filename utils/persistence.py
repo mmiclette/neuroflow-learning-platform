@@ -158,49 +158,52 @@ def save_user_progress(email: str) -> bool:
     """Upsert the current session state to Supabase.
 
     Reads the five tracked variables out of st.session_state and writes
-    them back under the learner's email. Silent no-op if no email is set
-    (lets internal tests run without a Supabase round-trip).
+    them back under the learner's email. Always silent: no st.warning /
+    st.error / st.info / st.success on any code path. Returns True on a
+    confirmed write, False on any failure (missing email, missing client,
+    network error, Supabase rejection).
     """
     if not email:
         return False
-    client = get_supabase_client()
-    if client is None:
-        return False
-
-    state_payload = {
-        "view": st.session_state.get("view", "home"),
-        "current_track": st.session_state.get("current_track"),
-        "current_lesson": st.session_state.get("current_lesson"),
-        "progress": _serialize_progress(st.session_state.get("progress")),
-        "certificate_names": _serialize_certificate_names(
-            st.session_state.get("certificate_names")
-        ),
-    }
-    row = {
-        "user_id": email,
-        "state": state_payload,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
-    }
     try:
+        client = get_supabase_client(silent=True)
+        if client is None:
+            return False
+        state_payload = {
+            "view": st.session_state.get("view", "home"),
+            "current_track": st.session_state.get("current_track"),
+            "current_lesson": st.session_state.get("current_lesson"),
+            "progress": _serialize_progress(st.session_state.get("progress")),
+            "certificate_names": _serialize_certificate_names(
+                st.session_state.get("certificate_names")
+            ),
+        }
+        row = {
+            "user_id": email,
+            "state": state_payload,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
         client.table(_TABLE).upsert(row, on_conflict="user_id").execute()
         return True
-    except Exception as exc:
-        st.warning(f"Could not save progress: {exc}")
+    except Exception:
         return False
 
 
 def reset_user_progress(email: str) -> bool:
-    """Delete the row for this learner. Returns True on success."""
+    """Delete the row for this learner.
+
+    Always silent: no st.warning / st.error / st.info / st.success on any
+    code path. Returns True on a confirmed delete, False on any failure.
+    """
     if not email:
         return False
-    client = get_supabase_client()
-    if client is None:
-        return False
     try:
+        client = get_supabase_client(silent=True)
+        if client is None:
+            return False
         client.table(_TABLE).delete().eq("user_id", email).execute()
         return True
-    except Exception as exc:
-        st.warning(f"Could not reset progress: {exc}")
+    except Exception:
         return False
 
 

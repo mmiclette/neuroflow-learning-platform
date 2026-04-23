@@ -16,8 +16,9 @@ Claude enough information to know what a good answer looks like. The RTCFC frame
 a checklist for the five things Claude needs.
 
 **Role.** Who should Claude be for this task? A role focuses the model on the right domain
-vocabulary. "You are a senior federal health policy analyst" produces a meaningfully different
-answer than no role at all. Roles work best when they describe relevant expertise, not just a job title.
+vocabulary. "You are a senior software engineer specializing in healthcare data integrations"
+produces a meaningfully different answer than no role at all. Roles work best when they
+describe relevant expertise, not just a job title.
 
 **Task.** What exactly should Claude produce? "Write a 500-word blog post arguing that
 measurement-based care is a prerequisite for value-based contracts" is a task. "Write
@@ -930,11 +931,12 @@ happens.
         "quiz": [
             {
                 "question": (
-                    "A policy analyst submits this prompt: \"Summarize the VA's behavioral "
-                    "health strategy, explain how NeuroFlow fits into it, identify three "
-                    "competitive risks, and draft an executive summary we can send to the "
-                    "program office.\" Claude produces a response that covers all four areas "
-                    "but handles each one superficially. Which failure pattern caused this?"
+                    "A product manager submits this prompt: \"Summarize the product roadmap "
+                    "gaps relative to competitor features, explain how NeuroFlow's existing "
+                    "capabilities address them, identify three risks to our positioning, and "
+                    "draft an executive summary we can send to leadership.\" Claude produces a "
+                    "response that covers all four areas but handles each one superficially. "
+                    "Which failure pattern caused this?"
                 ),
                 "options": [
                     "Missing key points: the prompt did not specify what information Claude should draw on, so the output lacked depth across all four areas",
@@ -962,8 +964,9 @@ happens.
             },
             {
                 "question": (
-                    "A policy analyst generates a response that is accurate but three times "
-                    "longer than needed. Which follow-up instruction is most effective?"
+                    "A marketing manager generates a response that is accurate but three times "
+                    "longer than needed for a one-pager. Which follow-up instruction is most "
+                    "effective?"
                 ),
                 "options": [
                     "Please make this shorter. It feels too long for what we need.",

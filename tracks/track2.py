@@ -598,14 +598,14 @@ broken.
         "quiz": [
             {
                 "question": (
-                    "A policy analyst is drafting a federal brief using three internal NeuroFlow "
-                    "reports they attached to the conversation. They want to make sure Claude "
-                    "does not add claims from outside those documents. Which prompt instruction "
-                    "best achieves this?"
+                    "A product manager is drafting an internal feature brief using three product "
+                    "requirement documents they attached to the conversation. They want to make "
+                    "sure Claude does not add claims from outside those documents. Which prompt "
+                    "instruction best achieves this?"
                 ),
                 "options": [
                     "Please be careful not to include anything inaccurate. I need this to be factually correct.",
-                    "Use only the information in the attached reports. Do not add claims, statistics, or examples that are not present in these documents.",
+                    "Use only the information in the attached documents. Do not add claims, statistics, or examples that are not present in these documents.",
                     "Double-check your work before responding and make sure everything is accurate and well-supported.",
                     "Only include information you are confident about.",
                 ],
@@ -695,16 +695,16 @@ Every capability layer adds to your usage allocation. A focused prompt alone is 
             },
             {
                 "question": (
-                    "A NeuroFlow policy analyst needs to compile a landscape assessment of "
-                    "state Medicaid behavioral health technology programs, covering which "
-                    "states are active, what programs exist, and recent policy trends. "
-                    "Which Claude feature is most appropriate?"
+                    "A NeuroFlow marketing analyst needs to compile a landscape assessment of "
+                    "how competing behavioral health technology vendors are positioning their "
+                    "products, covering which companies are active, what features they emphasize, "
+                    "and recent market trends. Which Claude feature is most appropriate?"
                 ),
                 "options": [
                     "A standard conversation with Haiku",
-                    "A Claude Project with relevant policy documents uploaded",
+                    "A Claude Project with relevant market research documents uploaded",
                     "Deep Research mode, which browses multiple sources and compiles structured findings",
-                    "Cowork pointed at a local folder of downloaded policy documents",
+                    "Cowork pointed at a local folder of downloaded competitor materials",
                 ],
                 "correct_index": 2,
                 "hint": "This requires synthesizing information from many external sources. Which capability is designed for that?",

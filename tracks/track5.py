@@ -192,7 +192,7 @@ One practical tradeoff: Cowork sessions consume significantly more of your usage
 | Plugin | What it bundles |
 |---|---|
 | **Data plugin** | Skills for querying structured data and rendering charts alongside connectors to data sources your workflow depends on. A data analyst producing a ranked chart from a CSV gets execution capabilities that standard chat cannot deliver, without specifying the analytical approach in every prompt. |
-| **Legal plugin** | Regulatory document review skills and compliance research patterns. A policy analyst reviewing a CMS final rule gets specialized reasoning applied automatically. The plugin knows how to read regulatory language, surface relevant provisions, and structure findings without being prompted to do so each time. |
+| **Legal plugin** | Regulatory document review skills and compliance research patterns. An engineering lead reviewing a CMS final rule for API and interoperability compliance requirements gets specialized reasoning applied automatically. The plugin knows how to read regulatory language, surface relevant technical provisions, and structure findings without being prompted to do so each time. |
 | **Sales plugin** | Deal coaching, pipeline reasoning, and outreach generation skills alongside CRM connectors. A BD team member drafting a five-part outreach sequence gets structural defaults and sequencing logic that a standard prompt would have to specify manually. |
 | **Engineering plugin** | Code review patterns, architecture decision frameworks, and incident documentation workflows for technical staff. |
 
@@ -225,7 +225,7 @@ Plugins may include local MCP servers that run directly on your computer rather 
         "quiz": [
             {
                 "question": (
-                    "A NeuroFlow policy analyst needs to review a 40-page CMS final rule for "
+                    "A NeuroFlow product manager needs to review a 40-page CMS final rule for "
                     "compliance requirements relevant to behavioral health technology vendors. "
                     "They want Claude to apply specialized regulatory document review reasoning "
                     "automatically across the session without specifying it in every prompt. "

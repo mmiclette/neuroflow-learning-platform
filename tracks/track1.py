@@ -304,7 +304,7 @@ submission. The role of human judgment does not disappear with AI; it shifts.
 
 Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
 
-This lesson gives you enough literacy to engage these questions credibly for 2-3 minutes, route the conversation to legal and compliance before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.
+This lesson gives you enough literacy to engage these questions credibly for 2-3 minutes, route the conversation to legal and information security before committing NeuroFlow to a written position, and recognize when a partner's question signals a governance concern you need to flag internally. The goal is not regulatory expertise. It is the ability to hold the room while you get the right people involved.
 
 **The categorical distinction**
 
@@ -322,9 +322,9 @@ Establishing the right category early in a conversation is the single most usefu
 
 **Two federal frameworks worth knowing by name**
 
-The **21st Century Cures Act** created a category called **non-device clinical decision support**. The key idea is that when software presents information to a licensed clinician who can review the reasoning and retain decision-making authority, FDA does not regulate it as a medical device. NeuroFlow's AI products are designed, marketed, and deployed within this boundary. When a partner asks whether NeuroFlow's AI is FDA-regulated, the accurate short answer is that it operates as non-device CDS under the Cures Act. If the conversation goes deeper than that, route to legal and compliance.
+The **21st Century Cures Act** created a category called **non-device clinical decision support**. The key idea is that when software presents information to a licensed clinician who can review the reasoning and retain decision-making authority, FDA does not regulate it as a medical device. NeuroFlow's AI products are designed, marketed, and deployed within this boundary. When a partner asks whether NeuroFlow's AI is FDA-regulated, the accurate short answer is that it operates as non-device CDS under the Cures Act. If the conversation goes deeper than that, route to legal and information security.
 
-**HTI-1** is a 2024 federal rule that requires health IT vendors to disclose information about their predictive AI models, including what the model is designed to do, what data it was trained on, how it was validated, and its known limitations. NeuroFlow maintains this documentation. Health system buyers running certified EHRs now ask for it as standard due diligence. Route formal documentation requests to legal and compliance.
+**HTI-1** is a 2024 federal rule that requires health IT vendors to disclose information about their predictive AI models, including what the model is designed to do, what data it was trained on, how it was validated, and its known limitations. Health system buyers running certified EHRs may ask for it as standard due diligence. Route formal documentation requests to information security and data teams.
 
 **The state law landscape**
 
@@ -358,11 +358,11 @@ When a partner raises concerns about "automated AI" reaching patients, establish
 | **Does your AI communicate with patients autonomously?** | No. NeuroFlow does not operate patient-facing chatbots or autonomous conversational agents. Patient engagement uses two distinct mechanisms: automated delivery of validated assessments like the PHQ-9, and sequencing of pre-authored content on clinician-designed logic. Neither involves autonomous AI communicating therapeutically with patients. |
 | **Can you deploy legally in our state given the new AI laws?** | Yes. Every enacted state law that regulates clinical AI directly targets either autonomous therapeutic interaction with patients or AI that makes independent clinical decisions. NeuroFlow does neither. Broader AI governance frameworks apply in some states, and NeuroFlow maintains a governance program designed to comply. For specific state questions, I can connect your legal team with ours. |
 
-These four framings are for verbal partner conversations where staff need to hold the room. Anything beyond these questions, or any request for a written response, belongs with legal and compliance.
+These four framings are for verbal partner conversations where staff need to hold the room. Anything beyond these questions, or any request for a written response, belongs with legal and information security.
 
 **When to escalate**
 
-Staff should not commit NeuroFlow to a written regulatory position, respond formally to a due diligence questionnaire, or make representations about FDA posture, HTI-1 compliance, or state AI law compliance without routing to NeuroFlow's legal and compliance teams. The following signals mean the conversation has crossed from general literacy into formal positioning:
+Staff should not commit NeuroFlow to a written regulatory position, respond formally to a due diligence questionnaire, or make representations about FDA posture, HTI-1 compliance, or state AI law compliance without routing to NeuroFlow's legal and information security teams. The following signals mean the conversation has crossed from general literacy into formal positioning:
 
 - Written questionnaires or compliance attestations
 - Requests for model cards or technical documentation

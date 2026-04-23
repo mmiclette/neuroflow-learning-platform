@@ -3110,6 +3110,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "plugin_ui_diagram": 820,
         "metaprompt_cowork": 640,
         "phi_decision": 520,
-        "when_to_ground": 1200,
+        "when_to_ground": 2200,
     }
     return heights.get(diagram_id, 300)

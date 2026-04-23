@@ -4,11 +4,21 @@ from data.curriculum import TRACKS, get_lesson_count
 
 
 def init_session_state():
-    """Initialize all session state on first load."""
+    """Initialize all session state on first load.
+
+    When the learner has already authenticated (user_email is set) we
+    attempt to restore their saved progress from Supabase. If no saved row
+    exists, we fall back to the empty defaults. Quiz-attempt and
+    challenge-attempt counters are always reset on init because they are
+    per-session rate limits rather than persistent progress.
+    """
     if st.session_state.get("_initialized"):
         return
 
     st.session_state._initialized = True
+
+    # Defaults first — applied either as-is or as the baseline that a
+    # successful Supabase restore overwrites.
     st.session_state.view = "home"
     st.session_state.current_track = None
     st.session_state.current_lesson = None
@@ -28,6 +38,27 @@ def init_session_state():
     # Learner names for certificates: {track_id: str}
     st.session_state.certificate_names = {}
 
+    # Restore persisted state if the learner is authenticated. Persistence
+    # is imported lazily to avoid a hard dependency on the supabase package
+    # when running the app without credentials (e.g. local dev).
+    email = st.session_state.get("user_email")
+    if email:
+        try:
+            from utils.persistence import load_user_progress, apply_loaded_state
+            saved = load_user_progress(email)
+            if saved:
+                apply_loaded_state(saved)
+                # Merge restored progress with any new lessons that have
+                # shipped since the learner's last session. Any lesson id
+                # present in TRACKS but missing from the saved state gets a
+                # False marker so new content is visible as incomplete.
+                for t_id, track in TRACKS.items():
+                    st.session_state.progress.setdefault(t_id, {})
+                    for l_id in track["lessons"]:
+                        st.session_state.progress[t_id].setdefault(l_id, False)
+        except Exception as exc:
+            st.warning(f"Could not restore saved progress: {exc}")
+
 
 # ---------------------------------------------------------------------------
 # Navigation helpers
@@ -45,6 +76,17 @@ def navigate(view: str, track_id: int = None, lesson_id: int = None):
     # a quiz at the bottom of a lesson lands on the next lesson already
     # scrolled down past its introduction.
     st.session_state.scroll_to_top = True
+    # Persist current state to Supabase so the learner can resume on any
+    # device. Silent no-op when no email is set or credentials are missing.
+    email = st.session_state.get("user_email")
+    if email:
+        try:
+            from utils.persistence import save_user_progress
+            save_user_progress(email)
+        except Exception:
+            # Never let a save failure block navigation. Any error is
+            # already surfaced to the user by save_user_progress itself.
+            pass
     st.rerun()
 
 

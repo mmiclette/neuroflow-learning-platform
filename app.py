@@ -176,6 +176,59 @@ st.markdown("""
 
 
 # ---------------------------------------------------------------------------
+# Email gate
+# ---------------------------------------------------------------------------
+# The platform tracks progress per learner in Supabase. Before any other
+# session state exists, prompt the learner for their NeuroFlow email and
+# use that as the identifier under which their progress is saved and
+# restored. Nothing else renders until this is set.
+
+def _render_email_gate():
+    st.markdown(
+        """
+        <div style="text-align:center;padding:48px 0 8px 0;">
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;
+                      color:#2EA799;margin-bottom:6px;">NeuroFlow</div>
+          <div style="font-size:28px;font-weight:600;color:#161BAA;margin-bottom:6px;">
+            AI Learning Platform
+          </div>
+          <div style="font-size:14px;color:#757575;margin-bottom:28px;">
+            Enter your NeuroFlow email to begin or resume your progress.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.form("email_gate_form", clear_on_submit=False):
+            email_input = st.text_input(
+                "Work email",
+                key="_email_gate_input",
+                placeholder="firstname.lastname@neuroflow.com",
+                max_chars=120,
+                label_visibility="collapsed",
+            )
+            submitted = st.form_submit_button("Submit", type="primary", use_container_width=True)
+        if submitted:
+            candidate = (email_input or "").strip().lower()
+            if not candidate.endswith("@neuroflow.com"):
+                st.markdown(
+                    '<p style="color:#C0392B;font-size:13px;margin:8px 0 0 0;'
+                    'text-align:center;">Please use your @neuroflow.com email address.</p>',
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.session_state.user_email = candidate
+                st.rerun()
+
+
+if "user_email" not in st.session_state:
+    _render_email_gate()
+    st.stop()
+
+
+# ---------------------------------------------------------------------------
 # Session init
 # ---------------------------------------------------------------------------
 init_session_state()
@@ -350,6 +403,42 @@ def view_home():
     )
     if st.button("Open Course Reference →", key="ref_btn"):
         go_reference()
+
+    # --- Account footer: signed-in identity + reset progress ------------
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown(
+        "<hr style='border-color:#E5E7EB;margin:8px 0 14px 0;'>",
+        unsafe_allow_html=True,
+    )
+    current_email = st.session_state.get("user_email", "")
+    st.markdown(
+        f'<p style="font-size:12px;color:#757575;margin:0 0 10px 0;">'
+        f'Signed in as <strong>{current_email}</strong></p>',
+        unsafe_allow_html=True,
+    )
+    # Two-step confirmation so a single stray click cannot delete progress.
+    if not st.session_state.get("_reset_confirm_open"):
+        if st.button("Reset my progress", key="reset_progress_open", type="secondary"):
+            st.session_state._reset_confirm_open = True
+            st.rerun()
+    else:
+        st.markdown(
+            '<p style="font-size:13px;color:#C0392B;margin:0 0 8px 0;">'
+            'This will delete all your saved progress across every track. '
+            'This cannot be undone.</p>',
+            unsafe_allow_html=True,
+        )
+        col_a, col_b, _ = st.columns([1, 1, 4])
+        with col_a:
+            if st.button("Confirm reset", key="reset_progress_confirm", type="primary"):
+                from utils.persistence import reset_user_progress
+                reset_user_progress(current_email)
+                st.session_state.clear()
+                st.rerun()
+        with col_b:
+            if st.button("Cancel", key="reset_progress_cancel"):
+                st.session_state._reset_confirm_open = False
+                st.rerun()
 
 
 def view_track_overview(track_id: int):

@@ -605,7 +605,7 @@ broken.
                 ),
                 "options": [
                     "Please be careful not to include anything inaccurate. I need this to be factually correct.",
-                    "Use only the information in the attached documents. Do not add claims, statistics, or examples that are not present in these documents.",
+                    "Use only the information in the attached documents. Do not add claims, features, or requirements that are not present in these documents.",
                     "Double-check your work before responding and make sure everything is accurate and well-supported.",
                     "Only include information you are confident about.",
                 ],
@@ -704,7 +704,7 @@ Every capability layer adds to your usage allocation. A focused prompt alone is 
                     "A standard conversation with Haiku",
                     "A Claude Project with relevant market research documents uploaded",
                     "Deep Research mode, which browses multiple sources and compiles structured findings",
-                    "Cowork pointed at a local folder of downloaded competitor materials",
+                    "Cowork pointed at a local folder of past competitor reports",
                 ],
                 "correct_index": 2,
                 "hint": "This requires synthesizing information from many external sources. Which capability is designed for that?",

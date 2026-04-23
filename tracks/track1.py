@@ -300,7 +300,7 @@ submission. The role of human judgment does not disappear with AI; it shifts.
     },
     4: {
         "concept": """
-<iframe width="100%" height="380" src="https://www.youtube.com/embed/ltBE6nrZ-io" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
+<iframe width="100%" height="380" src="https://www.youtube.com/embed/Xywb17-TWdw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:6px; display:block; margin:16px 0;"></iframe>
 
 Behavioral health partners, federal program officers, and health system due diligence teams now ask governance questions in almost every serious conversation about NeuroFlow's AI. These questions are not going away. Forty-seven states introduced more than 250 AI-related healthcare bills in 2025 and 33 became law across 21 states.
 

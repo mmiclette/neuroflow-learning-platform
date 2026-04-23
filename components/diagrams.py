@@ -2676,6 +2676,417 @@ DIAGRAMS["phi_decision"] = r"""
 
 """
 
+DIAGRAMS["when_to_ground"] = r"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When to ground Claude with an example · NeuroFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nf-primary: #161B4A;
+    --nf-sec-blue: #2E4799;
+    --nf-sec-light: #478FCC;
+    --nf-teal: #4CB6AC;
+    --nf-teal-soft: rgba(76, 182, 172, 0.10);
+    --nf-accent: #F16061;
+    --nf-ink: #1A1B2E;
+    --nf-text-2: #5B5D72;
+    --nf-text-3: #8E90A3;
+    --nf-divider: #E8E9F0;
+    --nf-bg-1: #FBFBFD;
+    --nf-bg-2: #F1F3F9;
+    --nf-card: #FFFFFF;
+    --nf-front-tint: #F9FAFD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(ellipse 1000px 500px at 15% 0%, rgba(46, 71, 153, 0.08), transparent 60%),
+      radial-gradient(ellipse 800px 400px at 100% 100%, rgba(76, 182, 172, 0.09), transparent 60%),
+      linear-gradient(180deg, var(--nf-bg-1) 0%, var(--nf-bg-2) 100%);
+    color: var(--nf-ink);
+    min-height: 100vh;
+    padding: 56px 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--nf-card);
+    border-radius: 24px;
+    padding: 48px 48px 40px;
+    box-shadow:
+      0 1px 2px rgba(22, 27, 74, 0.04),
+      0 2px 8px rgba(22, 27, 74, 0.04),
+      0 28px 56px -20px rgba(22, 27, 74, 0.14);
+    border: 1px solid rgba(22, 27, 74, 0.05);
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  /* Card shell */
+  .card {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    perspective: 1400px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    outline: none;
+  }
+  .card:focus-visible .card-inner {
+    box-shadow: 0 0 0 3px rgba(46, 71, 153, 0.35);
+    border-radius: 16px;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.75s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 38px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--nf-divider);
+    background: var(--nf-card);
+    box-shadow:
+      0 1px 2px rgba(22, 27, 74, 0.04),
+      0 8px 20px -12px rgba(22, 27, 74, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card-back { transform: rotateY(180deg); }
+
+  /* Hover lift (only when not flipped for front, and when flipped for back) */
+  .card:not(.flipped):hover .card-front,
+  .card.flipped:hover .card-back {
+    transform: translateY(-3px);
+    box-shadow:
+      0 1px 2px rgba(22, 27, 74, 0.04),
+      0 16px 28px -14px rgba(22, 27, 74, 0.20);
+    border-color: rgba(46, 71, 153, 0.18);
+  }
+  .card.flipped:hover .card-back {
+    transform: rotateY(180deg) translateY(-3px);
+  }
+
+  /* Front face */
+  .card-front {
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--nf-front-tint) 100%);
+  }
+  .card-num {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--nf-accent);
+    text-transform: uppercase;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .card-num::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--nf-accent);
+    vertical-align: middle;
+    margin-right: 8px;
+    position: relative;
+    top: -2px;
+  }
+  .card-back .card-num::before {
+    display: none;
+  }
+  .card-front-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--nf-primary);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: auto 0;
+  }
+  .flip-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--nf-text-3);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-top: auto;
+  }
+  .flip-indicator svg {
+    width: 14px;
+    height: 14px;
+    color: var(--nf-sec-blue);
+  }
+
+  /* Back face */
+  .card-back-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--nf-primary);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-top: 10px;
+    margin-bottom: 14px;
+  }
+  .card-body {
+    font-size: 12.75px;
+    color: var(--nf-text-2);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .card-example {
+    margin-top: auto;
+    padding: 10px 12px 11px;
+    background: var(--nf-teal-soft);
+    border-left: 3px solid var(--nf-teal);
+    border-radius: 0 6px 6px 0;
+  }
+  .example-label {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--nf-teal);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .example-text {
+    font-size: 12px;
+    color: var(--nf-ink);
+    line-height: 1.45;
+    font-weight: 500;
+  }
+  .example-text + .example-text {
+    margin-top: 6px;
+  }
+
+  /* Responsive */
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 540px) {
+    .poster { padding: 32px 20px 28px; border-radius: 18px; }
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+    .card { height: 500px; }
+    .card-front-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="grid">
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">01</span>
+            <h3 class="card-front-title">Tone and voice</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">01</span>
+            <h3 class="card-back-title">Tone and voice</h3>
+            <p class="card-body">Paste an example when the voice is hard to describe. An RFP response sounds formal and compliance-driven. A sales one-pager sounds direct and benefit-forward. Your own writing sounds like you, not a template. Staff recognize these differences instantly but struggle to articulate them. An example does the work.</p>
+            <div class="card-example">
+              <span class="example-label">Examples</span>
+              <div class="example-text">A prior RFP response transmits formal, compliance-driven voice.</div>
+              <div class="example-text">Your own recent writing transmits personal voice and cadence.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">02</span>
+            <h3 class="card-front-title">Shape and length</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">02</span>
+            <h3 class="card-back-title">Shape and length</h3>
+            <p class="card-body">Paste an example when the skeleton matters. A weekly status report has a fixed order. Executive summary, progress, blockers, next week. Each section runs two to four sentences. Claude reading a sample reproduces both the section sequence and the per-section density. Without an example, Claude invents an outline and picks a default length.</p>
+            <div class="card-example">
+              <span class="example-label">Example</span>
+              <div class="example-text">Last quarter's status report sets section order and section length.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">03</span>
+            <h3 class="card-front-title">Argument logic</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">03</span>
+            <h3 class="card-back-title">Argument logic</h3>
+            <p class="card-body">Paste an example when reasoning order matters. A recommendation memo opens with the recommendation and defends it afterward. A discovery brief opens with the question and walks through findings before reaching a conclusion. A competitive intelligence report opens with the market landscape before naming the threat. Same subject, three different sequences. The example carries the sequence.</p>
+            <div class="card-example">
+              <span class="example-label">Example</span>
+              <div class="example-text">A past recommendation memo locks in recommendation reasoning and format.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">04</span>
+            <h3 class="card-front-title">Evidentiary standard</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">04</span>
+            <h3 class="card-back-title">Evidentiary standard</h3>
+            <p class="card-body">Paste an example when the rigor bar matters. An RFP response cites every quantitative claim. An internal strategy memo asserts more freely. A peer-reviewed manuscript attaches a source to every factual sentence. Claude cannot guess which standard applies. If your example carries a source after every figure, new findings will too. If your example asserts without backing, Claude follows suit.</p>
+            <div class="card-example">
+              <span class="example-label">Example</span>
+              <div class="example-text">A prior case study sets citation format and style.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">05</span>
+            <h3 class="card-front-title">House style</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">05</span>
+            <h3 class="card-back-title">House style</h3>
+            <p class="card-body">Paste an example to transmit conventions. How NeuroFlow refers to its own products. Whether the audience is members, patients, or clients. Acronym rules, list styles, date formats, and whether titles use sentence case or title case. One example carries what would take a style guide to explain.</p>
+            <div class="card-example">
+              <span class="example-label">Example</span>
+              <div class="example-text">A recent product one-pager carries naming, acronym, and formatting conventions.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" type="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <span class="card-num">06</span>
+            <h3 class="card-front-title">What to lead with</h3>
+            <div class="flip-indicator">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M11.5 6.5A4.5 4.5 0 1 1 9.3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <path d="M9.3 0.8L9.3 3L11.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tap to see why
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <span class="card-num">06</span>
+            <h3 class="card-back-title">What to lead with</h3>
+            <p class="card-body">Paste an example when what matters shifts by reader. A clinical program briefed to a health plan CMO leads with quality metrics and staff satisfaction. The same program briefed to a CFO leads with cost trend and total cost of care. Briefed to an FQHC administrator, it leads with operational lift and mission fit. Which facts make the cut, and the order they appear in, depends on the reader.</p>
+            <div class="card-example">
+              <span class="example-label">Example</span>
+              <div class="example-text">A prior deck built for the same audience type anchors value proposition and messaging priority.</div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const isFlipped = card.classList.toggle('flipped');
+        card.setAttribute('aria-pressed', isFlipped ? 'true' : 'false');
+      });
+    });
+  </script>
+</body>
+</html>
+
+"""
+
 def get_diagram_height(diagram_id: str) -> int:
     heights = {
         "context_window": 320,
@@ -2699,5 +3110,6 @@ def get_diagram_height(diagram_id: str) -> int:
         "plugin_ui_diagram": 820,
         "metaprompt_cowork": 640,
         "phi_decision": 520,
+        "when_to_ground": 780,
     }
     return heights.get(diagram_id, 300)

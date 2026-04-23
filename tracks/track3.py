@@ -137,6 +137,8 @@ Effective prompts close that gap by specifying format, constraints, audience, an
     },
     3: {
         "concept": """
+[[WHEN_TO_GROUND_DIAGRAM]]
+
 Describing what you want and showing Claude what you want are two different prompts. For tasks
 where output consistency matters, providing one to three examples of the desired output is
 more reliable than any description.
@@ -1085,12 +1087,20 @@ def render_lesson(lesson_id: int) -> bool:
 
     already_done = is_lesson_complete(TRACK_ID, lesson_id)
 
-    # Render concept: handle sentinels and HTML elements
+    # Render concept: handle sentinels and HTML elements. A concept can
+    # embed any registered diagram by including its sentinel token; the
+    # renderer splits around the token and drops in a components.html iframe.
     concept = lesson["concept"]
-    if "[[META_PROMPT_DIAGRAM]]" in concept:
+    _diagram_sentinels = {
+        "[[META_PROMPT_DIAGRAM]]": "meta_prompt_diagram",
+        "[[WHEN_TO_GROUND_DIAGRAM]]": "when_to_ground",
+    }
+    _active_sentinel = next((s for s in _diagram_sentinels if s in concept), None)
+    if _active_sentinel:
         import streamlit.components.v1 as components
         from components.diagrams import get_diagram, get_diagram_height
-        parts = concept.split("[[META_PROMPT_DIAGRAM]]")
+        diagram_id = _diagram_sentinels[_active_sentinel]
+        parts = concept.split(_active_sentinel)
         for i, part in enumerate(parts):
             if part.strip():
                 if "<img " in part or "<div " in part:
@@ -1099,8 +1109,8 @@ def render_lesson(lesson_id: int) -> bool:
                     st.markdown(part)
             if i < len(parts) - 1:
                 st.markdown("<br>", unsafe_allow_html=True)
-                html = get_diagram("meta_prompt_diagram")
-                height = get_diagram_height("meta_prompt_diagram")
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
                 if html:
                     components.html(html, height=height, scrolling=False)
                 st.markdown("<br>", unsafe_allow_html=True)

@@ -74,7 +74,7 @@ a clinical decision; it does not make it. An LLM's drafted policy brief requires
 submission. The role of human judgment shifts from generating the analysis to reviewing,
 interpreting, and acting on AI outputs.
 
-**AI Use Cases at NeuroFlow**
+**AI Use Cases in NeuroFlow Products**
 
 | Capability | AI Type | Description |
 |---|---|---|

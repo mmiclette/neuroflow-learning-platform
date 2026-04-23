@@ -73,6 +73,17 @@ Across all five types, human oversight remains essential. An ML model's risk sco
 a clinical decision; it does not make it. An LLM's drafted policy brief requires review before
 submission. The role of human judgment shifts from generating the analysis to reviewing,
 interpreting, and acting on AI outputs.
+
+**AI Use Cases at NeuroFlow**
+
+| Capability | AI Type | Description |
+|---|---|---|
+| Individual Trigger Logic | Symbolic AI | When a patient completes an assessment, receives a tag, or meets a defined threshold, the platform routes the appropriate next action. This includes follow-up assessments, content modules, and clinical alerts. The sequencing and selection of what a patient receives follows the same rule-based logic. Every output traces back to a rule that produced it. |
+| Program Automation | Symbolic AI | An event-driven system that listens for EHR triggers including scheduling, admission, and discharge events, then executes pre-configured workflows in response. The rules driving each action are defined by care program design, not learned from data. |
+| NeuroFlow Severity Score | Symbolic AI | Uses clinician-defined rules to evaluate risk factors and assign weighted increments to a cumulative score. No weights are learned from data. The model produces the same output for the same inputs every time, making it fully traceable and auditable. |
+| Journal Entry Risk Detection | NLP | Reads patient free-text entries and identifies language associated with suicide risk or self-harm, surfacing clinically significant language that rule-based systems would miss. |
+| BHIQ Predictive Models | Statistical ML | Trained models apply learned patterns from historical behavioral health data to population-level questions. These include identifying populations likely to have undiagnosed BH conditions, stratifying individuals by risk severity and treatment preference, forecasting treatment response, predicting network capacity requirements, and measuring provider performance by condition and patient cohort. |
+| SmartMatch | Symbolic AI and Statistical ML | Currently uses rule-based logic to filter patient preferences, insurance, modality, and provider availability across 100 or more variables. The platform is moving toward a trained ML model where outcome data weights variables based on what produces better matches. |
 """,
         "quiz": [
             {

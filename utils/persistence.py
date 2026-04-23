@@ -24,11 +24,16 @@ import streamlit as st
 _TABLE = "progress"
 
 
-def get_supabase_client():
+def get_supabase_client(*, silent: bool = False):
     """Return a cached Supabase client.
 
     Reads SUPABASE_URL and SUPABASE_KEY from st.secrets. The client is cached
     on st.session_state so we do not rebuild it on every rerun.
+
+    When `silent=True`, suppress all user-facing error messages and return
+    None on any failure. Used by load_user_progress during the initial
+    restore attempt so a fresh user or a temporary Supabase outage never
+    greets the learner with red error banners.
     """
     cached = st.session_state.get("_supabase_client")
     if cached is not None:
@@ -36,24 +41,27 @@ def get_supabase_client():
     try:
         from supabase import create_client
     except ImportError:
-        st.error(
-            "The `supabase` Python package is not installed. "
-            "Add `supabase` to requirements.txt and redeploy."
-        )
+        if not silent:
+            st.error(
+                "The `supabase` Python package is not installed. "
+                "Add `supabase` to requirements.txt and redeploy."
+            )
         return None
     try:
         url = st.secrets["SUPABASE_URL"]
         key = st.secrets["SUPABASE_KEY"]
     except Exception as exc:
-        st.error(
-            f"Supabase credentials are missing from st.secrets: {exc}. "
-            "Configure SUPABASE_URL and SUPABASE_KEY."
-        )
+        if not silent:
+            st.error(
+                f"Supabase credentials are missing from st.secrets: {exc}. "
+                "Configure SUPABASE_URL and SUPABASE_KEY."
+            )
         return None
     try:
         client = create_client(url, key)
     except Exception as exc:
-        st.error(f"Could not initialize Supabase client: {exc}")
+        if not silent:
+            st.error(f"Could not initialize Supabase client: {exc}")
         return None
     st.session_state._supabase_client = client
     return client
@@ -116,14 +124,18 @@ def load_user_progress(email: str) -> Optional[dict]:
     """Fetch a learner's stored state from Supabase.
 
     Returns the parsed `state` JSON dict if a row exists for the given
-    email, or None if no row exists or the lookup failed.
+    email, or None if no row exists or the lookup failed. Always silent:
+    no st.warning / st.error / st.info / print on any code path, because a
+    first-time learner should not see an error banner just because no row
+    has been created yet, and a transient Supabase failure at load time
+    should not block the learner from starting a fresh session.
     """
     if not email:
         return None
-    client = get_supabase_client()
-    if client is None:
-        return None
     try:
+        client = get_supabase_client(silent=True)
+        if client is None:
+            return None
         response = (
             client.table(_TABLE)
             .select("state")
@@ -131,16 +143,15 @@ def load_user_progress(email: str) -> Optional[dict]:
             .limit(1)
             .execute()
         )
-    except Exception as exc:
-        st.warning(f"Could not load saved progress: {exc}")
+        rows = getattr(response, "data", None) or []
+        if not rows:
+            return None
+        state = rows[0].get("state")
+        if not isinstance(state, dict):
+            return None
+        return state
+    except Exception:
         return None
-    rows = getattr(response, "data", None) or []
-    if not rows:
-        return None
-    state = rows[0].get("state")
-    if not isinstance(state, dict):
-        return None
-    return state
 
 
 def save_user_progress(email: str) -> bool:

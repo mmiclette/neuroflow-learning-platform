@@ -185,17 +185,25 @@ st.markdown("""
 
 def _render_email_gate():
     # Force the Submit button's label to render white on the dark blue
-    # primary-button background. Streamlit's default theme picks a dark
-    # label color that is unreadable on our primary palette.
+    # primary-button background. Must be the very first call in this
+    # function so it also applies when the login screen re-renders after
+    # st.session_state.clear(). Selectors cover every known Streamlit
+    # button DOM layout (data-testid attribute, kind attribute, and
+    # nested <p>/<span>/SVG label children) so the override survives
+    # Streamlit version upgrades.
     st.markdown(
         """
         <style>
           div[data-testid="stForm"] button[kind="primaryFormSubmit"],
-          div[data-testid="stForm"] button[kind="primaryFormSubmit"] p,
-          div[data-testid="stForm"] button[kind="primaryFormSubmit"] span,
-          div[data-testid="stForm"] button[kind="primaryFormSubmit"] * {
-            color: #FFFFFF !important;
-            fill: #FFFFFF !important;
+          div[data-testid="stForm"] button[kind="primaryFormSubmit"] *,
+          div[data-testid="stForm"] button[data-testid="baseButton-primaryFormSubmit"],
+          div[data-testid="stForm"] button[data-testid="baseButton-primaryFormSubmit"] *,
+          div[data-testid="stForm"] [data-testid="stFormSubmitButton"] button,
+          div[data-testid="stForm"] [data-testid="stFormSubmitButton"] button *,
+          div[data-testid="stForm"] button[type="submit"],
+          div[data-testid="stForm"] button[type="submit"] * {
+            color: white !important;
+            fill: white !important;
           }
         </style>
         """,

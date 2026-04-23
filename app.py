@@ -184,6 +184,23 @@ st.markdown("""
 # restored. Nothing else renders until this is set.
 
 def _render_email_gate():
+    # Force the Submit button's label to render white on the dark blue
+    # primary-button background. Streamlit's default theme picks a dark
+    # label color that is unreadable on our primary palette.
+    st.markdown(
+        """
+        <style>
+          div[data-testid="stForm"] button[kind="primaryFormSubmit"],
+          div[data-testid="stForm"] button[kind="primaryFormSubmit"] p,
+          div[data-testid="stForm"] button[kind="primaryFormSubmit"] span,
+          div[data-testid="stForm"] button[kind="primaryFormSubmit"] * {
+            color: #FFFFFF !important;
+            fill: #FFFFFF !important;
+          }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown(
         """
         <div style="text-align:center;padding:48px 0 8px 0;">

@@ -83,7 +83,7 @@ interpreting, and acting on AI outputs.
 | NeuroFlow Severity Score | Symbolic AI | Uses clinician-defined rules to evaluate risk factors and assign weighted increments to a cumulative score. No weights are learned from data. The model produces the same output for the same inputs every time, making it fully traceable and auditable. |
 | Journal Entry Risk Detection | NLP | Reads patient free-text entries and identifies language associated with suicide risk or self-harm, surfacing clinically significant language that rule-based systems would miss. |
 | BHIQ Predictive Models | Statistical ML | Trained models apply learned patterns from historical behavioral health data to population-level questions. These include identifying populations likely to have undiagnosed BH conditions, stratifying individuals by risk severity and treatment preference, forecasting treatment response, predicting network capacity requirements, and measuring provider performance by condition and patient cohort. |
-| SmartMatch | Symbolic AI and Statistical ML | Currently uses rule-based logic to filter patient preferences, insurance, modality, and provider availability across 100 or more variables. The platform is moving toward a trained ML model where outcome data weights variables based on what produces better matches. |
+| SmartMatch | Symbolic AI and Statistical ML | Uses rule-based logic to filter patient preferences, insurance, modality, and provider availability across 100 or more variables. A trained ML model then ranks the filtered results by learning which matches are most likely to result in a completed appointment, adjusting its rankings as outcome data accumulates. |
 """,
         "quiz": [
             {

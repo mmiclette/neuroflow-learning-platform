@@ -154,17 +154,6 @@ automatically across every conversation. Track 4 covers Projects in detail.
                 "correct_index": 1,
                 "hint": "The 200K context window is large but finite; older content can fall outside it.",
             },
-            {
-                "question": "Why is it essential to verify specific statistics and citations that Claude produces?",
-                "options": [
-                    "Claude deliberately fabricates information to appear helpful",
-                    "Claude generates statistically likely text and can produce plausible-sounding but inaccurate details (including citations to studies that do not exist) because it has no built-in verification step",
-                    "Claude's training data is always outdated",
-                    "Statistics are outside Claude's capability regardless of prompt quality",
-                ],
-                "correct_index": 1,
-                "hint": "Claude is optimizing for plausible text, not verified facts. Hallucinations look exactly like accurate output.",
-            },
         ],
     },
     2: {
@@ -490,22 +479,6 @@ conversation becomes the working session. The Project becomes the persistent mem
                 "correct_index": 2,
                 "hint": "Match model capability to task complexity; spending more allocation than needed reduces what is available for harder work.",
             },
-            {
-                "question": (
-                    "You have been working with Claude in a long conversation to develop a method "
-                    "for evaluating Jira tickets. The approach is working well. You want to "
-                    "evaluate future tickets the same way without starting from scratch each time. "
-                    "What is the best next step?"
-                ),
-                "options": [
-                    "Keep using the same conversation, since Claude will remember as long as you do not close it",
-                    "Copy and paste your best prompt to the top of every new conversation",
-                    "Use the current conversation to build Claude Project instructions, then evaluate future tickets inside that Project",
-                    "Switch to Opus, which retains memory across conversations automatically",
-                ],
-                "correct_index": 2,
-                "hint": "Projects persist your context reliably; a long conversation does not.",
-            },
         ],
     },
     4: {
@@ -611,6 +584,17 @@ broken.
                 ],
                 "correct_index": 1,
                 "hint": "You need an explicit boundary; vague accuracy instructions do not constrain source material.",
+            },
+            {
+                "question": "Why is it essential to verify specific statistics and citations that Claude produces?",
+                "options": [
+                    "Claude deliberately fabricates information to appear helpful",
+                    "Claude generates statistically likely text and can produce plausible-sounding but inaccurate details (including citations to studies that do not exist) because it has no built-in verification step",
+                    "Claude's training data is always outdated",
+                    "Statistics are outside Claude's capability regardless of prompt quality",
+                ],
+                "correct_index": 1,
+                "hint": "Claude is optimizing for plausible text, not verified facts. Hallucinations look exactly like accurate output.",
             },
         ],
         "challenge": {

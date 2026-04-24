@@ -83,20 +83,6 @@ and drafting use cases you need.
                 "correct_index": 2,
                 "hint": "The task involves reading file contents and acting on files — which mode is designed for that?",
             },
-            {
-                "question": (
-                    "You schedule a Cowork task to run every Monday at 8 AM. On Sunday night "
-                    "you close your laptop and it goes to sleep. What happens Monday morning?"
-                ),
-                "options": [
-                    "The task runs in the background regardless of sleep state",
-                    "The task runs the next time you open Claude Desktop",
-                    "Claude sends a notification to run the task manually",
-                    "The task does not run because the computer is asleep",
-                ],
-                "correct_index": 3,
-                "hint": "Cowork cannot run tasks when the computer is asleep — this is a hard constraint.",
-            },
         ],
     },
     2: {

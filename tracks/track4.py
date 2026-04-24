@@ -87,6 +87,22 @@ of new conversations, that background belongs in a Project.
                 "correct_index": 2,
                 "hint": "Uploading irrelevant content forces Claude to treat it as potentially relevant context on every query — upload only what the Project needs.",
             },
+            {
+                "question": (
+                    "You have been working with Claude in a long conversation to develop a method "
+                    "for evaluating Jira tickets. The approach is working well. You want to "
+                    "evaluate future tickets the same way without starting from scratch each time. "
+                    "What is the best next step?"
+                ),
+                "options": [
+                    "Keep using the same conversation, since Claude will remember as long as you do not close it",
+                    "Copy and paste your best prompt to the top of every new conversation",
+                    "Use the current conversation to build Claude Project instructions, then evaluate future tickets inside that Project",
+                    "Switch to Opus, which retains memory across conversations automatically",
+                ],
+                "correct_index": 2,
+                "hint": "Projects persist your context reliably; a long conversation does not.",
+            },
         ],
     },
     2: {

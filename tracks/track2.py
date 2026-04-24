@@ -644,23 +644,23 @@ Claude is one tool in a larger ecosystem. Understanding which surface to use for
 
 **Claude chat** is for thinking and drafting. Use it when the task is cognitive: analyzing a document, drafting a brief, developing a strategy, working through a problem. Chat is interactive. You exchange messages, refine, and iterate. Nothing runs autonomously.
 
-**Cowork** is for acting. Use it when the task involves operating on local files autonomously, such as renaming a folder of documents, converting files, synthesizing a report from scattered local notes, or running a scheduled weekly digest. Cowork reads and writes files on your machine. You define the task and it executes without requiring you to stay in the loop for each step. Track 6 covers Cowork in depth.
+**Cowork** *(Track 6)* is for acting. Use it when the task involves operating on local files autonomously, such as renaming a folder of documents, converting files, synthesizing a report from scattered local notes, or running a scheduled weekly digest. Cowork reads and writes files on your machine. You define the task and it executes without requiring you to stay in the loop for each step.
 
-**Claude Code** is for building. Use it when the task involves writing, running, or modifying code. Claude Code has direct access to your project's file system, reads and edits source files, runs tests, and proposes code changes as diffs you review and approve. Track 7 covers Claude Code and is intended for engineering staff.
+**Claude Code** *(Track 7)* is for building. Use it when the task involves writing, running, or modifying code. Claude Code has direct access to your project's file system, reads and edits source files, runs tests, and proposes code changes as diffs you review and approve. Track 7 is intended for engineering staff.
 
 **Claude Design** is for visual creation. Launched in April 2026 as a research preview, Claude Design lets you go from a text description to a prototype, pitch deck, one-pager, or wireframe through conversation. BD staff can turn a rough outline into a presentation in minutes. Policy staff can produce formatted one-pagers without a design background. Finished work exports as PDF, PPTX, standalone HTML, or sends directly to Canva for further editing. Claude Design has its own usage tracking and weekly limits separate from your standard chat allocation. Because it is still in research preview, the feature may look different or change as Anthropic continues to develop it.
 
 **Extended capabilities within Claude chat**
 
-**Deep Research** browses multiple web sources and compiles a structured research report. Use it when you need a landscape assessment, policy survey, or competitive overview. Deep Research is the most token-intensive option.
+**Research** *(Track 4, Lesson 6)* browses multiple web sources and compiles a structured research report. Use it when you need a landscape assessment, policy survey, or competitive overview. Research is the most token-intensive option.
 
-**Connectors** link Claude to the tools your team already uses. With the HubSpot connector active, Claude can pull deal notes directly from your CRM. Connectors stay active in a conversation until you disable them.
+**Connectors** *(Track 5, Lesson 1)* link Claude to the tools your team already uses. With the HubSpot connector active, Claude can pull deal notes directly from your CRM. Connectors stay active in a conversation until you disable them.
 
-**Plugins** extend what Claude can do within a session with domain-specific defaults. The Data plugin enables executing queries and rendering charts. The Legal plugin adds document review reasoning for regulatory work. The Sales plugin adds pipeline reasoning and outreach generation patterns.
+**Plugins** *(Track 5, Lesson 2)* extend what Claude can do within a session with domain-specific defaults. The Data plugin enables executing queries and rendering charts. The Legal plugin adds document review reasoning for regulatory work. The Sales plugin adds pipeline reasoning and outreach generation patterns.
 
 **The cost principle**
 
-Every capability layer adds to your usage allocation. A focused prompt alone is lightest. Connectors add retrieval overhead. Plugins add domain tooling. Deep Research is the most intensive. Claude Design draws from its own separate allocation. For staff who hit usage limits frequently, simplifying the tool stack is the most direct fix.
+Every capability layer adds to your usage allocation. A focused prompt alone is lightest. Connectors add retrieval overhead. Plugins add domain tooling. Research is the most intensive. Claude Design draws from its own separate allocation. For staff who hit usage limits frequently, simplifying the tool stack is the most direct fix.
 """,
         "quiz": [
             {
@@ -687,7 +687,7 @@ Every capability layer adds to your usage allocation. A focused prompt alone is 
                 "options": [
                     "A standard conversation with Haiku",
                     "A Claude Project with relevant market research documents uploaded",
-                    "Deep Research mode, which browses multiple sources and compiles structured findings",
+                    "Research mode, which browses multiple sources and compiles structured findings",
                     "Cowork pointed at a local folder of past competitor reports",
                 ],
                 "correct_index": 2,

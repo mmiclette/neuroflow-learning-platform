@@ -441,6 +441,51 @@ def view_home():
         f'Signed in as <strong>{current_email}</strong></p>',
         unsafe_allow_html=True,
     )
+
+    # --- Storage status -------------------------------------------------
+    # Persistence failures (most often RLS policies blocking the anon key)
+    # are otherwise invisible because save/load are silent by design. This
+    # panel surfaces the exact failure mode end-to-end so the operator can
+    # fix the root cause.
+    with st.expander("Storage status (save / load diagnostics)"):
+        from utils.persistence import diagnose
+        if st.button("Run check", key="storage_diagnose_btn"):
+            result = diagnose(current_email)
+            def _row(label, ok, detail=""):
+                icon = "✓" if ok else "✗"
+                color = "#1A6860" if ok else "#C0392B"
+                suffix = f' <span style="color:#757575;">— {detail}</span>' if detail else ""
+                st.markdown(
+                    f'<p style="font-size:13px;margin:2px 0;">'
+                    f'<span style="color:{color};font-weight:600;">{icon}</span> '
+                    f'{label}{suffix}</p>',
+                    unsafe_allow_html=True,
+                )
+            _row("Supabase secrets present", result["secrets_present"])
+            _row("supabase package installed", result["package_installed"])
+            _row("Client initialized", result["client_initialized"])
+            if result["read_error"]:
+                _row("Read probe", False, result["read_error"])
+            else:
+                _row(
+                    "Read probe",
+                    result["read_ok"],
+                    "row found" if result["row_exists"] else "no row yet for this email",
+                )
+            if result["write_error"]:
+                _row("Write probe (upsert current state)", False, result["write_error"])
+            else:
+                _row("Write probe (upsert current state)", result["write_ok"])
+            if not result["write_ok"] and result["read_ok"]:
+                st.markdown(
+                    '<p style="font-size:12px;color:#757575;margin:10px 0 0 0;">'
+                    'Most common cause: Row Level Security is enabled on the '
+                    '<code>progress</code> table and no policy permits writes '
+                    'with the anon key. Fix options: (1) disable RLS on the '
+                    'table, (2) add a permissive policy, or (3) configure '
+                    '<code>SUPABASE_KEY</code> with the service-role key.</p>',
+                    unsafe_allow_html=True,
+                )
     # Two-step confirmation so a single stray click cannot delete progress.
     if not st.session_state.get("_reset_confirm_open"):
         if st.button("Reset my progress", key="reset_progress_open", type="secondary"):

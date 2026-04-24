@@ -207,6 +207,100 @@ def reset_user_progress(email: str) -> bool:
         return False
 
 
+def diagnose(email: str) -> dict:
+    """Run an end-to-end health check on the persistence layer.
+
+    Returns a dict with named, user-readable statuses for each step:
+      - secrets_present: bool
+      - package_installed: bool
+      - client_initialized: bool
+      - read_ok: bool
+      - read_error: str | None
+      - row_exists: bool
+      - write_ok: bool
+      - write_error: str | None
+
+    Safe to call at any time; never raises. Surfaces problems that
+    save_user_progress/load_user_progress hide. Lets the home screen tell
+    the learner exactly where the persistence chain is breaking so the
+    operator can fix the real cause (most often RLS policies or missing
+    table) rather than guessing.
+    """
+    out = {
+        "secrets_present": False,
+        "package_installed": False,
+        "client_initialized": False,
+        "read_ok": False,
+        "read_error": None,
+        "row_exists": False,
+        "write_ok": False,
+        "write_error": None,
+    }
+    try:
+        try:
+            _ = st.secrets["SUPABASE_URL"]
+            _ = st.secrets["SUPABASE_KEY"]
+            out["secrets_present"] = True
+        except Exception:
+            return out
+        try:
+            import supabase  # noqa: F401
+            out["package_installed"] = True
+        except ImportError:
+            return out
+        client = get_supabase_client(silent=True)
+        if client is None:
+            return out
+        out["client_initialized"] = True
+
+        if not email:
+            # Without an email we cannot exercise read/write paths.
+            return out
+
+        # Read probe.
+        try:
+            resp = (
+                client.table(_TABLE)
+                .select("state")
+                .eq("user_id", email)
+                .limit(1)
+                .execute()
+            )
+            rows = getattr(resp, "data", None) or []
+            out["read_ok"] = True
+            out["row_exists"] = bool(rows)
+        except Exception as exc:
+            out["read_error"] = str(exc)[:300]
+            return out
+
+        # Write probe: upsert whatever state we have now. Writes a real row
+        # using live session values so the learner's next login restores
+        # correctly. Idempotent and safe to run repeatedly.
+        try:
+            state_payload = {
+                "view": st.session_state.get("view", "home"),
+                "current_track": st.session_state.get("current_track"),
+                "current_lesson": st.session_state.get("current_lesson"),
+                "progress": _serialize_progress(st.session_state.get("progress")),
+                "certificate_names": _serialize_certificate_names(
+                    st.session_state.get("certificate_names")
+                ),
+            }
+            row = {
+                "user_id": email,
+                "state": state_payload,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+            client.table(_TABLE).upsert(row, on_conflict="user_id").execute()
+            out["write_ok"] = True
+        except Exception as exc:
+            out["write_error"] = str(exc)[:300]
+    except Exception as exc:
+        # Defensive: never let a diagnostic call raise into the UI.
+        out["write_error"] = (out.get("write_error") or "") + f" [outer: {exc}]"
+    return out
+
+
 def apply_loaded_state(state: dict) -> None:
     """Populate st.session_state from a previously loaded `state` dict.
 

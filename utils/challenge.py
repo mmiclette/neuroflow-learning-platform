@@ -103,11 +103,15 @@ def render_graded_challenge(
                     )
                     if result.get("strengths"):
                         _strengths_callout(result["strengths"])
+                    # Always show the improvement callout on a partial-credit
+                    # pass so the learner sees which criterion they missed,
+                    # even when they are above the pass threshold. The
+                    # grader returns a hint whenever score < 100.
                     if result.get("hint") and result["score"] < 100:
                         st.markdown(
-                            f'<div style="background:#EBF3FA;border-left:3px solid #478FCC;'
+                            f'<div style="background:#FEF6E7;border-left:3px solid #D97706;'
                             f'border-radius:4px;padding:10px 14px;margin:8px 0;">'
-                            f'<span style="color:#478FCC;font-weight:500;">What would earn full marks:</span> '
+                            f'<span style="color:#B45309;font-weight:500;">What could be improved:</span> '
                             f'<span style="color:#212121;">{result["hint"]}</span></div>',
                             unsafe_allow_html=True,
                         )

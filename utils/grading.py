@@ -12,8 +12,8 @@ Score the learner's response against the rubric below.
 Return a JSON object with exactly four fields:
   "score": integer 0-100
   "pass": boolean (true if score >= 70)
-  "hint": string — one sentence targeting the lowest-scoring criterion when pass is false. Set to null when pass is true.
-  "strengths": string — one sentence describing the strongest aspect of the response when pass is true. Set to null when pass is false. Never reveal the model answer in strengths.
+  "hint": string — one sentence naming the specific criterion or element the learner left out or addressed weakest. Return this whenever the score is less than 100, regardless of pass/fail, so partial-credit passers see what they could improve. Set to null only when score is exactly 100.
+  "strengths": string — one sentence describing the strongest aspect of the response when the learner passes (score meets or exceeds the pass threshold). Set to null when the learner fails. Never reveal the model answer in strengths.
 
 Rubric:
 {rubric}

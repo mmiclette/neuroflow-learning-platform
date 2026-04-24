@@ -171,6 +171,28 @@ st.markdown("""
   .badge-intermediate { background:#EBF3FA; color:#2A5C8A !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
   .badge-advanced     { background:#E7F6F5; color:#2A6E68 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
   .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
+
+  /* ── Inline image spacing ────────────────────────────────────────────
+     Streamlit renders each <p> inside a markdown block with a default
+     ~16px vertical margin. When a lesson concept has raw <img> tags in
+     the middle of text, the resulting <p> → <img> → <p> flow picks up
+     that margin on every side of the image, producing a visible gap the
+     image's own margin cannot shrink. Zero the adjacent margins so the
+     image's own `style="margin:..."` attribute is the only thing that
+     governs its spacing. Requires :has() — supported in Chrome 105+,
+     Safari 15.4+, Firefox 121+. All modern Streamlit Cloud browsers. */
+  [data-testid="stMarkdown"] p:has(+ img),
+  [data-testid="stMarkdown"] p:has(+ p > img) {
+    margin-bottom: 0 !important;
+  }
+  [data-testid="stMarkdown"] img + p,
+  [data-testid="stMarkdown"] p:has(> img) + p {
+    margin-top: 0 !important;
+  }
+  [data-testid="stMarkdown"] p:has(> img) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
 </style>
 """, unsafe_allow_html=True)
 

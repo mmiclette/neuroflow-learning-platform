@@ -172,49 +172,14 @@ st.markdown("""
   .badge-advanced     { background:#E7F6F5; color:#2A6E68 !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
   .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 
-  /* ── Inline image spacing ────────────────────────────────────────────
-     Aggressive rule set: zero out every known spacing mechanism on every
-     possible ancestor of an inline image so the image's own inline
-     style="margin:..." is the sole remaining vertical-spacing source.
-     If any of these selectors don't match the DOM in a given Streamlit
-     version, the others catch it. */
-
-  /* 1. Zero every ancestor wrapper directly. */
-  [data-testid="stMarkdown"]:has(img),
-  [data-testid="stElementContainer"]:has(img),
-  [data-testid="stVerticalBlock"] > div:has(img) {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-  /* 2. Kill the flex gap that the parent vertical block imposes on any
-        child element container that contains an image. */
-  [data-testid="stVerticalBlock"]:has(> div > [data-testid="stMarkdown"] img),
-  [data-testid="stVerticalBlock"]:has([data-testid="stMarkdown"] img) {
-    row-gap: 0 !important;
-  }
-  /* 3. Zero the paragraph wrapper around any lone image. */
-  [data-testid="stMarkdown"] p:has(> img) {
+  /* ── Inline image spacing ─ single focused rule ─────────────────────
+     Zero the paragraph that wraps a standalone image. Everything else
+     (element-container gap, image margin) is controlled at the widget
+     level using st.image() rather than embedded <img> markdown. */
+  [data-testid="stMarkdown"] p:has(> img:only-child) {
     margin: 0 !important;
-    padding: 0 !important;
     line-height: 0 !important;
     font-size: 0 !important;
-  }
-  /* 4. Zero paragraph margins INSIDE any stMarkdown that contains an image,
-        but restore normal spacing between consecutive text paragraphs. */
-  [data-testid="stMarkdown"]:has(img) p {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  [data-testid="stMarkdown"]:has(img) p:not(:has(img)) + p:not(:has(img)) {
-    margin-top: 0.75em !important;
-  }
-  /* 5. Pull the image's wrapper up and down into adjacent elements via
-        negative margins that apply at the element-container level. */
-  [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
-    margin-top: -0.75rem !important;
-    margin-bottom: -0.75rem !important;
   }
 </style>
 """, unsafe_allow_html=True)

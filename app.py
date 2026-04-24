@@ -222,7 +222,7 @@ def _render_email_gate():
     st.markdown(
         """
         <div style="text-align:center;padding:48px 0 8px 0;">
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;
+          <div style="font-size:11px;letter-spacing:0.5px;
                       color:#2EA799;margin-bottom:6px;">NeuroFlow</div>
           <div style="font-size:28px;font-weight:600;color:#161BAA;margin-bottom:6px;">
             AI Learning Platform
@@ -364,7 +364,7 @@ def view_home():
     st.markdown(
         """
         <div style="padding: 24px 0 8px 0;">
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;
+          <div style="font-size:11px;letter-spacing:0.5px;
                       color:#2EA799;margin-bottom:6px;">NeuroFlow</div>
           <div style="font-size:30px;font-weight:600;color:#161BAA;margin-bottom:4px;">
             AI Learning Platform

@@ -173,27 +173,42 @@ st.markdown("""
   .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 
   /* ── Inline image spacing ────────────────────────────────────────────
-     Markdown-it (Streamlit's renderer) wraps a standalone <img> inside a
-     <p>, producing: <p>text</p><p><img/></p><p>text</p>. Each <p> gets
-     Streamlit's default ~1em top/bottom margin, which creates ~32px of
-     total gap on each side of the image regardless of the image's own
-     style. Collapse paragraph spacing around any markdown block that
-     contains at least one image. Scoped via :has() on the container so
-     image-free prose is unaffected elsewhere in the app. */
+     Streamlit wraps every rendered block in an element container with a
+     default vertical gap (gap: 1rem on the main column) that we cannot
+     override from inside the block. Collapse that gap on containers that
+     hold a markdown block with an image. Also zero paragraph margins
+     inside the block so nothing inside competes with the image's own
+     style="margin:..." value. */
+  [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  [data-testid="stMarkdown"]:has(img) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
   [data-testid="stMarkdown"]:has(img) p {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     line-height: 1.55;
   }
-  /* Restore a small gap between consecutive non-image paragraphs inside
-     the same image-containing block so body text is still readable. */
   [data-testid="stMarkdown"]:has(img) p:not(:has(img)) + p:not(:has(img)) {
     margin-top: 0.75em !important;
   }
-  /* Also remove any stray line-height on the image's wrapper paragraph. */
   [data-testid="stMarkdown"] p:has(> img) {
     line-height: 0 !important;
     font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* Streamlit 1.32+ lays out the main column with flex and a vertical gap
+     on the element wrapper. Pull the image's wrapper up to neutralize it. */
+  [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
+    gap: 0 !important;
   }
 </style>
 """, unsafe_allow_html=True)

@@ -445,12 +445,15 @@ def view_home():
     # --- Storage status -------------------------------------------------
     # Persistence failures (most often RLS policies blocking the anon key)
     # are otherwise invisible because save/load are silent by design. This
-    # panel surfaces the exact failure mode end-to-end so the operator can
-    # fix the root cause.
+    # panel is self-contained on purpose: it does not depend on any
+    # importable helper from utils/persistence beyond the top-level module
+    # itself, so a partial deploy or a stale import cache cannot break the
+    # expander. Every step is wrapped in its own try/except and surfaces
+    # the raw exception string.
     with st.expander("Storage status (save / load diagnostics)"):
-        from utils.persistence import diagnose
         if st.button("Run check", key="storage_diagnose_btn"):
-            result = diagnose(current_email)
+            from datetime import datetime, timezone
+
             def _row(label, ok, detail=""):
                 icon = "✓" if ok else "✗"
                 color = "#1A6860" if ok else "#C0392B"
@@ -461,29 +464,106 @@ def view_home():
                     f'{label}{suffix}</p>',
                     unsafe_allow_html=True,
                 )
-            _row("Supabase secrets present", result["secrets_present"])
-            _row("supabase package installed", result["package_installed"])
-            _row("Client initialized", result["client_initialized"])
-            if result["read_error"]:
-                _row("Read probe", False, result["read_error"])
-            else:
-                _row(
-                    "Read probe",
-                    result["read_ok"],
-                    "row found" if result["row_exists"] else "no row yet for this email",
-                )
-            if result["write_error"]:
-                _row("Write probe (upsert current state)", False, result["write_error"])
-            else:
-                _row("Write probe (upsert current state)", result["write_ok"])
-            if not result["write_ok"] and result["read_ok"]:
+
+            # Step 1: secrets
+            secrets_ok = True
+            secrets_detail = ""
+            try:
+                url = st.secrets["SUPABASE_URL"]
+                key = st.secrets["SUPABASE_KEY"]
+                if not url or not key:
+                    secrets_ok = False
+                    secrets_detail = "SUPABASE_URL or SUPABASE_KEY is empty"
+            except Exception as exc:
+                secrets_ok = False
+                secrets_detail = f"missing from st.secrets: {exc}"
+            _row("Supabase secrets present", secrets_ok, secrets_detail)
+
+            # Step 2: package
+            pkg_ok = False
+            pkg_detail = ""
+            create_client = None
+            try:
+                from supabase import create_client as _cc
+                create_client = _cc
+                pkg_ok = True
+            except Exception as exc:
+                pkg_detail = f"import failed: {exc}"
+            _row("supabase package installed", pkg_ok, pkg_detail)
+
+            # Step 3: client init
+            client = None
+            client_ok = False
+            client_detail = ""
+            if secrets_ok and pkg_ok:
+                try:
+                    client = create_client(url, key)
+                    client_ok = client is not None
+                except Exception as exc:
+                    client_detail = f"init failed: {exc}"
+            _row("Client initialized", client_ok, client_detail)
+
+            # Step 4: read probe
+            read_ok = False
+            row_exists = False
+            read_detail = ""
+            if client_ok:
+                try:
+                    resp = (
+                        client.table("progress")
+                        .select("state")
+                        .eq("user_id", current_email)
+                        .limit(1)
+                        .execute()
+                    )
+                    rows = getattr(resp, "data", None) or []
+                    read_ok = True
+                    row_exists = bool(rows)
+                    read_detail = "row found" if row_exists else "no row yet for this email"
+                except Exception as exc:
+                    read_detail = f"{exc}"
+            _row("Read probe", read_ok, read_detail)
+
+            # Step 5: write probe (upsert current live state)
+            write_ok = False
+            write_detail = ""
+            if client_ok:
+                try:
+                    progress_payload = {}
+                    for t_id, lessons in (st.session_state.get("progress") or {}).items():
+                        progress_payload[str(t_id)] = {
+                            str(l_id): bool(v) for l_id, v in (lessons or {}).items()
+                        }
+                    cert_payload = {
+                        str(t_id): str(n)
+                        for t_id, n in (st.session_state.get("certificate_names") or {}).items()
+                    }
+                    row = {
+                        "user_id": current_email,
+                        "state": {
+                            "view": st.session_state.get("view", "home"),
+                            "current_track": st.session_state.get("current_track"),
+                            "current_lesson": st.session_state.get("current_lesson"),
+                            "progress": progress_payload,
+                            "certificate_names": cert_payload,
+                        },
+                        "updated_at": datetime.now(timezone.utc).isoformat(),
+                    }
+                    client.table("progress").upsert(row, on_conflict="user_id").execute()
+                    write_ok = True
+                except Exception as exc:
+                    write_detail = f"{exc}"
+            _row("Write probe (upsert current state)", write_ok, write_detail)
+
+            if client_ok and (not write_ok or (read_ok and "row" not in read_detail.lower() and not row_exists and write_ok)):
                 st.markdown(
                     '<p style="font-size:12px;color:#757575;margin:10px 0 0 0;">'
-                    'Most common cause: Row Level Security is enabled on the '
-                    '<code>progress</code> table and no policy permits writes '
-                    'with the anon key. Fix options: (1) disable RLS on the '
-                    'table, (2) add a permissive policy, or (3) configure '
-                    '<code>SUPABASE_KEY</code> with the service-role key.</p>',
+                    'If the write probe failed with a Row Level Security or '
+                    'permission error, the table has RLS enabled and the anon '
+                    'key cannot write. Fix options: '
+                    '(1) <code>alter table progress disable row level security;</code>, '
+                    '(2) add a permissive policy, or '
+                    '(3) set <code>SUPABASE_KEY</code> to the service-role key.</p>',
                     unsafe_allow_html=True,
                 )
     # Two-step confirmation so a single stray click cannot delete progress.

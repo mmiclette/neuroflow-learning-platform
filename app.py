@@ -461,19 +461,25 @@ def view_home():
     # expander. Every step is wrapped in its own try/except and surfaces
     # the raw exception string.
     #
-    # Hidden by default. Append `?debug=1` to the app URL to reveal it —
-    # e.g., https://your-app.streamlit.app/?debug=1
-    _show_debug = False
+    # Hidden by default. Reveal requires BOTH the `?debug=1` query string
+    # AND the signed-in email appearing in the admin allowlist. This stops
+    # any regular learner who happens to know the trick from reading the
+    # masked Supabase URL or triggering a write probe against the shared
+    # progress table. Add or remove admin emails by editing the tuple.
+    _ADMIN_EMAILS = (
+        "matthew@neuroflow.com",
+    )
+    _debug_query = False
     try:
-        # Streamlit ≥ 1.30 exposes the dict-like st.query_params.
-        _show_debug = st.query_params.get("debug") == "1"
+        _debug_query = st.query_params.get("debug") == "1"
     except Exception:
         try:
-            _show_debug = (
+            _debug_query = (
                 st.experimental_get_query_params().get("debug", ["0"])[0] == "1"
             )
         except Exception:
-            _show_debug = False
+            _debug_query = False
+    _show_debug = _debug_query and (current_email or "").lower() in _ADMIN_EMAILS
     if _show_debug:
         with st.expander("Storage status (save / load diagnostics)"):
           if st.button("Run check", key="storage_diagnose_btn"):

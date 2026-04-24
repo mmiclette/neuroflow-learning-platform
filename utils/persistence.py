@@ -57,6 +57,18 @@ def get_supabase_client(*, silent: bool = False):
                 "Configure SUPABASE_URL and SUPABASE_KEY."
             )
         return None
+    # Normalize the URL. supabase-py expects the base project URL only and
+    # appends `/rest/v1/...` itself. If the secret was pasted with a
+    # trailing slash or with `/rest/v1` already included, the client builds
+    # malformed request URLs and every call returns PGRST125. Stripping
+    # both here makes the persistence layer tolerant of the common wrong
+    # formats the Supabase dashboard and docs have used over time.
+    if isinstance(url, str):
+        url = url.strip().rstrip("/")
+        for suffix in ("/rest/v1", "/rest"):
+            if url.endswith(suffix):
+                url = url[: -len(suffix)]
+                break
     try:
         client = create_client(url, key)
     except Exception as exc:

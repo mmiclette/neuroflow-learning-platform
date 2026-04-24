@@ -240,7 +240,7 @@ def _render_email_gate():
             email_input = st.text_input(
                 "Work email",
                 key="_email_gate_input",
-                placeholder="firstname.lastname@neuroflow.com",
+                placeholder="name@neuroflow.com",
                 max_chars=120,
                 label_visibility="collapsed",
             )

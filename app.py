@@ -468,6 +468,8 @@ def view_home():
             # Step 1: secrets
             secrets_ok = True
             secrets_detail = ""
+            url = ""
+            key = ""
             try:
                 url = st.secrets["SUPABASE_URL"]
                 key = st.secrets["SUPABASE_KEY"]
@@ -478,6 +480,33 @@ def view_home():
                 secrets_ok = False
                 secrets_detail = f"missing from st.secrets: {exc}"
             _row("Supabase secrets present", secrets_ok, secrets_detail)
+
+            # Step 1b: surface the exact URL shape so we can catch typos,
+            # trailing slashes, stray /rest/v1 suffixes, or the wrong
+            # Supabase project URL being pasted into secrets.
+            if url:
+                display_url = url
+                # Mask the 20-char project ref between "https://" and ".supabase.co"
+                try:
+                    import re
+                    m = re.match(r"^(https?://)([^.]+)(\.supabase\.co.*)$", url)
+                    if m:
+                        ref = m.group(2)
+                        masked = ref[:4] + "…" + ref[-4:] if len(ref) > 10 else "…"
+                        display_url = f"{m.group(1)}{masked}{m.group(3)}"
+                except Exception:
+                    pass
+                url_issues = []
+                if not url.startswith("https://"):
+                    url_issues.append("not https")
+                if url.endswith("/"):
+                    url_issues.append("has trailing slash")
+                if "/rest/v1" in url:
+                    url_issues.append("includes /rest/v1 (should be base URL only)")
+                if ".supabase.co" not in url:
+                    url_issues.append("does not contain .supabase.co")
+                issues_txt = "; ".join(url_issues) if url_issues else "looks well-formed"
+                _row(f"URL shape: <code>{display_url}</code>", not url_issues, issues_txt)
 
             # Step 2: package
             pkg_ok = False
@@ -555,15 +584,58 @@ def view_home():
                     write_detail = f"{exc}"
             _row("Write probe (upsert current state)", write_ok, write_detail)
 
-            if client_ok and (not write_ok or (read_ok and "row" not in read_detail.lower() and not row_exists and write_ok)):
+            # Step 6: raw HTTP probe. Bypasses the supabase client and calls
+            # PostgREST directly so we can see what the Supabase project
+            # itself returns, along with the precise URL used. Catches
+            # cases where SUPABASE_URL points to the wrong project or has
+            # a structural problem the client library silently tolerates.
+            raw_ok = False
+            raw_detail = ""
+            if secrets_ok:
+                try:
+                    import requests
+                    base = url.rstrip("/")
+                    # Strip an accidentally-included REST path suffix so we
+                    # always hit the correct endpoint.
+                    if base.endswith("/rest/v1"):
+                        base = base[: -len("/rest/v1")]
+                    probe_url = f"{base}/rest/v1/progress?select=user_id&limit=1"
+                    resp = requests.get(
+                        probe_url,
+                        headers={
+                            "apikey": key,
+                            "Authorization": f"Bearer {key}",
+                            "Accept": "application/json",
+                        },
+                        timeout=10,
+                    )
+                    if resp.status_code == 200:
+                        raw_ok = True
+                        raw_detail = f"HTTP 200; body={resp.text[:200]}"
+                    else:
+                        raw_detail = (
+                            f"HTTP {resp.status_code}; body={resp.text[:300]}"
+                        )
+                except Exception as exc:
+                    raw_detail = f"request failed: {exc}"
+            _row("Raw HTTP GET /rest/v1/progress", raw_ok, raw_detail)
+
+            if client_ok and not write_ok:
                 st.markdown(
                     '<p style="font-size:12px;color:#757575;margin:10px 0 0 0;">'
-                    'If the write probe failed with a Row Level Security or '
-                    'permission error, the table has RLS enabled and the anon '
-                    'key cannot write. Fix options: '
-                    '(1) <code>alter table progress disable row level security;</code>, '
-                    '(2) add a permissive policy, or '
-                    '(3) set <code>SUPABASE_KEY</code> to the service-role key.</p>',
+                    '<strong>Interpreting PGRST125 "Invalid path":</strong><br>'
+                    '• The <code>progress</code> table does not exist in the '
+                    'project your <code>SUPABASE_URL</code> points to, '
+                    '<strong>or</strong><br>'
+                    '• <code>SUPABASE_URL</code> points to a different project '
+                    'than the one where you ran <code>create table</code>, '
+                    '<strong>or</strong><br>'
+                    '• PostgREST\'s schema cache is stale. In the Supabase '
+                    'SQL editor, run <code>notify pgrst, \'reload schema\';</code>. '
+                    'If that does not help, open Project Settings → API → '
+                    'click <strong>Restart server</strong>.<br><br>'
+                    'Verify the project match: open Supabase → Project Settings '
+                    '→ API → Project URL. It must equal the masked URL above.</p>',
                     unsafe_allow_html=True,
                 )
     # Two-step confirmation so a single stray click cannot delete progress.

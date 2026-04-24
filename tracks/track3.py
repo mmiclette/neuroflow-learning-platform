@@ -509,38 +509,6 @@ is to write something, the steps are probably in the wrong order.
                 "version to see what Haiku produces."
             ),
         },
-        "quiz": [
-            {
-                "question": (
-                    "You asked Claude to write a partner brief and the result is accurate but far "
-                    "too formal and long. Which follow-up instruction is most likely to produce "
-                    "a useful revision?"
-                ),
-                "options": [
-                    "Make this better",
-                    "This doesn't sound right, please fix it",
-                    "Cut to 200 words and rewrite in a direct, conversational tone",
-                    "Try again",
-                ],
-                "correct_index": 2,
-                "hint": "Effective feedback is specific and testable; it names the exact change to make.",
-            },
-            {
-                "question": (
-                    "You have been refining a Claude response across six turns and it still is not "
-                    "working, and the structure is fundamentally wrong for your purpose. What is the "
-                    "most effective next step?"
-                ),
-                "options": [
-                    "Continue adding more constraints to the current response until it improves",
-                    "Switch to Opus, which will produce a better result on the same conversation",
-                    "Start a new conversation with a corrected prompt. Refinement of a structurally wrong response is less effective than starting fresh",
-                    "Ask Claude to explain what went wrong before trying again",
-                ],
-                "correct_index": 2,
-                "hint": "Refinement compounds a structural problem; a fresh start with a corrected prompt is faster.",
-            },
-        ],
     },
     6: {
         "concept": """
@@ -1011,18 +979,33 @@ happens.
             },
             {
                 "question": (
-                    "A marketing manager generates a response that is accurate but three times "
-                    "longer than needed for a one-pager. Which follow-up instruction is most "
-                    "effective?"
+                    "You asked Claude to write a partner brief and the result is accurate but "
+                    "far too formal and long. Which follow-up instruction is most likely to "
+                    "produce a useful revision?"
                 ),
                 "options": [
-                    "Please make this shorter. It feels too long for what we need.",
-                    "This is too long. Can you trim it down a bit and make it more concise?",
-                    "Cut this to 200 words. Keep the core argument in paragraph 1 and the three supporting points. Remove all other content.",
-                    "Summarize the above and keep only the most important points.",
+                    "Make this better",
+                    "This doesn't sound right, please fix it",
+                    "Cut to 200 words and rewrite in a direct, conversational tone",
+                    "Try again",
                 ],
                 "correct_index": 2,
-                "hint": "Effective refinement names the target length and what to keep.",
+                "hint": "Effective feedback is specific and testable; it names the exact change to make.",
+            },
+            {
+                "question": (
+                    "You have been refining a Claude response across six turns and it still is "
+                    "not working, and the structure is fundamentally wrong for your purpose. "
+                    "What is the most effective next step?"
+                ),
+                "options": [
+                    "Continue adding more constraints to the current response until it improves",
+                    "Switch to Opus, which will produce a better result on the same conversation",
+                    "Start a new conversation with a corrected prompt. Refinement of a structurally wrong response is less effective than starting fresh",
+                    "Ask Claude to explain what went wrong before trying again",
+                ],
+                "correct_index": 2,
+                "hint": "Refinement compounds a structural problem; a fresh start with a corrected prompt is faster.",
             },
             {
                 "question": (

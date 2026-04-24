@@ -115,8 +115,22 @@ def go_reference():
 # ---------------------------------------------------------------------------
 
 def complete_lesson(track_id: int, lesson_id: int):
-    """Mark a lesson as complete."""
+    """Mark a lesson as complete and persist immediately.
+
+    Persistence fires here — before any caller's st.rerun() or navigate()
+    call — so a learner who finishes a quiz and closes the tab without
+    clicking "Next lesson" still has their completion saved. save_user_progress
+    is silent on failure and never raises, so it cannot block the mutation.
+    """
     st.session_state.progress[track_id][lesson_id] = True
+    email = st.session_state.get("user_email")
+    if email:
+        try:
+            from utils.persistence import save_user_progress
+            save_user_progress(email)
+        except Exception:
+            # Persistence errors must never prevent local completion.
+            pass
 
 
 def is_lesson_complete(track_id: int, lesson_id: int) -> bool:

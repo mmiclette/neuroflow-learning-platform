@@ -781,7 +781,7 @@ def render_lesson(lesson_id: int) -> bool:
             if part.strip():
                 render_concept_part(part)
             if i < len(parts) - 1:
-                st.image(image_path, width=520)
+                st.image(image_path, width=380)
     else:
         render_concept_part(concept)
     st.markdown("---")

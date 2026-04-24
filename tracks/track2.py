@@ -821,7 +821,7 @@ def render_lesson(lesson_id: int) -> bool:
             model_answer=ch["model_answer"],
             hints=ch["hints"],
             input_label="Your verification prompt",
-            max_chars=400,
+            max_chars=1000,
         )
 
     st.info("Content coming soon.", icon="🔜")

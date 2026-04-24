@@ -493,7 +493,7 @@ def render_lesson(lesson_id: int) -> bool:
             scenario=ch["scenario"], broken_example=ch.get("setup", ""),
             rubric=ch["rubric"], model_answer=ch["model_answer"],
             hints=ch["hints"], input_label="Your response",
-            max_chars=400,
+            max_chars=2000,
         )
 
     st.info("Content coming soon.", icon="🔜")

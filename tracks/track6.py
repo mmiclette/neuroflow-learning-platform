@@ -753,7 +753,7 @@ def render_lesson(lesson_id: int) -> bool:
             scenario=ch["scenario"], broken_example=ch["broken_example"],
             rubric=ch["rubric"], model_answer=ch["model_answer"],
             hints=ch["hints"], input_label="Your Cowork task instruction",
-            max_chars=600,
+            max_chars=1500,
             pass_threshold=ch.get("pass_threshold", 70),
         )
 

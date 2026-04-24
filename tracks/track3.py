@@ -1201,7 +1201,7 @@ def render_lesson(lesson_id: int) -> bool:
             track_id=TRACK_ID, lesson_id=lesson_id,
             scenario=ch["scenario"], broken_example=ch["broken_example"],
             rubric=ch["rubric"], model_answer=ch["model_answer"],
-            hints=ch["hints"], input_label="Your prompt", max_chars=600,
+            hints=ch["hints"], input_label="Your prompt", max_chars=2000,
             single_attempt=True,
         )
 
@@ -1228,7 +1228,7 @@ def render_lesson(lesson_id: int) -> bool:
             track_id=TRACK_ID, lesson_id=lesson_id,
             scenario=sb["scenario"], broken_example="",
             rubric=sb["rubric"], model_answer=sb["model_answer"],
-            hints=sb["hints"], input_label="Your meta-prompt", max_chars=500,
+            hints=sb["hints"], input_label="Your meta-prompt", max_chars=1500,
             single_attempt=True, mark_complete=False,
         )
         if not sandbox_done:
@@ -1254,7 +1254,7 @@ def render_lesson(lesson_id: int) -> bool:
             track_id=TRACK_ID, lesson_id=lesson_id,
             scenario=ch["scenario"], broken_example=ch["broken_example"],
             rubric=ch["rubric"], model_answer=ch["model_answer"],
-            hints=ch["hints"], input_label="Your prompt", max_chars=700,
+            hints=ch["hints"], input_label="Your prompt", max_chars=2000,
             single_attempt=False,
         )
 

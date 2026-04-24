@@ -587,7 +587,7 @@ def render_lesson(lesson_id: int) -> bool:
                 scenario=dc["scenario"], broken_example="",
                 rubric=dc["rubric"], model_answer=dc["model_answer"],
                 hints=dc["hints"], input_label="Your Data plugin prompt",
-                max_chars=400, single_attempt=True,
+                max_chars=1500, single_attempt=True,
             )
         return _render_data_sandbox(lesson_id)
 

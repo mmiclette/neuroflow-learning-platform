@@ -194,6 +194,18 @@ def render_graded_challenge(
         placeholder="Write your response here…",
     )
 
+    # Show the character limit inline so a learner whose paste gets silently
+    # blocked by max_chars can see why. Streamlit's text_area refuses pastes
+    # that would exceed max_chars without surfacing an error.
+    used = len(user_input or "")
+    near_limit = used >= int(max_chars * 0.85)
+    color = "#C0392B" if near_limit else "#757575"
+    st.markdown(
+        f'<p style="font-size:12px;color:{color};margin:-4px 0 10px 0;'
+        f'text-align:right;">{used} / {max_chars} characters</p>',
+        unsafe_allow_html=True,
+    )
+
     col1, _ = st.columns([1, 5])
     with col1:
         submit = st.button("Submit", key=f"{state_key}_submit", type="primary")

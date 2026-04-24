@@ -982,7 +982,7 @@ def render_lesson(lesson_id: int) -> bool:
             scenario=ch["scenario"], broken_example=ch["broken_example"],
             rubric=ch["rubric"], model_answer=ch["model_answer"],
             hints=ch["hints"], input_label="Your prompt",
-            max_chars=700, single_attempt=False,
+            max_chars=2000, single_attempt=False,
         )
 
     # Lesson 4.6 — web search sandbox

@@ -498,7 +498,7 @@ def _render_four_field_challenge(
         val = st.text_input(
             label, key=field_keys[i],
             placeholder=placeholder,
-            max_chars=120,
+            max_chars=400,
         )
         field_values.append(val)
 

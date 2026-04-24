@@ -173,42 +173,48 @@ st.markdown("""
   .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 
   /* ── Inline image spacing ────────────────────────────────────────────
-     Streamlit wraps every rendered block in an element container with a
-     default vertical gap (gap: 1rem on the main column) that we cannot
-     override from inside the block. Collapse that gap on containers that
-     hold a markdown block with an image. Also zero paragraph margins
-     inside the block so nothing inside competes with the image's own
-     style="margin:..." value. */
-  [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  [data-testid="stMarkdown"]:has(img) {
+     Aggressive rule set: zero out every known spacing mechanism on every
+     possible ancestor of an inline image so the image's own inline
+     style="margin:..." is the sole remaining vertical-spacing source.
+     If any of these selectors don't match the DOM in a given Streamlit
+     version, the others catch it. */
+
+  /* 1. Zero every ancestor wrapper directly. */
+  [data-testid="stMarkdown"]:has(img),
+  [data-testid="stElementContainer"]:has(img),
+  [data-testid="stVerticalBlock"] > div:has(img) {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
+  /* 2. Kill the flex gap that the parent vertical block imposes on any
+        child element container that contains an image. */
+  [data-testid="stVerticalBlock"]:has(> div > [data-testid="stMarkdown"] img),
+  [data-testid="stVerticalBlock"]:has([data-testid="stMarkdown"] img) {
+    row-gap: 0 !important;
+  }
+  /* 3. Zero the paragraph wrapper around any lone image. */
+  [data-testid="stMarkdown"] p:has(> img) {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+  }
+  /* 4. Zero paragraph margins INSIDE any stMarkdown that contains an image,
+        but restore normal spacing between consecutive text paragraphs. */
   [data-testid="stMarkdown"]:has(img) p {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    line-height: 1.55;
   }
   [data-testid="stMarkdown"]:has(img) p:not(:has(img)) + p:not(:has(img)) {
     margin-top: 0.75em !important;
   }
-  [data-testid="stMarkdown"] p:has(> img) {
-    line-height: 0 !important;
-    font-size: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  /* Streamlit 1.32+ lays out the main column with flex and a vertical gap
-     on the element wrapper. Pull the image's wrapper up to neutralize it. */
-  [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
-    gap: 0 !important;
+  /* 5. Pull the image's wrapper up and down into adjacent elements via
+        negative margins that apply at the element-container level. */
+  [data-testid="stElementContainer"]:has([data-testid="stMarkdown"] img) {
+    margin-top: -0.75rem !important;
+    margin-bottom: -0.75rem !important;
   }
 </style>
 """, unsafe_allow_html=True)

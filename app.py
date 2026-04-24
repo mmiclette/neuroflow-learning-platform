@@ -450,194 +450,209 @@ def view_home():
     # itself, so a partial deploy or a stale import cache cannot break the
     # expander. Every step is wrapped in its own try/except and surfaces
     # the raw exception string.
-    with st.expander("Storage status (save / load diagnostics)"):
-        if st.button("Run check", key="storage_diagnose_btn"):
-            from datetime import datetime, timezone
+    #
+    # Hidden by default. Append `?debug=1` to the app URL to reveal it —
+    # e.g., https://your-app.streamlit.app/?debug=1
+    _show_debug = False
+    try:
+        # Streamlit ≥ 1.30 exposes the dict-like st.query_params.
+        _show_debug = st.query_params.get("debug") == "1"
+    except Exception:
+        try:
+            _show_debug = (
+                st.experimental_get_query_params().get("debug", ["0"])[0] == "1"
+            )
+        except Exception:
+            _show_debug = False
+    if _show_debug:
+        with st.expander("Storage status (save / load diagnostics)"):
+          if st.button("Run check", key="storage_diagnose_btn"):
+              from datetime import datetime, timezone
 
-            def _row(label, ok, detail=""):
-                icon = "✓" if ok else "✗"
-                color = "#1A6860" if ok else "#C0392B"
-                suffix = f' <span style="color:#757575;">— {detail}</span>' if detail else ""
-                st.markdown(
-                    f'<p style="font-size:13px;margin:2px 0;">'
-                    f'<span style="color:{color};font-weight:600;">{icon}</span> '
-                    f'{label}{suffix}</p>',
-                    unsafe_allow_html=True,
-                )
+              def _row(label, ok, detail=""):
+                  icon = "✓" if ok else "✗"
+                  color = "#1A6860" if ok else "#C0392B"
+                  suffix = f' <span style="color:#757575;">— {detail}</span>' if detail else ""
+                  st.markdown(
+                      f'<p style="font-size:13px;margin:2px 0;">'
+                      f'<span style="color:{color};font-weight:600;">{icon}</span> '
+                      f'{label}{suffix}</p>',
+                      unsafe_allow_html=True,
+                  )
 
-            # Step 1: secrets
-            secrets_ok = True
-            secrets_detail = ""
-            url = ""
-            key = ""
-            try:
-                url = st.secrets["SUPABASE_URL"]
-                key = st.secrets["SUPABASE_KEY"]
-                if not url or not key:
-                    secrets_ok = False
-                    secrets_detail = "SUPABASE_URL or SUPABASE_KEY is empty"
-            except Exception as exc:
-                secrets_ok = False
-                secrets_detail = f"missing from st.secrets: {exc}"
-            _row("Supabase secrets present", secrets_ok, secrets_detail)
+              # Step 1: secrets
+              secrets_ok = True
+              secrets_detail = ""
+              url = ""
+              key = ""
+              try:
+                  url = st.secrets["SUPABASE_URL"]
+                  key = st.secrets["SUPABASE_KEY"]
+                  if not url or not key:
+                      secrets_ok = False
+                      secrets_detail = "SUPABASE_URL or SUPABASE_KEY is empty"
+              except Exception as exc:
+                  secrets_ok = False
+                  secrets_detail = f"missing from st.secrets: {exc}"
+              _row("Supabase secrets present", secrets_ok, secrets_detail)
 
-            # Step 1b: surface the exact URL shape so we can catch typos,
-            # trailing slashes, stray /rest/v1 suffixes, or the wrong
-            # Supabase project URL being pasted into secrets.
-            if url:
-                display_url = url
-                # Mask the 20-char project ref between "https://" and ".supabase.co"
-                try:
-                    import re
-                    m = re.match(r"^(https?://)([^.]+)(\.supabase\.co.*)$", url)
-                    if m:
-                        ref = m.group(2)
-                        masked = ref[:4] + "…" + ref[-4:] if len(ref) > 10 else "…"
-                        display_url = f"{m.group(1)}{masked}{m.group(3)}"
-                except Exception:
-                    pass
-                url_issues = []
-                if not url.startswith("https://"):
-                    url_issues.append("not https")
-                if url.endswith("/"):
-                    url_issues.append("has trailing slash")
-                if "/rest/v1" in url:
-                    url_issues.append("includes /rest/v1 (should be base URL only)")
-                if ".supabase.co" not in url:
-                    url_issues.append("does not contain .supabase.co")
-                issues_txt = "; ".join(url_issues) if url_issues else "looks well-formed"
-                _row(f"URL shape: <code>{display_url}</code>", not url_issues, issues_txt)
+              # Step 1b: surface the exact URL shape so we can catch typos,
+              # trailing slashes, stray /rest/v1 suffixes, or the wrong
+              # Supabase project URL being pasted into secrets.
+              if url:
+                  display_url = url
+                  # Mask the 20-char project ref between "https://" and ".supabase.co"
+                  try:
+                      import re
+                      m = re.match(r"^(https?://)([^.]+)(\.supabase\.co.*)$", url)
+                      if m:
+                          ref = m.group(2)
+                          masked = ref[:4] + "…" + ref[-4:] if len(ref) > 10 else "…"
+                          display_url = f"{m.group(1)}{masked}{m.group(3)}"
+                  except Exception:
+                      pass
+                  url_issues = []
+                  if not url.startswith("https://"):
+                      url_issues.append("not https")
+                  if url.endswith("/"):
+                      url_issues.append("has trailing slash")
+                  if "/rest/v1" in url:
+                      url_issues.append("includes /rest/v1 (should be base URL only)")
+                  if ".supabase.co" not in url:
+                      url_issues.append("does not contain .supabase.co")
+                  issues_txt = "; ".join(url_issues) if url_issues else "looks well-formed"
+                  _row(f"URL shape: <code>{display_url}</code>", not url_issues, issues_txt)
 
-            # Step 2: package
-            pkg_ok = False
-            pkg_detail = ""
-            create_client = None
-            try:
-                from supabase import create_client as _cc
-                create_client = _cc
-                pkg_ok = True
-            except Exception as exc:
-                pkg_detail = f"import failed: {exc}"
-            _row("supabase package installed", pkg_ok, pkg_detail)
+              # Step 2: package
+              pkg_ok = False
+              pkg_detail = ""
+              create_client = None
+              try:
+                  from supabase import create_client as _cc
+                  create_client = _cc
+                  pkg_ok = True
+              except Exception as exc:
+                  pkg_detail = f"import failed: {exc}"
+              _row("supabase package installed", pkg_ok, pkg_detail)
 
-            # Step 3: client init
-            client = None
-            client_ok = False
-            client_detail = ""
-            if secrets_ok and pkg_ok:
-                try:
-                    client = create_client(url, key)
-                    client_ok = client is not None
-                except Exception as exc:
-                    client_detail = f"init failed: {exc}"
-            _row("Client initialized", client_ok, client_detail)
+              # Step 3: client init
+              client = None
+              client_ok = False
+              client_detail = ""
+              if secrets_ok and pkg_ok:
+                  try:
+                      client = create_client(url, key)
+                      client_ok = client is not None
+                  except Exception as exc:
+                      client_detail = f"init failed: {exc}"
+              _row("Client initialized", client_ok, client_detail)
 
-            # Step 4: read probe
-            read_ok = False
-            row_exists = False
-            read_detail = ""
-            if client_ok:
-                try:
-                    resp = (
-                        client.table("progress")
-                        .select("state")
-                        .eq("user_id", current_email)
-                        .limit(1)
-                        .execute()
-                    )
-                    rows = getattr(resp, "data", None) or []
-                    read_ok = True
-                    row_exists = bool(rows)
-                    read_detail = "row found" if row_exists else "no row yet for this email"
-                except Exception as exc:
-                    read_detail = f"{exc}"
-            _row("Read probe", read_ok, read_detail)
+              # Step 4: read probe
+              read_ok = False
+              row_exists = False
+              read_detail = ""
+              if client_ok:
+                  try:
+                      resp = (
+                          client.table("progress")
+                          .select("state")
+                          .eq("user_id", current_email)
+                          .limit(1)
+                          .execute()
+                      )
+                      rows = getattr(resp, "data", None) or []
+                      read_ok = True
+                      row_exists = bool(rows)
+                      read_detail = "row found" if row_exists else "no row yet for this email"
+                  except Exception as exc:
+                      read_detail = f"{exc}"
+              _row("Read probe", read_ok, read_detail)
 
-            # Step 5: write probe (upsert current live state)
-            write_ok = False
-            write_detail = ""
-            if client_ok:
-                try:
-                    progress_payload = {}
-                    for t_id, lessons in (st.session_state.get("progress") or {}).items():
-                        progress_payload[str(t_id)] = {
-                            str(l_id): bool(v) for l_id, v in (lessons or {}).items()
-                        }
-                    cert_payload = {
-                        str(t_id): str(n)
-                        for t_id, n in (st.session_state.get("certificate_names") or {}).items()
-                    }
-                    row = {
-                        "user_id": current_email,
-                        "state": {
-                            "view": st.session_state.get("view", "home"),
-                            "current_track": st.session_state.get("current_track"),
-                            "current_lesson": st.session_state.get("current_lesson"),
-                            "progress": progress_payload,
-                            "certificate_names": cert_payload,
-                        },
-                        "updated_at": datetime.now(timezone.utc).isoformat(),
-                    }
-                    client.table("progress").upsert(row, on_conflict="user_id").execute()
-                    write_ok = True
-                except Exception as exc:
-                    write_detail = f"{exc}"
-            _row("Write probe (upsert current state)", write_ok, write_detail)
+              # Step 5: write probe (upsert current live state)
+              write_ok = False
+              write_detail = ""
+              if client_ok:
+                  try:
+                      progress_payload = {}
+                      for t_id, lessons in (st.session_state.get("progress") or {}).items():
+                          progress_payload[str(t_id)] = {
+                              str(l_id): bool(v) for l_id, v in (lessons or {}).items()
+                          }
+                      cert_payload = {
+                          str(t_id): str(n)
+                          for t_id, n in (st.session_state.get("certificate_names") or {}).items()
+                      }
+                      row = {
+                          "user_id": current_email,
+                          "state": {
+                              "view": st.session_state.get("view", "home"),
+                              "current_track": st.session_state.get("current_track"),
+                              "current_lesson": st.session_state.get("current_lesson"),
+                              "progress": progress_payload,
+                              "certificate_names": cert_payload,
+                          },
+                          "updated_at": datetime.now(timezone.utc).isoformat(),
+                      }
+                      client.table("progress").upsert(row, on_conflict="user_id").execute()
+                      write_ok = True
+                  except Exception as exc:
+                      write_detail = f"{exc}"
+              _row("Write probe (upsert current state)", write_ok, write_detail)
 
-            # Step 6: raw HTTP probe. Bypasses the supabase client and calls
-            # PostgREST directly so we can see what the Supabase project
-            # itself returns, along with the precise URL used. Catches
-            # cases where SUPABASE_URL points to the wrong project or has
-            # a structural problem the client library silently tolerates.
-            raw_ok = False
-            raw_detail = ""
-            if secrets_ok:
-                try:
-                    import requests
-                    base = url.rstrip("/")
-                    # Strip an accidentally-included REST path suffix so we
-                    # always hit the correct endpoint.
-                    if base.endswith("/rest/v1"):
-                        base = base[: -len("/rest/v1")]
-                    probe_url = f"{base}/rest/v1/progress?select=user_id&limit=1"
-                    resp = requests.get(
-                        probe_url,
-                        headers={
-                            "apikey": key,
-                            "Authorization": f"Bearer {key}",
-                            "Accept": "application/json",
-                        },
-                        timeout=10,
-                    )
-                    if resp.status_code == 200:
-                        raw_ok = True
-                        raw_detail = f"HTTP 200; body={resp.text[:200]}"
-                    else:
-                        raw_detail = (
-                            f"HTTP {resp.status_code}; body={resp.text[:300]}"
-                        )
-                except Exception as exc:
-                    raw_detail = f"request failed: {exc}"
-            _row("Raw HTTP GET /rest/v1/progress", raw_ok, raw_detail)
+              # Step 6: raw HTTP probe. Bypasses the supabase client and calls
+              # PostgREST directly so we can see what the Supabase project
+              # itself returns, along with the precise URL used. Catches
+              # cases where SUPABASE_URL points to the wrong project or has
+              # a structural problem the client library silently tolerates.
+              raw_ok = False
+              raw_detail = ""
+              if secrets_ok:
+                  try:
+                      import requests
+                      base = url.rstrip("/")
+                      # Strip an accidentally-included REST path suffix so we
+                      # always hit the correct endpoint.
+                      if base.endswith("/rest/v1"):
+                          base = base[: -len("/rest/v1")]
+                      probe_url = f"{base}/rest/v1/progress?select=user_id&limit=1"
+                      resp = requests.get(
+                          probe_url,
+                          headers={
+                              "apikey": key,
+                              "Authorization": f"Bearer {key}",
+                              "Accept": "application/json",
+                          },
+                          timeout=10,
+                      )
+                      if resp.status_code == 200:
+                          raw_ok = True
+                          raw_detail = f"HTTP 200; body={resp.text[:200]}"
+                      else:
+                          raw_detail = (
+                              f"HTTP {resp.status_code}; body={resp.text[:300]}"
+                          )
+                  except Exception as exc:
+                      raw_detail = f"request failed: {exc}"
+              _row("Raw HTTP GET /rest/v1/progress", raw_ok, raw_detail)
 
-            if client_ok and not write_ok:
-                st.markdown(
-                    '<p style="font-size:12px;color:#757575;margin:10px 0 0 0;">'
-                    '<strong>Interpreting PGRST125 "Invalid path":</strong><br>'
-                    '• The <code>progress</code> table does not exist in the '
-                    'project your <code>SUPABASE_URL</code> points to, '
-                    '<strong>or</strong><br>'
-                    '• <code>SUPABASE_URL</code> points to a different project '
-                    'than the one where you ran <code>create table</code>, '
-                    '<strong>or</strong><br>'
-                    '• PostgREST\'s schema cache is stale. In the Supabase '
-                    'SQL editor, run <code>notify pgrst, \'reload schema\';</code>. '
-                    'If that does not help, open Project Settings → API → '
-                    'click <strong>Restart server</strong>.<br><br>'
-                    'Verify the project match: open Supabase → Project Settings '
-                    '→ API → Project URL. It must equal the masked URL above.</p>',
-                    unsafe_allow_html=True,
-                )
+              if client_ok and not write_ok:
+                  st.markdown(
+                      '<p style="font-size:12px;color:#757575;margin:10px 0 0 0;">'
+                      '<strong>Interpreting PGRST125 "Invalid path":</strong><br>'
+                      '• The <code>progress</code> table does not exist in the '
+                      'project your <code>SUPABASE_URL</code> points to, '
+                      '<strong>or</strong><br>'
+                      '• <code>SUPABASE_URL</code> points to a different project '
+                      'than the one where you ran <code>create table</code>, '
+                      '<strong>or</strong><br>'
+                      '• PostgREST\'s schema cache is stale. In the Supabase '
+                      'SQL editor, run <code>notify pgrst, \'reload schema\';</code>. '
+                      'If that does not help, open Project Settings → API → '
+                      'click <strong>Restart server</strong>.<br><br>'
+                      'Verify the project match: open Supabase → Project Settings '
+                      '→ API → Project URL. It must equal the masked URL above.</p>',
+                      unsafe_allow_html=True,
+                  )
     # Two-step confirmation so a single stray click cannot delete progress.
     if not st.session_state.get("_reset_confirm_open"):
         if st.button("Reset my progress", key="reset_progress_open", type="secondary"):

@@ -173,25 +173,27 @@ st.markdown("""
   .badge-wip          { background:#FDECEC; color:#B11F1F !important; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:500; }
 
   /* ── Inline image spacing ────────────────────────────────────────────
-     Streamlit renders each <p> inside a markdown block with a default
-     ~16px vertical margin. When a lesson concept has raw <img> tags in
-     the middle of text, the resulting <p> → <img> → <p> flow picks up
-     that margin on every side of the image, producing a visible gap the
-     image's own margin cannot shrink. Zero the adjacent margins so the
-     image's own `style="margin:..."` attribute is the only thing that
-     governs its spacing. Requires :has() — supported in Chrome 105+,
-     Safari 15.4+, Firefox 121+. All modern Streamlit Cloud browsers. */
-  [data-testid="stMarkdown"] p:has(+ img),
-  [data-testid="stMarkdown"] p:has(+ p > img) {
-    margin-bottom: 0 !important;
-  }
-  [data-testid="stMarkdown"] img + p,
-  [data-testid="stMarkdown"] p:has(> img) + p {
+     Markdown-it (Streamlit's renderer) wraps a standalone <img> inside a
+     <p>, producing: <p>text</p><p><img/></p><p>text</p>. Each <p> gets
+     Streamlit's default ~1em top/bottom margin, which creates ~32px of
+     total gap on each side of the image regardless of the image's own
+     style. Collapse paragraph spacing around any markdown block that
+     contains at least one image. Scoped via :has() on the container so
+     image-free prose is unaffected elsewhere in the app. */
+  [data-testid="stMarkdown"]:has(img) p {
     margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.55;
   }
+  /* Restore a small gap between consecutive non-image paragraphs inside
+     the same image-containing block so body text is still readable. */
+  [data-testid="stMarkdown"]:has(img) p:not(:has(img)) + p:not(:has(img)) {
+    margin-top: 0.75em !important;
+  }
+  /* Also remove any stray line-height on the image's wrapper paragraph. */
   [data-testid="stMarkdown"] p:has(> img) {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
   }
 </style>
 """, unsafe_allow_html=True)

@@ -672,7 +672,7 @@ Every capability layer adds to your usage allocation. A focused prompt alone is 
                 ),
                 "options": [
                     "They are interchangeable — use whichever surface you are most comfortable with",
-                    "Chat is for thinking and drafting, Cowork is for acting autonomously on files, web pages, and scheduled tasks, Claude Code is for writing and modifying code in a project codebase",
+                    "Chat is for thinking and drafting, Cowork is for acting autonomously on files, web pages, and scheduled tasks, Claude Code is for building and modifying code in a project codebase",
                     "Cowork handles everything Claude chat does plus autonomous execution, so install it and use it exclusively once you have the desktop app",
                     "Claude Code is the most capable surface and should be the default choice for any complex task, including document work and research",
                 ],

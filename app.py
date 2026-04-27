@@ -418,14 +418,28 @@ def view_home():
                     """,
                     unsafe_allow_html=True,
                 )
-                btn_label = "✓ View certificate" if complete else (
-                    "Continue →" if done > 0 else "Start track →"
-                )
-                if st.button(btn_label, key=f"track_btn_{t_id}", use_container_width=True):
-                    if complete:
-                        go_certificate(t_id)
-                    else:
-                        go_track(t_id)
+                # Tracks marked as still under development are visible on the
+                # home page but cannot be entered. Their Start button renders
+                # disabled with explanatory caption so learners know the
+                # content is coming and not just broken.
+                under_development = track.get("level") == "Still Under Development"
+                if under_development:
+                    st.button(
+                        "Coming soon",
+                        key=f"track_btn_{t_id}",
+                        use_container_width=True,
+                        disabled=True,
+                    )
+                    st.caption("This track is still under development.")
+                else:
+                    btn_label = "✓ View certificate" if complete else (
+                        "Continue →" if done > 0 else "Start track →"
+                    )
+                    if st.button(btn_label, key=f"track_btn_{t_id}", use_container_width=True):
+                        if complete:
+                            go_certificate(t_id)
+                        else:
+                            go_track(t_id)
 
     # Course Reference card
     st.markdown("<br>", unsafe_allow_html=True)

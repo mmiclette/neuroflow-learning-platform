@@ -215,6 +215,15 @@ def _render_email_gate():
             color: white !important;
             fill: white !important;
           }
+          /* Hide the "Press Enter to submit form · 0/N" overlay that
+             Streamlit injects inside text-input fields when max_chars is
+             set or when the field sits inside a form. The hint overlaps
+             the placeholder/typed email on the sign-on screen. */
+          div[data-testid="stForm"] [data-testid="InputInstructions"],
+          div[data-testid="stForm"] [data-testid="stWidgetInstructions"],
+          div[data-testid="stForm"] .stTextInput [data-testid="InputInstructions"] {
+            display: none !important;
+          }
         </style>
         """,
         unsafe_allow_html=True,
@@ -241,7 +250,6 @@ def _render_email_gate():
                 "Work email",
                 key="_email_gate_input",
                 placeholder="name@neuroflow.com",
-                max_chars=120,
                 label_visibility="collapsed",
             )
             submitted = st.form_submit_button("Submit", type="primary", use_container_width=True)

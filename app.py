@@ -843,10 +843,13 @@ def view_lesson(track_id: int, lesson_id: int):
     """Lesson page — warning banner, content, next/complete button."""
     _nav_header(track_id=track_id, lesson_id=lesson_id)
 
-    # Session-only warning
-    st.warning(
-        "Progress is session-only — refreshing this page will reset your work.",
-        icon="⚠️",
+    # Heads-up about partial persistence. Completed lessons are saved to
+    # your account permanently, but mid-lesson quiz/challenge state lives
+    # in browser session memory and resets on refresh.
+    st.info(
+        "Completed lessons save automatically. Refreshing mid-quiz or "
+        "mid-challenge before submitting may lose your current answers.",
+        icon="ℹ️",
     )
 
     track = get_track(track_id)

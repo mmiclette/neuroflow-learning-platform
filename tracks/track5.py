@@ -171,7 +171,7 @@ To understand plugins, you need to understand the three components they bundle: 
 
 | Component | What it does |
 |---|---|
-| **Skill** | A reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task by typing "/" and selecting from the commands your installed plugins provide. |
+| **Skill** | A reusable, domain-specific prompt pattern that applies specialized reasoning or output defaults to a task. A skill for regulatory document review, for example, tells Claude how to read a federal rule: what to look for, how to structure findings, and what level of precision to apply. You invoke skills as slash commands inside a Cowork task or a Claude Code session by typing "/" and selecting from the commands your installed plugins provide. |
 | **Connector** | An authenticated link to an external service that lets Claude retrieve data from or take actions in that system. Connectors inside a plugin come pre-configured for the workflow the plugin is designed to support. A Sales plugin might bundle connectors for your CRM and your email platform. A Legal plugin might include connectors for regulatory databases and document storage. |
 | **MCP server** | The underlying mechanism that makes a connector work. MCP stands for Model Context Protocol, an open standard that defines how Claude communicates with external tools and services. Most connectors run through Anthropic's cloud infrastructure. Some plugins bundle local MCP servers that run directly on your machine instead. The distinction matters for security, which the lesson covers below. |
 
@@ -179,11 +179,11 @@ A plugin bundles a curated set of skills, connectors, and in some cases local MC
 
 This is the practical difference between connectors and plugins. A connector answers: where can Claude go? A plugin answers: what can Claude do once it gets there, and how should it think when it arrives?
 
-**Plugins require Cowork**
+**Where plugins are available**
 
-Plugins are only available inside Cowork, and Cowork only runs in the Claude Desktop app on macOS or Windows. They are not accessible from claude.ai in a browser or from the mobile app. If you have not installed Claude Desktop, that is the prerequisite before anything else in this lesson applies.
+Plugins are available in both Cowork and Claude Code. They are not accessible from claude.ai in a browser or from the mobile app. Cowork runs in the Claude Desktop app on macOS or Windows; Claude Code runs in a terminal or IDE. If you have not installed either, that is the prerequisite before anything else in this lesson applies.
 
-Cowork is a distinct mode from chat. Rather than a back-and-forth conversation, Cowork runs Claude as an autonomous agent that executes multi-step tasks, works with your local files, and coordinates sub-agents in parallel. You access it through the Cowork tab in the desktop app. Plugins live there, not in the chat interface.
+Cowork is a distinct mode from chat. Rather than a back-and-forth conversation, Cowork runs Claude as an autonomous agent that executes multi-step tasks, works with your local files, and coordinates sub-agents in parallel. You access it through the Cowork tab in the desktop app. Plugins live there and inside Claude Code, not in the chat interface.
 
 One practical tradeoff: Cowork sessions consume significantly more of your usage allocation than standard chat. Multi-step agentic tasks are compute-intensive. Batch related work into single sessions rather than running many small ones.
 
@@ -252,7 +252,7 @@ A vague connector prompt produces unfocused retrieval. A vague Data plugin promp
 descriptive prose instead of analysis. The tools provide capability. The prompt determines
 whether that capability produces something useful.
 
-**Using connectors and plugins together** requires Cowork — as of April 2026, Claude Teams chat does not support running a connector and a plugin simultaneously in the same conversation. If your task needs live data from an external service and execution capabilities like charts or calculations, Cowork is currently the right tool.
+**Using connectors and plugins together** requires Cowork or Claude Code — as of April 2026, Claude Teams chat does not support running a connector and a plugin simultaneously in the same conversation. If your task needs live data from an external service and execution capabilities like charts or calculations, Cowork or Claude Code is currently the right surface.
 
 **Prompting for connectors — four required properties**
 

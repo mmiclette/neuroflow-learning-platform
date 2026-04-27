@@ -203,11 +203,12 @@ is a meaningful differentiator in health system and federal partner conversation
     },
     3: {
         "concept": """
-NeuroFlow uses three types of AI, and understanding which is which prevents the most common
+NeuroFlow uses four types of AI, and understanding which is which prevents the most common
 confusion staff encounter in partner and customer conversations:
 
 - **Symbolic AI:** the rule-based logic in BHIQ that controls assessment delivery and clinical alerts
 - **Statistical ML:** the BHIQ risk stratification models trained on behavioral health outcomes data
+- **NLP:** applied to patient free-text entries to identify language associated with suicide risk or self-harm
 - **LLMs:** Claude Teams, used internally for drafting, analysis, and research
 
 Each type has different capabilities, different failure modes, and different appropriate uses.

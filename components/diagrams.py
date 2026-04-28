@@ -3269,7 +3269,7 @@ def get_diagram_height(diagram_id: str) -> int:
         "agent_loop": 420,
         "ml_pipeline": 290,
         "plugins_by_role": 300,
-        "decision_tree": 1050,
+        "decision_tree": 1025,
         "meta_prompting": 290,
         "nlp_clinical": 650,
         "model_comparison": 300,

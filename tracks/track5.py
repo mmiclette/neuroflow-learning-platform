@@ -366,7 +366,7 @@ Use a Project when that work repeats across multiple conversations and you want 
 
 **Skills**
 
-Skills define how Claude approaches a specific type of task. They carry the domain knowledge, formatting standards, and workflows Claude needs to do that work well. Activate a skill in any chat and it applies immediately, no setup required. Use a skill when you want Claude to apply consistent expertise to a recurring task — like building a slide deck, reviewing a contract, or setting up an RFP response — without explaining your requirements each time.
+Skills define how Claude approaches a specific type of task. They carry the domain knowledge, formatting standards, and workflows Claude needs to do that work well. Activate a skill in any chat and it applies immediately, no setup required. Use a skill when you want Claude to apply consistent expertise to a recurring task like building a slide deck, reviewing a contract, or setting up an RFP response, without explaining your requirements each time.
 
 **Connectors**
 

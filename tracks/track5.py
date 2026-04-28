@@ -356,21 +356,37 @@ the item name, and every field.
 
 **Choosing the right approach**
 
-Prompts, connectors, and plugins can each produce outputs that look similar on the surface. Knowing which to reach for prevents two equally common mistakes: over-engineering a simple task by adding tools it does not need, and under-powering a complex one by leaving out the tool that makes it possible.
+Prompts, projects, skills, connectors, and plugins can each produce outputs that look similar on the surface. Knowing which to reach for prevents two equally common mistakes: over-engineering a simple task by adding tools it does not need, and under-powering a complex one by leaving out the tool that makes it possible.
 
-Connectors and plugins are separate categories that solve different problems. Connectors solve access problems. Plugins solve execution problems. Understanding that distinction makes the decision straightforward.
+**Prompt or Project**
 
-**Prompt only** — when all source material is already in the conversation and the deliverable is text. This covers more ground than most people expect. Policy briefs, outreach emails, competitive analyses, and go-to-market strategies are all prompt-only tasks as long as the inputs are present and the output is written content.
+When all inputs are in the conversation and the deliverable is text, a prompt is all you need. This covers more ground than most people expect. Policy briefs, outreach emails, competitive analyses, and go-to-market strategies are all prompt-only tasks as long as the inputs are present and the output is written content.
 
-**Connector** — when the information Claude needs lives in an external system and must be retrieved or acted on directly. Connectors are purpose-built bridges to specific platforms like Salesforce, Google Drive, or Monday.com. The deciding question is not whether a connector exists but whether Claude needs to go somewhere outside the conversation to get information or complete an action.
+Use a Project when that work repeats across multiple conversations and you want Claude to remember your context, preferences, and standards without re-explaining them each time. A Project does not change what Claude can do. It changes how consistently Claude shows up across sessions.
 
-**Plugin** — when the task requires a computational capability Claude does not have in standard chat. The Data plugin handles calculations and charts. Plugins operate on material already present in the conversation. They extend what Claude can do, not where it can go.
+**Skills**
 
-**Combination** — when the task requires both external access and execution capability. A competitive analysis session that pulls a report from Google Drive and renders it as a chart needs the Drive connector to retrieve the file and the Data plugin to process and visualize it. The connector solves the access problem. The plugin solves the execution problem.
+Skills define how Claude approaches a specific type of task. They carry the domain knowledge, formatting standards, and workflows Claude needs to do that work well. Activate a skill in any chat and it applies immediately, no setup required. Use a skill when you want Claude to apply consistent expertise to a recurring task — like building a slide deck, reviewing a contract, or setting up an RFP response — without explaining your requirements each time.
+
+**Connectors**
+
+Connectors give Claude access to external tools like Slack, Google Drive, or HubSpot. Use a connector when the task requires Claude to pull live data or take action in another tool, like summarizing a document from Drive or posting an update to Slack. Connectors solve access problems. They do not define how Claude works once it has the information, and they do not automate multi-step processes on their own.
+
+**Plugins**
+
+Plugins bundle skills and connectors into a single installable package for a specific job function. A sales plugin, for example, teaches Claude your sales process and connects it to your CRM, so your team gets a consistent setup without configuring anything themselves. Use a plugin when your team needs a complete, automated workflow that runs the same way across users and sessions without anyone managing each step. Plugins only work in Cowork and Claude Code because they rely on local file storage.
+
+One decision rule worth internalizing: if a task involves an external tool but also runs automatically across multiple steps, a plugin wins over a connector alone. The connector handles access. The plugin handles execution and automation.
+
+**Combination**
+
+Many tasks require more than one layer. A research workflow that pulls documents from Google Drive and applies a consistent analytical framework needs a connector to retrieve the files and a skill to define how Claude analyzes them. If that same workflow needs to run automatically on a schedule, a plugin packages both into one deployable unit.
+
+The deciding question for combinations is where the task ends. If it ends at retrieving and analyzing information, a connector plus a skill covers it. If it needs to run automatically and repeatedly without manual input, move to a plugin.
 
 **The simplicity principle**
 
-Use the lightest combination that achieves the result. Each added layer increases token overhead and potential failure points. For team members who hit usage limits frequently, simplifying the tool stack is the first corrective step.
+Use the lightest combination that achieves the result. Each added layer increases overhead and potential failure points. For team members who hit usage limits frequently, simplifying the tool stack is the first corrective step.
 """,
         "quiz": [
             {

@@ -328,55 +328,228 @@ DIAGRAMS["plugins_by_role"] = """
 # ---------------------------------------------------------------------------
 # Lesson 5.4 — Plugin / connector / prompt decision tree
 # ---------------------------------------------------------------------------
-DIAGRAMS["decision_tree"] = """
-<svg width="100%" viewBox="0 0 680 230" role="img" xmlns="http://www.w3.org/2000/svg">
-<title>When to use prompt, connector, plugin, or combination</title>
-<desc>Four-column chart mapping task type to the right Claude tool</desc>
-<rect x="14" y="14" width="152" height="200" rx="8" fill="#E8E9F7" stroke="#161BAA" stroke-width="0.8"/>
-<rect x="14" y="14" width="152" height="40" rx="8" fill="#161BAA"/>
-<rect x="14" y="40" width="152" height="14" fill="#161BAA"/>
-<text x="90" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Prompt</text>
-<text x="90" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#161BAA" font-weight="600">Just thinking?</text>
-<line x1="28" y1="88" x2="152" y2="88" stroke="#C0C4E8" stroke-width="0.5"/>
-<text x="90" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">All info is already</text>
-<text x="90" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">in the conversation.</text>
-<text x="90" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Deliverable is text.</text>
-<text x="90" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drafts, analysis,</text>
-<text x="90" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">briefs, summaries</text>
-<rect x="180" y="14" width="152" height="200" rx="8" fill="#EBF3FA" stroke="#478FCC" stroke-width="0.8"/>
-<rect x="180" y="14" width="152" height="40" rx="8" fill="#478FCC"/>
-<rect x="180" y="40" width="152" height="14" fill="#478FCC"/>
-<text x="256" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Connector</text>
-<text x="256" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#2A5C8A" font-weight="600">Need outside data?</text>
-<line x1="194" y1="88" x2="318" y2="88" stroke="#B5D4F4" stroke-width="0.5"/>
-<text x="256" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Info lives in an</text>
-<text x="256" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">external service.</text>
-<text x="256" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Claude retrieves it.</text>
-<text x="256" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Gmail, Salesforce,</text>
-<text x="256" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drive, Monday</text>
-<rect x="346" y="14" width="152" height="200" rx="8" fill="#E4F5F3" stroke="#2EA799" stroke-width="0.8"/>
-<rect x="346" y="14" width="152" height="40" rx="8" fill="#2EA799"/>
-<rect x="346" y="40" width="152" height="14" fill="#2EA799"/>
-<text x="422" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Plugin</text>
-<text x="422" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#0F6E56" font-weight="600">Need to compute?</text>
-<line x1="360" y1="88" x2="484" y2="88" stroke="#9ED5D0" stroke-width="0.5"/>
-<text x="422" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Task needs execution</text>
-<text x="422" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">beyond text output.</text>
-<text x="422" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Charts, calculations.</text>
-<text x="422" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Data, Engineering,</text>
-<text x="422" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Sales, Legal</text>
-<rect x="512" y="14" width="154" height="200" rx="8" fill="#ECEDF9" stroke="#3B42C4" stroke-width="0.8"/>
-<rect x="512" y="14" width="154" height="40" rx="8" fill="#3B42C4"/>
-<rect x="512" y="40" width="154" height="14" fill="#3B42C4"/>
-<text x="589" y="35" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Connector + Plugin</text>
-<text x="589" y="74" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#3B42C4" font-weight="600">Need both?</text>
-<line x1="526" y1="88" x2="652" y2="88" stroke="#C0C4E8" stroke-width="0.5"/>
-<text x="589" y="110" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">Retrieve data from</text>
-<text x="589" y="126" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">outside + execute</text>
-<text x="589" y="142" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#444444">on it. Use both.</text>
-<text x="589" y="175" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">Drive files + chart,</text>
-<text x="589" y="191" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="10" fill="#757575" font-style="italic">CRM data + analysis</text>
-</svg>
+DIAGRAMS["decision_tree"] = r"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choosing the Right Approach</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nf-primary:         #161B4A;
+    --nf-secondary-blue:  #2E4799;
+    --nf-secondary-light: #478FCC;
+    --nf-secondary-teal:  #4CB6AC;
+    --nf-accent:          #F16061;
+    --nf-text-primary:    #212121;
+    --nf-text-secondary:  #757575;
+    --nf-text-on-dark:    #FFFFFF;
+    --nf-divider:         #BDBDBD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F4F6FB;
+    padding: 48px 32px;
+    min-height: 100vh;
+  }
+
+  .page-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--nf-primary);
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: -0.3px;
+  }
+
+  .cards {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    width: 190px;
+    box-shadow: 0 2px 12px rgba(22,27,74,0.09);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(22,27,74,0.14);
+  }
+
+  .card-header {
+    padding: 18px 16px 14px;
+    color: var(--nf-text-on-dark);
+    text-align: center;
+  }
+
+  .card-header .label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    opacity: 0.88;
+    margin-bottom: 6px;
+  }
+
+  .card-header .headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  .card-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--nf-divider);
+    opacity: 0.5;
+  }
+
+  .description {
+    font-size: 12.5px;
+    color: var(--nf-text-primary);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .examples {
+    font-size: 11.5px;
+    color: var(--nf-text-secondary);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Card color schemes */
+  .card-prompt .card-header   { background: var(--nf-primary); }
+  .card-connector .card-header { background: var(--nf-secondary-light); }
+  .card-skill .card-header    { background: var(--nf-secondary-teal); }
+  .card-plugin .card-header   { background: var(--nf-secondary-blue); }
+  .card-combo .card-header    {
+    background: linear-gradient(135deg, var(--nf-secondary-blue) 0%, var(--nf-secondary-teal) 100%);
+  }
+
+  /* Headline color in body matches header */
+  .card-prompt   .body-headline { color: var(--nf-primary); }
+  .card-connector .body-headline { color: var(--nf-secondary-light); }
+  .card-skill    .body-headline { color: var(--nf-secondary-teal); }
+  .card-plugin   .body-headline { color: var(--nf-secondary-blue); }
+  .card-combo    .body-headline { color: var(--nf-secondary-blue); }
+
+  .body-headline {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<p class="page-title">Choosing the Right Approach</p>
+
+<div class="cards">
+
+  <!-- Prompt -->
+  <div class="card card-prompt">
+    <div class="card-header">
+      <div class="label">Prompt or Project</div>
+      <div class="headline">Deliverable is text?</div>
+    </div>
+    <div class="card-body">
+      <div class="body-headline">Everything you need is already here</div>
+      <div class="divider"></div>
+      <div class="description">All inputs are in the conversation and the output is text. Use a Project when you want Claude to remember your context across multiple conversations.</div>
+      <div class="divider"></div>
+      <div class="examples">Drafts, analysis, briefs, summaries, reports</div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="card card-connector">
+    <div class="card-header">
+      <div class="label">Connector</div>
+      <div class="headline">Need outside data?</div>
+    </div>
+    <div class="card-body">
+      <div class="body-headline">The information lives somewhere else</div>
+      <div class="divider"></div>
+      <div class="description">Claude pulls information from or takes action in another tool like Slack, Drive, or your CRM.</div>
+      <div class="divider"></div>
+      <div class="examples">Gmail, Salesforce, Drive, Slack</div>
+    </div>
+  </div>
+
+  <!-- Skill -->
+  <div class="card card-skill">
+    <div class="card-header">
+      <div class="label">Skill</div>
+      <div class="headline">Need Claude to work a certain way?</div>
+    </div>
+    <div class="card-body">
+      <div class="body-headline">You repeat this type of task often</div>
+      <div class="divider"></div>
+      <div class="description">Activate a skill in any chat. Claude applies your standards to that task type without you explaining them again.</div>
+      <div class="divider"></div>
+      <div class="examples">Slide templates, contract review, RFP review and setup</div>
+    </div>
+  </div>
+
+  <!-- Plugin -->
+  <div class="card card-plugin">
+    <div class="card-header">
+      <div class="label">Plugin</div>
+      <div class="headline">Need to automate?</div>
+    </div>
+    <div class="card-body">
+      <div class="body-headline">Claude runs the whole job in Cowork</div>
+      <div class="divider"></div>
+      <div class="description">Claude executes a multi-step automated process on its own in Cowork. Use a plugin even when external tools are involved — if the task runs automatically across multiple steps, plugin wins over connector alone. Your team installs it once and it works the same way every time.</div>
+      <div class="divider"></div>
+      <div class="examples">Sales process, Legal review, Finance reporting</div>
+    </div>
+  </div>
+
+  <!-- Combo -->
+  <div class="card card-combo">
+    <div class="card-header">
+      <div class="label">Connector + Skill or Plugin</div>
+      <div class="headline">Need both?</div>
+    </div>
+    <div class="card-body">
+      <div class="body-headline">You need data from outside and Claude to act on it</div>
+      <div class="divider"></div>
+      <div class="description">Pull data from one or more external tools and apply a skill or plugin to work with it. If the task stops at retrieving and analyzing information, this is your lane. If it also needs to run automatically on a schedule, move to Plugin.</div>
+      <div class="divider"></div>
+      <div class="examples">Drive files + analysis template, CRM data + sales workflow</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
 """
 
 

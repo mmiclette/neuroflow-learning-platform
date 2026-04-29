@@ -877,7 +877,7 @@ def view_lesson(track_id: int, lesson_id: int):
             html = get_diagram(diagram_id)
             height = get_diagram_height(diagram_id)
             if html:
-                st.components.v1.html(html, height=height, scrolling=False)
+                st.components.v1.html(html, height=height, scrolling=True)
                 st.markdown("<br>", unsafe_allow_html=True)
 
     # ---------- Video ----------
@@ -899,7 +899,7 @@ def view_lesson(track_id: int, lesson_id: int):
             html = get_diagram(diagram_id)
             height = get_diagram_height(diagram_id)
             if html:
-                st.components.v1.html(html, height=height, scrolling=False)
+                st.components.v1.html(html, height=height, scrolling=True)
                 st.markdown("<br>", unsafe_allow_html=True)
 
     # ---------- Track lesson content ----------
@@ -914,7 +914,7 @@ def view_lesson(track_id: int, lesson_id: int):
             height = get_diagram_height(diagram_id)
             if html:
                 st.markdown("<br>", unsafe_allow_html=True)
-                st.components.v1.html(html, height=height, scrolling=False)
+                st.components.v1.html(html, height=height, scrolling=True)
 
     # ---------- Next / Complete Track button ----------
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1056,7 +1056,7 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
                 html = get_diagram(diagram_id)
                 height = get_diagram_height(diagram_id)
                 if html:
-                    st.components.v1.html(html, height=height, scrolling=False)
+                    st.components.v1.html(html, height=height, scrolling=True)
                     st.markdown("<br>", unsafe_allow_html=True)
 
         lesson = LESSONS.get(lesson_id)

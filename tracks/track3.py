@@ -1151,7 +1151,7 @@ def render_lesson(lesson_id: int) -> bool:
                 html = get_diagram(diagram_id)
                 height = get_diagram_height(diagram_id)
                 if html:
-                    components.html(html, height=height, scrolling=False)
+                    components.html(html, height=height, scrolling=True)
                 st.markdown("<br>", unsafe_allow_html=True)
     elif "<img " in concept or "<div " in concept:
         st.markdown(concept, unsafe_allow_html=True)

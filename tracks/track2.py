@@ -773,7 +773,7 @@ def render_lesson(lesson_id: int) -> bool:
                 html = get_diagram(diagram_id)
                 height = get_diagram_height(diagram_id)
                 if html:
-                    components.html(html, height=height, scrolling=False)
+                    components.html(html, height=height, scrolling=True)
     elif _active_image_sentinel:
         image_path = _image_sentinels[_active_image_sentinel]
         parts = concept.split(_active_image_sentinel)

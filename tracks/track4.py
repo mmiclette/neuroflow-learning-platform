@@ -967,7 +967,7 @@ def render_lesson(lesson_id: int) -> bool:
                 html = get_diagram(diagram_id)
                 height = get_diagram_height(diagram_id)
                 if html:
-                    components.html(html, height=height, scrolling=False)
+                    components.html(html, height=height, scrolling=True)
     else:
         _render_segment(concept)
     st.markdown("---")

@@ -1048,9 +1048,39 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
             st.caption("Content not available.")
             return
 
-        # Render diagram if this lesson has one
         lesson_meta = get_lesson(track_id, lesson_id)
-        if lesson_meta.get("has_diagram"):
+
+        # Render diagram if this lesson has one (and it sits before the
+        # video, matching view_lesson's layout).
+        if (lesson_meta.get("has_diagram") and not lesson_meta.get("has_video")
+                and lesson_meta.get("diagram_position") != "after"):
+            diagram_id = lesson_meta.get("diagram_id")
+            if diagram_id:
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    st.components.v1.html(html, height=height, scrolling=True)
+                    st.markdown("<br>", unsafe_allow_html=True)
+
+        # Render lesson-level YouTube video if configured. Without this,
+        # the Course Reference would silently omit videos from lessons
+        # like T1L4, T6L3, etc., even though they are part of the lesson
+        # in the normal learner flow.
+        if lesson_meta.get("has_video"):
+            video_url = lesson_meta.get("video_url", "")
+            if video_url:
+                st.markdown(
+                    f'<iframe width="100%" height="400" src="{video_url}" '
+                    f'frameborder="0" '
+                    f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+                    f'allowfullscreen style="border-radius:6px; display:block;"></iframe>',
+                    unsafe_allow_html=True,
+                )
+                st.markdown("<br>", unsafe_allow_html=True)
+
+        # Diagram that sits AFTER the video (e.g., Track 5.3) — same
+        # layering rule as view_lesson.
+        if lesson_meta.get("has_diagram") and lesson_meta.get("has_video"):
             diagram_id = lesson_meta.get("diagram_id")
             if diagram_id:
                 html = get_diagram(diagram_id)
@@ -1077,6 +1107,17 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
                     st.markdown(part)
         else:
             st.markdown(concept)
+
+        # Diagram explicitly positioned after the lesson concept body.
+        if (lesson_meta.get("has_diagram")
+                and lesson_meta.get("diagram_position") == "after"):
+            diagram_id = lesson_meta.get("diagram_id")
+            if diagram_id:
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.components.v1.html(html, height=height, scrolling=True)
 
     except (ImportError, AttributeError):
         st.caption("Content coming soon.")

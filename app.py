@@ -1096,17 +1096,82 @@ def _render_reference_lesson(track_id: int, lesson_id: int):
 
         concept = lesson["concept"]
 
-        # Handle inline HTML (images, iframes) — split and render with unsafe_allow_html
-        if "<img " in concept or "<iframe " in concept:
-            import re
-            parts = re.split(r'(<(?:img|iframe)[^>]*/?>(?:.*?</iframe>)?)', concept, flags=re.DOTALL)
-            for part in parts:
-                if part.startswith("<img ") or part.startswith("<iframe "):
-                    st.markdown(part, unsafe_allow_html=True)
-                elif part.strip():
-                    st.markdown(part)
-        else:
-            st.markdown(concept)
+        # Sentinels that expand to a registered diagram (rendered via
+        # components.html). One combined map covers every track so the
+        # Course Reference matches the live learner flow.
+        _ref_diagram_sentinels = {
+            "[[MODEL_COMPARISON_DIAGRAM]]": "model_comparison",
+            "[[PHI_DECISION_DIAGRAM]]": "phi_decision",
+            "[[META_PROMPT_DIAGRAM]]": "meta_prompt_diagram",
+            "[[WHEN_TO_GROUND_DIAGRAM]]": "when_to_ground",
+            "[[CHOOSING_TOOL_CARDS]]": "choosing_tool_cards",
+            "[[STYLE_LAYERS]]": "style_layers",
+            "[[PLUGIN_UI_DIAGRAM]]": "plugin_ui_diagram",
+            "[[METAPROMPT_COWORK]]": "metaprompt_cowork",
+        }
+        # Sentinels that expand to a static image rendered via st.image.
+        _ref_image_sentinels = {
+            "[[CLAUDE_DESIGN_IMAGE]]": ("assets/claude_design_preview.png", 340),
+        }
+
+        def _ref_render_text(text):
+            """Render a markdown segment, splitting out inline <img>,
+            <iframe>, and <div> blocks so they render as HTML rather than
+            leaking as raw text. Mirrors the splitter logic the live
+            track renderers use."""
+            if not text.strip():
+                return
+            if ("<img " in text or "<iframe " in text or "<div " in text):
+                import re
+                parts = re.split(
+                    r'(<img\b[^>]*/?>|<iframe\b[^>]*>.*?</iframe>|<div\b[^>]*>.*?</div>)',
+                    text,
+                    flags=re.DOTALL,
+                )
+                for part in parts:
+                    if not part.strip():
+                        continue
+                    stripped = part.lstrip()
+                    if (stripped.startswith("<img ")
+                            or stripped.startswith("<iframe ")
+                            or stripped.startswith("<div ")):
+                        st.markdown(part, unsafe_allow_html=True)
+                    else:
+                        st.markdown(part)
+            else:
+                st.markdown(text)
+
+        # Walk the concept top to bottom, splitting at the first sentinel
+        # encountered each iteration so multiple sentinels in one concept
+        # all render in order.
+        remaining = concept
+        while remaining:
+            # Find the earliest sentinel occurrence (if any).
+            next_token = None
+            next_pos = len(remaining)
+            for token in (
+                list(_ref_diagram_sentinels.keys())
+                + list(_ref_image_sentinels.keys())
+            ):
+                pos = remaining.find(token)
+                if pos != -1 and pos < next_pos:
+                    next_pos = pos
+                    next_token = token
+            if next_token is None:
+                _ref_render_text(remaining)
+                break
+            # Render text before the sentinel, then expand the sentinel.
+            _ref_render_text(remaining[:next_pos])
+            if next_token in _ref_diagram_sentinels:
+                diagram_id = _ref_diagram_sentinels[next_token]
+                html = get_diagram(diagram_id)
+                height = get_diagram_height(diagram_id)
+                if html:
+                    st.components.v1.html(html, height=height, scrolling=True)
+            else:
+                image_path, image_width = _ref_image_sentinels[next_token]
+                st.image(image_path, width=image_width)
+            remaining = remaining[next_pos + len(next_token):]
 
         # Diagram explicitly positioned after the lesson concept body.
         if (lesson_meta.get("has_diagram")
